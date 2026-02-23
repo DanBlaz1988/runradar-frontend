@@ -1,9 +1,10 @@
-// Easy edits live here. No HTML touching needed.
+// Единствен извор на вистина – менуваш само тука
 window.RUNRADAR = {
   title: "RunRadar",
-  tagline: "We track real Solana runs. No hype. Only data.",
+  tagline: "Track verified Solana runs. No hype. Only data.",
+  subline: "Results channel shows only top runs (Min +80%, Max DD 35%).",
   badgeText: "100% transparent. No signals. Only archived data.",
-  joinTelegramUrl: "https://t.me/solrunresults",
-  primaryCtaText: "Join Telegram",
+  joinTelegramURL: "https://t.me/solrunresults",
+  primaryCtaText: "Join @solrunresults",
   lastRunText: "Last verified run: +187% in 3h"
 };
