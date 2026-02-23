@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RunRadar – Track Winning Solana Runs</title>
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0d1117;
+    color:white;
+}
+.container {
+    max-width:1100px;
+    margin:auto;
+    padding:40px 20px;
+}
+.hero {
+    text-align:center;
+    padding:80px 20px;
+}
+.hero h1 {
+    font-size:48px;
+    margin-bottom:20px;
+}
+.hero p {
+    font-size:20px;
+    opacity:0.8;
+}
+.button {
+    display:inline-block;
+    margin-top:30px;
+    padding:15px 30px;
+    background:#00ff88;
+    color:black;
+    font-weight:bold;
+    text-decoration:none;
+    border-radius:8px;
+}
+.section {
+    margin-top:80px;
+}
+.card {
+    background:#161b22;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+footer {
+    text-align:center;
+    padding:40px;
+    opacity:0.5;
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>RunRadar</h1>
+    <p>We track real Solana runs. No hype. Only data.</p>
+    <a class="button" href="https://t.me/yourtelegramlink">Join Telegram</a>
+</div>
+
+<div class="container">
+
+<div class="section">
+    <h2>What We Do</h2>
+    <div class="card">
+        Track closed runs with real % performance.
+    </div>
+    <div class="card">
+        Show only top performing setups.
+    </div>
+    <div class="card">
+        Fully transparent history.
+    </div>
+</div>
+
+<div class="section">
+    <h2>Live Results</h2>
+    <div class="card" id="results">
+        Loading latest results...
+    </div>
+</div>
+
+</div>
+
+<footer>
+© 2026 RunRadar.app
+</footer>
+
+<script>
+fetch("https://api.runradar.app/results")
+.then(res => res.json())
+.then(data => {
+    let html = "";
+    data.slice(0,5).forEach(item => {
+        html += `<div class="card">
+        <strong>${item.symbol}</strong><br>
+        Win: ${item.win_percent}%<br>
+        Entry: ${item.entry}<br>
+        Exit: ${item.exit}
+        </div>`;
+    });
+    document.getElementById("results").innerHTML = html;
+})
+.catch(() => {
+    document.getElementById("results").innerHTML = "Unable to load results.";
+});
+</script>
+
+</body>
+</html>
