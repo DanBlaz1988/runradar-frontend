@@ -2,9 +2,9 @@
 window.RUNRADAR = {
   title: "RunRadar",
   tagline: "Track verified Solana runs. No hype. Only data.",
-  subline: "Results channel shows only top runs (Min +80%, Max DD 35%).",
+  subline: "Results channel shows top runs",
   badgeText: "100% transparent. No signals. Only archived data.",
   joinTelegramURL: "https://t.me/solrunresults",
-  primaryCtaText: "Join @solrunresults",
+  primaryCtaText: "Join Telwgram",
   lastRunText: "Last verified run: +187% in 3h"
 };
