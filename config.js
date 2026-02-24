@@ -1,3 +1,4 @@
+// Единствен извор на вистина – менуваш само тука
 window.RUNRADAR = {
   title: "RunRadar",
   tagline: "Track verified Solana runs. No hype. Only data.",
