@@ -20,22 +20,11 @@ body {
   padding: 80px 20px;
 }
 
-h1 {
-  font-size: 48px;
-  margin-bottom: 20px;
-}
+h1 { font-size: 48px; margin-bottom: 20px; }
 
-.tagline {
-  font-size: 20px;
-  opacity: 0.85;
-  margin-bottom: 10px;
-}
+.tagline { font-size: 20px; opacity: 0.85; margin-bottom: 10px; }
 
-.subline {
-  font-size: 16px;
-  opacity: 0.7;
-  margin-bottom: 25px;
-}
+.subline { font-size: 16px; opacity: 0.7; margin-bottom: 25px; }
 
 .button {
   display: inline-block;
@@ -48,21 +37,11 @@ h1 {
   margin-top: 10px;
 }
 
-.badge {
-  margin-top: 30px;
-  font-size: 14px;
-  opacity: 0.6;
-}
+.badge { margin-top: 30px; font-size: 14px; opacity: 0.6; }
 
-.lastRun {
-  margin-top: 15px;
-  color: #00ff88;
-  font-weight: bold;
-}
+.lastRun { margin-top: 15px; color: #00ff88; font-weight: bold; }
 
-.section {
-  margin-top: 100px;
-}
+.section { margin-top: 100px; }
 
 .cards {
   display: flex;
@@ -91,7 +70,10 @@ h1 {
 
   <a id="cta" class="button" target="_blank"></a>
 
-  <div class="lastRun" id="lastRun"></div>
+  <div class="lastRun">
+    Live results posted directly in Telegram.
+  </div>
+
   <div class="badge" id="badge"></div>
 
   <div class="section">
@@ -122,23 +104,7 @@ document.getElementById("subline").innerText = cfg.subline;
 document.getElementById("cta").innerText = cfg.primaryCtaText;
 document.getElementById("cta").href = cfg.joinTelegramURL;
 document.getElementById("badge").innerText = cfg.badgeText;
-
-fetch("https://api.runradar.app/api/closed?min_win=80&limit=1")
-  .then(res => res.json())
-  .then(data => {
-    if (data.length > 0) {
-      const r = data[0];
-      document.getElementById("lastRun").innerText =
-        `Last verified run: +${r.pnl_pct}%`;
-    } else {
-      document.getElementById("lastRun").innerText =
-        "No recent qualifying runs.";
-    }
-  })
-  .catch(() => {
-    document.getElementById("lastRun").innerText =
-      "Live data unavailable.";
-  });
 </script>
+
 </body>
 </html>
