@@ -122,8 +122,23 @@ document.getElementById("subline").innerText = cfg.subline;
 document.getElementById("cta").innerText = cfg.primaryCtaText;
 document.getElementById("cta").href = cfg.joinTelegramURL;
 document.getElementById("badge").innerText = cfg.badgeText;
-document.getElementById("lastRun").innerText = cfg.lastRunText;
-</script>
+
+fetch("https://api.runradar.app/api/closed?min_win=80&limit=1")
+  .then(res => res.json())
+  .then(data => {
+    if (data.length > 0) {
+      const r = data[0];
+      document.getElementById("lastRun").innerText =
+        `Last verified run: +${r.pnl_pct}%`;
+    } else {
+      document.getElementById("lastRun").innerText =
+        "No recent qualifying runs.";
+    }
+  })
+  .catch(() => {
+    document.getElementById("lastRun").innerText =
+      "Live data unavailable.";
+  });
 
 </body>
 </html>
