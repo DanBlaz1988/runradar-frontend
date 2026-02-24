@@ -5,5 +5,5 @@ window.RUNRADAR = {
   subline: "Results channel shows top runs",
   badgeText: "100% transparent. No signals. Only archived data.",
   joinTelegramURL: "https://t.me/solrunresults",
-  primaryCtaText: "Join Telegram"
+  primaryCtaText: "View Live Results"
 };
