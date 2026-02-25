@@ -26,7 +26,7 @@ window.RUNRADAR = {
   checkoutUrl: "https://your-checkout-link-here",
 
   // Hero copy (без сленг)
-  headline: "Identify High-Growth Solana Tokens Before the Crowd",
+  headline: "Find Solana Runs Before They Explode",
   subheadline:
     "We monitor market activity and highlight tokens showing real growth — with clear, trackable performance data.",
   supportLine: "Built for traders who rely on measurable results, not opinions.",
