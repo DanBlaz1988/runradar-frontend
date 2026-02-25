@@ -19,38 +19,72 @@
         --radius: 16px;
         --radius2: 22px;
         --max: 1120px;
+
+        --green1: #00c853;
+        --green2: #00e676;
       }
+
       * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+
       body {
         margin: 0;
         font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
         color: var(--text);
-        background: radial-gradient(1200px 600px at 20% -10%, rgba(255,255,255,0.08), transparent 60%),
-                    radial-gradient(800px 500px at 90% 10%, rgba(255,255,255,0.06), transparent 55%),
-                    linear-gradient(180deg, #070a10, #0b0f17 55%, #070a10);
+        background:
+          radial-gradient(1200px 600px at 20% -10%, rgba(255,255,255,0.08), transparent 60%),
+          radial-gradient(800px 500px at 90% 10%, rgba(255,255,255,0.06), transparent 55%),
+          linear-gradient(180deg, #070a10, #0b0f17 55%, #070a10);
         min-height: 100vh;
+        overflow-x: hidden;
       }
+
+      /* subtle moving grid = "alive" but not childish */
+      body::before {
+        content:"";
+        position: fixed;
+        inset: -40%;
+        background:
+          linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+        background-size: 70px 70px;
+        transform: rotate(8deg);
+        opacity: 0.16;
+        pointer-events: none;
+        animation: gridMove 18s linear infinite;
+      }
+      @keyframes gridMove {
+        from { transform: translate3d(0,0,0) rotate(8deg); }
+        to   { transform: translate3d(-140px, 120px, 0) rotate(8deg); }
+      }
+
       a { color: inherit; text-decoration: none; }
-      .wrap { max-width: var(--max); margin: 0 auto; padding: 22px; }
+      .wrap { max-width: var(--max); margin: 0 auto; padding: 22px; position: relative; }
+
       .nav {
         display: flex; align-items: center; justify-content: space-between;
         padding: 14px 0;
+        gap: 10px;
       }
+
       .brand {
         display: flex; gap: 10px; align-items: center;
-        font-weight: 700; letter-spacing: 0.2px;
+        font-weight: 750; letter-spacing: 0.2px;
       }
-      .logo {
-        width: 34px; height: 34px; border-radius: 10px;
-        background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
-        border: 1px solid var(--line);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+
+      .tgIcon {
+        width: 28px;
+        height: 28px;
+        filter: invert(1);
+        opacity: 0.95;
       }
-      .navlinks { display: flex; gap: 14px; align-items: center; }
+
+      .navlinks { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
       .navlinks a {
         padding: 10px 12px; border-radius: 12px;
         color: var(--muted);
         border: 1px solid transparent;
+        background: rgba(255,255,255,0.00);
       }
       .navlinks a:hover { border-color: var(--line); background: rgba(255,255,255,0.03); color: var(--text); }
 
@@ -58,12 +92,16 @@
         margin-top: 14px;
         padding: 28px;
         border-radius: var(--radius2);
-        background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
         border: 1px solid var(--line);
         box-shadow: var(--shadow);
         overflow: hidden;
         position: relative;
+        background:
+          radial-gradient(circle at 20% 30%, rgba(0, 230, 118, 0.22), transparent 55%),
+          radial-gradient(circle at 80% 15%, rgba(255, 255, 255, 0.10), transparent 55%),
+          linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
       }
+
       .hero::after{
         content:"";
         position:absolute; inset:-40% -30% auto auto;
@@ -72,22 +110,26 @@
         filter: blur(10px);
         pointer-events:none;
       }
+
       .grid {
         display: grid;
         grid-template-columns: 1.1fr 0.9fr;
         gap: 18px;
         align-items: start;
       }
+
       h1 {
         margin: 0 0 10px 0;
         font-size: clamp(28px, 4vw, 46px);
         line-height: 1.08;
         letter-spacing: -0.6px;
       }
+
       .sub { color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 56ch; }
       .support { margin-top: 10px; color: var(--muted2); font-size: 14px; line-height: 1.6; }
 
       .ctaRow { display:flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+
       .btn {
         display:inline-flex; align-items:center; justify-content:center;
         padding: 12px 14px;
@@ -95,24 +137,73 @@
         border: 1px solid var(--line);
         background: rgba(255,255,255,0.04);
         color: var(--text);
-        font-weight: 650;
+        font-weight: 700;
         letter-spacing: 0.2px;
         min-width: 190px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+        overflow: hidden;
       }
-      .btn:hover { background: rgba(255,255,255,0.07); }
+      .btn:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+
+      /* GREEN CTA with moving overlay */
       .btn.primary {
-        background: rgba(255,255,255,0.14);
-        border-color: rgba(255,255,255,0.22);
+        background: linear-gradient(135deg, var(--green1), var(--green2));
+        border: none;
+        color: #06110b;
+        font-weight: 850;
       }
+      .btn.primary:hover {
+        box-shadow: 0 10px 25px rgba(0, 230, 118, 0.30);
+      }
+      .btn.primary::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -75%;
+        width: 50%;
+        height: 100%;
+        background: rgba(255,255,255,0.26);
+        transform: skewX(-25deg);
+        transition: left 0.65s ease;
+      }
+      .btn.primary:hover::after {
+        left: 130%;
+      }
+
       .note { margin-top: 10px; color: var(--muted2); font-size: 12.5px; }
+
+      .liveFeed {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: var(--green2);
+        border-radius: 50%;
+        animation: blink 1.5s infinite;
+        box-shadow: 0 0 16px rgba(0,230,118,0.45);
+      }
+      @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0.25; }
+        100% { opacity: 1; }
+      }
 
       .card {
         padding: 18px;
         border-radius: var(--radius);
-        background: rgba(0,0,0,0.18);
         border: 1px solid var(--line);
-        backdrop-filter: blur(8px);
+        background: linear-gradient(160deg, rgba(20,25,35,0.9), rgba(10,15,25,0.95));
+        backdrop-filter: blur(14px);
       }
+
       .badge {
         display:inline-flex; align-items:center; gap:8px;
         padding: 8px 10px; border-radius: 999px;
@@ -122,8 +213,10 @@
         font-size: 12.5px;
         margin-bottom: 12px;
       }
+
       .priceLine { margin-top: 8px; color: var(--muted); font-size: 14px; }
-      .trialLine { margin-top: 6px; color: var(--text); font-size: 14px; font-weight: 600; }
+      .trialLine { margin-top: 6px; color: var(--text); font-size: 14px; font-weight: 650; }
+
       .stats {
         display:grid;
         grid-template-columns: 1fr 1fr;
@@ -137,7 +230,7 @@
         background: rgba(255,255,255,0.03);
       }
       .stat .k { color: var(--muted2); font-size: 12px; }
-      .stat .v { margin-top: 4px; font-size: 16px; font-weight: 700; }
+      .stat .v { margin-top: 4px; font-size: 18px; font-weight: 850; color: #fff; }
 
       section { margin-top: 18px; }
       .sectionCard {
@@ -146,14 +239,17 @@
         background: rgba(255,255,255,0.03);
         border: 1px solid var(--line);
       }
+
       h2 { margin: 0 0 10px 0; font-size: 22px; letter-spacing: -0.2px; }
       p { margin: 0; color: var(--muted); line-height: 1.7; }
+
       .cols {
         display:grid;
         grid-template-columns: 1fr 1fr;
         gap: 14px;
         margin-top: 14px;
       }
+
       .mini {
         padding: 16px;
         border-radius: var(--radius);
@@ -163,6 +259,55 @@
       .mini h3 { margin: 0 0 8px 0; font-size: 16px; }
       .mini p { font-size: 14px; color: var(--muted); }
 
+      /* Access form */
+      .formRow {
+        margin-top: 14px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .input {
+        flex: 1;
+        min-width: 220px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: rgba(0,0,0,0.22);
+        color: var(--text);
+        outline: none;
+      }
+      .input::placeholder { color: rgba(255,255,255,0.45); }
+
+      .formHint { margin-top: 10px; color: var(--muted2); font-size: 12.5px; line-height: 1.5; }
+      .successBox {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(0,230,118,0.35);
+        background: rgba(0,230,118,0.08);
+        color: rgba(255,255,255,0.9);
+        display: none;
+      }
+
+      /* Pricing */
+      .pricingGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .plan {
+        padding: 18px;
+        border-radius: var(--radius2);
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.03);
+      }
+      .planTitle { font-weight: 850; font-size: 16px; }
+      .planPrice { margin-top: 8px; font-size: 28px; font-weight: 900; letter-spacing: -0.3px; }
+      .planDesc { margin-top: 10px; color: var(--muted); line-height: 1.6; font-size: 14px; }
+      .plan ul { margin: 12px 0 0 18px; color: var(--muted); }
+      .plan li { margin: 6px 0; }
+
       .faq { margin-top: 12px; }
       details {
         border: 1px solid var(--line);
@@ -171,8 +316,9 @@
         padding: 12px 14px;
       }
       details + details { margin-top: 10px; }
-      summary { cursor: pointer; font-weight: 650; color: var(--text); }
+      summary { cursor: pointer; font-weight: 700; color: var(--text); }
       summary::-webkit-details-marker { display: none; }
+
       .footer {
         margin: 18px 0 30px;
         color: var(--muted2);
@@ -184,7 +330,9 @@
       @media (max-width: 920px){
         .grid { grid-template-columns: 1fr; }
         .cols { grid-template-columns: 1fr; }
+        .pricingGrid { grid-template-columns: 1fr; }
         .btn { min-width: 0; width: 100%; }
+        .formRow { flex-direction: column; }
       }
     </style>
   </head>
@@ -193,13 +341,21 @@
     <div class="wrap">
       <div class="nav">
         <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
+          <!-- Telegram icon left -->
+          <img
+            class="tgIcon"
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg"
+            alt="Telegram"
+          />
           <div id="brandName">RunRadar</div>
         </div>
+
         <div class="navlinks">
-          <a id="navResults" href="#" target="_blank" rel="noopener">Results</a>
-          <a id="navBeta" href="#" target="_blank" rel="noopener">Beta Access</a>
-          <a id="navCheckout" href="#" target="_blank" rel="noopener">Pricing</a>
+          <!-- Results + Beta Access = same place (email form section) -->
+          <a href="#access" id="navResults">Results</a>
+          <a href="#access" id="navBeta">Beta Access</a>
+          <!-- Pricing scrolls to pricing section -->
+          <a href="#pricing" id="navPricing">Pricing</a>
         </div>
       </div>
 
@@ -211,10 +367,16 @@
             <div class="support" id="supportLine"></div>
 
             <div class="ctaRow">
-              <a class="btn primary" id="ctaPrimary" href="#" target="_blank" rel="noopener"></a>
-              <a class="btn" id="ctaSecondary" href="#" target="_blank" rel="noopener"></a>
+              <a class="btn primary" id="ctaPrimary" href="#access"></a>
+              <a class="btn" id="ctaSecondary" href="#access"></a>
             </div>
+
             <div class="note" id="noteText"></div>
+
+            <div class="liveFeed" aria-live="polite">
+              <span class="dot"></span>
+              <span id="liveText">Live activity: updating…</span>
+            </div>
           </div>
 
           <div class="card">
@@ -244,22 +406,86 @@
         </div>
       </div>
 
-      <section class="sectionCard">
+      <section class="sectionCard" id="problem">
         <h2 id="problemTitle"></h2>
         <p id="problemText"></p>
       </section>
 
-      <section class="sectionCard">
+      <section class="sectionCard" id="how">
         <h2 id="howTitle"></h2>
         <div class="cols" id="howSteps"></div>
       </section>
 
-      <section class="sectionCard">
+      <section class="sectionCard" id="sell">
+        <h2 id="sellTitle"></h2>
+        <div class="cols" id="sellPoints"></div>
+      </section>
+
+      <section class="sectionCard" id="featuresSection">
         <h2 id="featuresTitle"></h2>
         <div class="cols" id="features"></div>
       </section>
 
-      <section class="sectionCard">
+      <!-- ACCESS (email first) -->
+      <section class="sectionCard" id="access">
+        <h2 id="accessTitle"></h2>
+        <p id="accessText"></p>
+
+        <form id="leadForm">
+          <div class="formRow">
+            <input class="input" id="leadEmail" type="email" placeholder="Your email address" required />
+            <button class="btn primary" type="submit" id="leadBtn">Request Access</button>
+          </div>
+
+          <div class="successBox" id="successBox">
+            ✅ Thanks. Redirecting you to Telegram…
+          </div>
+
+          <div class="formHint" id="accessPrivacy"></div>
+        </form>
+      </section>
+
+      <!-- PRICING -->
+      <section class="sectionCard" id="pricing">
+        <h2>Pricing</h2>
+        <p>Start free for 14 days. Continue only if it’s valuable.</p>
+
+        <div class="pricingGrid">
+          <div class="plan">
+            <div class="planTitle">Beta Access</div>
+            <div class="planPrice">$0</div>
+            <div class="planDesc">Full access during beta for early members.</div>
+            <ul>
+              <li>Live results</li>
+              <li>Trackable performance</li>
+              <li>Telegram updates</li>
+              <li>No payment now</li>
+            </ul>
+            <div style="margin-top:14px;">
+              <a class="btn primary" href="#access">Start Free 14-Day Access</a>
+            </div>
+          </div>
+
+          <div class="plan">
+            <div class="planTitle">Pro</div>
+            <div class="planPrice" id="proPrice">$49<span style="font-size:14px;font-weight:700;color:var(--muted);">/month</span></div>
+            <div class="planDesc">Continue after beta with full access.</div>
+            <ul>
+              <li>Same platform, uninterrupted</li>
+              <li>Priority access + updates</li>
+              <li>Best pricing for early users</li>
+            </ul>
+            <div style="margin-top:14px;">
+              <a class="btn" id="checkoutBtn" href="#" target="_blank" rel="noopener">Continue After Beta</a>
+              <div class="formHint" style="margin-top:10px;">
+                (This button will go to your payment page when you add checkout.)
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sectionCard" id="faqSection">
         <h2 id="faqTitle"></h2>
         <div class="faq" id="faqs"></div>
       </section>
@@ -275,43 +501,25 @@
     <script>
       (function () {
         const C = window.RUNRADAR || {};
-
-        // Safe getter
         const pick = (v, fallback) => (typeof v === "string" && v.trim() ? v : fallback);
 
-        // Basic text
+        // Brand + hero copy
         document.title = pick(C.brand, "RunRadar");
         document.getElementById("brandName").textContent = pick(C.brand, "RunRadar");
-
         document.getElementById("headline").textContent = pick(C.headline, "");
         document.getElementById("subheadline").textContent = pick(C.subheadline, "");
         document.getElementById("supportLine").textContent = pick(C.supportLine, "");
 
-        // Links
-        const resultsUrl = pick(C.ctaSecondaryUrl, "#");
-        const betaUrl = pick(C.betaApplyUrl, pick(C.ctaPrimaryUrl, "#"));
-        const checkoutUrl = pick(C.checkoutUrl, "#");
-
-        document.getElementById("navResults").href = resultsUrl;
-        document.getElementById("navBeta").href = betaUrl;
-        document.getElementById("navCheckout").href = checkoutUrl;
-
-        // CTAs
-        const ctaPrimary = document.getElementById("ctaPrimary");
-        ctaPrimary.textContent = pick(C.ctaPrimaryText, "Start Free Access");
-        ctaPrimary.href = pick(C.ctaPrimaryUrl, betaUrl);
-
-        const ctaSecondary = document.getElementById("ctaSecondary");
-        ctaSecondary.textContent = pick(C.ctaSecondaryText, "View Live Results");
-        ctaSecondary.href = resultsUrl;
-
-        document.getElementById("noteText").textContent = pick(C.noteText, "");
-
         // Offer text
         document.getElementById("priceAnchorText").textContent = pick(C.priceAnchorText, "");
         document.getElementById("trialText").textContent = pick(C.trialText, "");
+        document.getElementById("noteText").textContent = pick(C.noteText, "");
 
-        // Stats
+        // CTA labels (both scroll to #access)
+        document.getElementById("ctaPrimary").textContent = pick(C.ctaPrimaryText, "Start Free 14-Day Access");
+        document.getElementById("ctaSecondary").textContent = pick(C.ctaSecondaryText, "View Live Results");
+
+        // Stats (manual fallback)
         const showStats = !!C.showStats && C.fallbackStats;
         const statsBox = document.getElementById("statsBox");
         if (showStats) {
@@ -322,11 +530,11 @@
           document.getElementById("stLast").textContent = C.fallbackStats.lastRun ?? "—";
         }
 
-        // Problem
+        // Problem / How
         document.getElementById("problemTitle").textContent = pick(C.problemTitle, "Most traders enter too late.");
         document.getElementById("problemText").textContent = pick(C.problemText, "");
 
-        // How steps
+        document.getElementById("howTitle").textContent = pick(C.howTitle, "How it works");
         const howWrap = document.getElementById("howSteps");
         howWrap.innerHTML = "";
         (C.howSteps || []).forEach((s) => {
@@ -334,6 +542,17 @@
           div.className = "mini";
           div.innerHTML = `<h3>${s.title || ""}</h3><p>${s.text || ""}</p>`;
           howWrap.appendChild(div);
+        });
+
+        // Sell points
+        document.getElementById("sellTitle").textContent = pick(C.sellTitle, "Why traders switch to RunRadar");
+        const sellWrap = document.getElementById("sellPoints");
+        sellWrap.innerHTML = "";
+        (C.sellPoints || []).forEach((s) => {
+          const div = document.createElement("div");
+          div.className = "mini";
+          div.innerHTML = `<h3>${s.title || ""}</h3><p>${s.text || ""}</p>`;
+          sellWrap.appendChild(div);
         });
 
         // Features
@@ -357,8 +576,92 @@
           faqWrap.appendChild(d);
         });
 
+        // Access section copy
+        document.getElementById("accessTitle").textContent = pick(C.accessTitle, "Get free beta access");
+        document.getElementById("accessText").textContent = pick(C.accessText, "");
+        document.getElementById("accessPrivacy").textContent = pick(C.accessPrivacy, "");
+
+        // Pricing button
+        const checkoutBtn = document.getElementById("checkoutBtn");
+        const checkoutUrl = pick(C.checkoutUrl, "#");
+        checkoutBtn.href = checkoutUrl;
+
+        // Live text (simple rotating messages — looks alive)
+        const liveText = document.getElementById("liveText");
+        const liveMsgs = [
+          "Live activity: monitoring market movement…",
+          "Live activity: tracking new momentum…",
+          "Live activity: scanning for measurable growth…"
+        ];
+        let li = 0;
+        setInterval(() => {
+          li = (li + 1) % liveMsgs.length;
+          liveText.textContent = liveMsgs[li];
+        }, 2600);
+
         // Disclaimer
         document.getElementById("disclaimer").textContent = pick(C.disclaimer, "");
+
+        // Lead form behavior:
+        // - If leadFormEndpoint exists -> POST to it (Formspree)
+        // - Else fallback to mailto
+        // - Show success message -> redirect to Telegram after X seconds
+        const leadForm = document.getElementById("leadForm");
+        const emailInput = document.getElementById("leadEmail");
+        const successBox = document.getElementById("successBox");
+        const leadBtn = document.getElementById("leadBtn");
+
+        const endpoint = pick(C.leadFormEndpoint, "");
+        const toEmail = pick(C.leadToEmail, "");
+        const tg = pick(C.telegramUrl, "#");
+        const redirectSeconds = Number(C.leadRedirectSeconds || 2);
+
+        leadForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = (emailInput.value || "").trim();
+          if (!email) return;
+
+          leadBtn.disabled = true;
+          leadBtn.textContent = "Submitting…";
+
+          try {
+            if (endpoint) {
+              const res = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify({ email, source: "runradar-frontend" })
+              });
+              // even if Formspree returns 200/302, we proceed
+            } else if (toEmail) {
+              const subject = encodeURIComponent("RunRadar Beta Access Request");
+              const body = encodeURIComponent(`Please grant beta access.\n\nEmail: ${email}\nSource: runradar landing page`);
+              window.location.href = `mailto:${toEmail}?subject=${subject}&body=${body}`;
+            }
+          } catch (err) {
+            // We still show success and redirect; user intent is access
+          }
+
+          successBox.style.display = "block";
+          leadBtn.textContent = `Redirecting in ${redirectSeconds}s…`;
+
+          let t = redirectSeconds;
+          const timer = setInterval(() => {
+            t -= 1;
+            if (t <= 0) {
+              clearInterval(timer);
+              window.location.href = tg;
+            } else {
+              leadBtn.textContent = `Redirecting in ${t}s…`;
+            }
+          }, 1000);
+        });
+
+        // Initial fade-in (app feel)
+        document.body.style.opacity = 0;
+        window.addEventListener("load", () => {
+          document.body.style.transition = "opacity 0.7s ease";
+          document.body.style.opacity = 1;
+        });
       })();
     </script>
   </body>
