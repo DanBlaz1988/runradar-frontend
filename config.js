@@ -4,7 +4,7 @@ window.RUNRADAR = {
   brand: "RunRadar",
 
   // Hero
-  headline: "Identify High-Growth Solana Tokens Before the Crowd",
+  headline: "Identify High-Growth 🚀 Solana Tokens Before the Crowd",
   subheadline:
     "We monitor market activity and highlight tokens showing real growth — with clear, trackable performance data.",
   supportLine: "Built for traders who rely on measurable results, not opinions.",
