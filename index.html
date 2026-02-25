@@ -6,163 +6,478 @@
   <title>RunRadar</title>
 
   <style>
+    :root {
+      --bg1: #0f1b1f;
+      --bg2: #0a0f12;
+      --card: rgba(17, 26, 31, 0.9);
+      --muted: rgba(255,255,255,0.70);
+      --muted2: rgba(255,255,255,0.55);
+      --green: #00ff88;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --radius: 16px;
+      --max: 1050px;
+    }
+
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: radial-gradient(circle at center, #0f1b1f 0%, #0a0f12 100%);
       color: #fff;
+      background: radial-gradient(circle at center, var(--bg1) 0%, var(--bg2) 100%);
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 48px 18px 80px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0 30px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .toplinks a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 14px;
+      font-size: 14px;
+    }
+    .toplinks a:hover { color: #fff; }
+
+    .hero {
+      padding: 34px 0 26px;
       text-align: center;
     }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 80px 20px;
-    }
-
     h1 {
-      font-size: 48px;
-      margin-bottom: 20px;
+      margin: 0;
+      font-size: 44px;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
     }
 
-    .tagline {
-      font-size: 20px;
-      opacity: 0.85;
-      margin-bottom: 10px;
+    .sub {
+      margin: 16px auto 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.45;
     }
 
-    .subline {
-      font-size: 16px;
-      opacity: 0.7;
-      margin-bottom: 25px;
+    .ctaRow {
+      margin-top: 22px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .button {
-      display: inline-block;
-      padding: 15px 30px;
-      background: #00ff88;
-      color: #000;
-      font-weight: bold;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-weight: 800;
       text-decoration: none;
-      border-radius: 8px;
-      margin-top: 10px;
+      border: 1px solid transparent;
+      min-width: 200px;
+    }
+    .btnPrimary {
+      background: var(--green);
+      color: #000;
+      box-shadow: 0 10px 30px rgba(0,255,136,0.18);
+    }
+    .btnPrimary:hover { filter: brightness(1.02); }
+
+    .btnGhost {
+      background: rgba(255,255,255,0.06);
+      border-color: var(--border);
+      color: #fff;
     }
 
-    .lastRun {
-      margin-top: 15px;
-      color: #00ff88;
-      font-weight: bold;
+    .pillRow {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .liveLine {
+      margin-top: 14px;
+      font-weight: 800;
+      color: var(--green);
+      font-size: 16px;
       min-height: 22px;
     }
 
-    .badge {
-      margin-top: 30px;
-      font-size: 14px;
-      opacity: 0.6;
-    }
-
-    .section {
-      margin-top: 100px;
-    }
-
-    .cards {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
+    .grid3 {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
 
     .card {
-      background: #111a1f;
-      padding: 20px;
-      border-radius: 10px;
-      width: 250px;
-      opacity: 0.85;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: #fff;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .section {
+      margin-top: 56px;
+    }
+
+    .sectionTitle {
+      font-size: 26px;
+      margin: 0 0 14px;
+      text-align: center;
+    }
+
+    .twoCol {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .table th, .table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .table th { text-align: left; color: #fff; }
+    .table td { color: var(--muted); }
+    .table tr:last-child td { border-bottom: 0; }
+    .ok { color: var(--green); font-weight: 800; }
+    .no { color: rgba(255,255,255,0.35); font-weight: 800; }
+
+    .pricing {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .priceTag {
+      font-size: 28px;
+      font-weight: 900;
+      margin: 6px 0 4px;
+    }
+    .smallMuted {
+      color: var(--muted2);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .faq {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .footer {
+      margin-top: 70px;
+      text-align: center;
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 860px) {
+      h1 { font-size: 36px; }
+      .grid3 { grid-template-columns: 1fr; }
+      .twoCol { grid-template-columns: 1fr; }
+      .pricing { grid-template-columns: 1fr; }
+      .faq { grid-template-columns: 1fr; }
+      .btn { min-width: 160px; }
     }
   </style>
+
+  <script src="./config.js"></script>
 </head>
 
 <body>
-  <div class="container">
-    <h1 id="title">RunRadar</h1>
+  <div class="wrap">
 
-    <div class="tagline" id="tagline">
-      Track verified Solana runs. No hype. Only data.
+    <div class="topbar">
+      <div class="brand" id="brand"></div>
+      <div class="toplinks">
+        <a href="#how">How it works</a>
+        <a href="#compare">Public vs Premium</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
     </div>
 
-    <div class="subline" id="subline">
-      Results channel shows top runs (Min +80%).
-    </div>
+    <div class="hero">
+      <h1 id="headline"></h1>
+      <div class="sub" id="subheadline"></div>
 
-    <a id="cta" class="button" href="https://t.me/solrunresults" target="_blank" rel="noopener">
-      Join Telegram
-    </a>
+      <div class="ctaRow">
+        <a class="btn btnPrimary" id="btnPublic" target="_blank">Join Public Results</a>
+        <a class="btn btnGhost" id="btnBeta" target="_blank">Apply for Beta</a>
+      </div>
 
-    <div class="lastRun" id="lastRun">Loading latest run…</div>
+      <div class="pillRow">
+        <div class="pill" id="trialText"></div>
+        <div class="pill">No buy/sell signal — only data</div>
+        <div class="pill">All runs archived</div>
+      </div>
 
-    <div class="badge" id="badge">
-      100% transparent. No signals. Only archived data.
-    </div>
+      <div class="liveLine" id="lastRun"></div>
 
-    <div class="section">
-      <h2>What We Do</h2>
-      <div class="cards">
+      <div class="grid3">
         <div class="card">
-          <strong>Real performance</strong><br />
-          Track closed runs with real % performance.
+          <h3>Real performance</h3>
+          <p>Closed runs with real % performance (entry→exit). No screenshots, no vibes.</p>
         </div>
         <div class="card">
-          <strong>Only top setups</strong><br />
-          Filtered results — no spam, no noise.
+          <h3>Only top setups</h3>
+          <p>Noise filtered. You see fewer messages, but higher quality.</p>
         </div>
         <div class="card">
-          <strong>Transparent history</strong><br />
-          Everything is archived and verifiable.
+          <h3>Transparent history</h3>
+          <p>Everything is archived and verifiable. If it didn’t happen, it won’t be posted.</p>
         </div>
       </div>
+    </div>
+
+    <div class="section" id="how">
+      <h2 class="sectionTitle">How it works</h2>
+      <div class="twoCol">
+        <div class="card">
+          <h3>Pipeline</h3>
+          <ul class="list">
+            <li>Scanner detects candidates + tracks run performance.</li>
+            <li>When a run ends, it gets archived (with max run %, max drawdown, duration).</li>
+            <li><b>Public</b> shows only selected “top runs”.</li>
+            <li><b>Premium</b> gets earlier + deeper context.</li>
+          </ul>
+          <div class="smallMuted" style="margin-top:10px;">
+            We don’t promise profits. We show data so you can make your own decisions.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Live snapshot</h3>
+          <div class="smallMuted">Last verified run (public threshold):</div>
+          <div class="priceTag" id="lastRunBig">—</div>
+          <div class="smallMuted" id="lastRunMeta"></div>
+          <div class="smallMuted" style="margin-top:10px;">
+            If this shows “unavailable”, it means the public API endpoint is blocked or down — not your website.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="compare">
+      <h2 class="sectionTitle">Public vs Premium</h2>
+
+      <div class="card">
+        <table class="table">
+          <tr>
+            <th>Feature</th>
+            <th>Public</th>
+            <th>Premium</th>
+          </tr>
+          <tr>
+            <td>Filtered “top runs” only</td>
+            <td class="ok">Yes</td>
+            <td class="ok">Yes</td>
+          </tr>
+          <tr>
+            <td>Earlier alerts (less delay)</td>
+            <td class="no">No</td>
+            <td class="ok">Yes</td>
+          </tr>
+          <tr>
+            <td>More runs (less strict filtering)</td>
+            <td class="no">No</td>
+            <td class="ok">Yes</td>
+          </tr>
+          <tr>
+            <td>Extra context (risk score / notes)</td>
+            <td class="no">No</td>
+            <td class="ok">Yes</td>
+          </tr>
+          <tr>
+            <td>Support / feedback channel</td>
+            <td class="no">No</td>
+            <td class="ok">Yes</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section" id="pricing">
+      <h2 class="sectionTitle">Pricing</h2>
+
+      <div class="pricing">
+        <div class="card">
+          <h3>Public Results</h3>
+          <div class="priceTag">Free</div>
+          <div class="smallMuted">
+            For proof + transparency. Only selected top runs. Great for browsing.
+          </div>
+          <div style="margin-top:12px;">
+            <a class="btn btnGhost" id="btnPublic2" target="_blank">Join Public Results</a>
+          </div>
+        </div>
+
+        <div class="card" style="border-color: rgba(0,255,136,0.25);">
+          <h3>Premium (Early Adopters)</h3>
+          <div class="priceTag" id="priceText"></div>
+          <div class="smallMuted">
+            Real-time + deeper context. Limited beta seats for the first cohort.
+          </div>
+          <div class="pillRow" style="justify-content:flex-start; margin-top:12px;">
+            <div class="pill">14-day beta</div>
+            <div class="pill">Cancel anytime</div>
+          </div>
+          <div style="margin-top:12px;">
+            <a class="btn btnPrimary" id="btnCheckout" target="_blank">Unlock Premium</a>
+          </div>
+          <div class="smallMuted" style="margin-top:10px;">
+            You’ll get access instructions immediately after checkout.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="faq">
+      <h2 class="sectionTitle">FAQ</h2>
+      <div class="faq">
+        <div class="card">
+          <h3>Is this financial advice?</h3>
+          <p>No. We don’t tell you what to buy/sell. We publish performance data.</p>
+        </div>
+        <div class="card">
+          <h3>Why do some days show fewer posts?</h3>
+          <p>Because filtering is strict. Less noise, more signal. Premium gets earlier + more.</p>
+        </div>
+        <div class="card">
+          <h3>What if “Live data unavailable” appears?</h3>
+          <p>That’s the public API endpoint (auth/CORS/down), not your landing page.</p>
+        </div>
+        <div class="card">
+          <h3>How do I join beta?</h3>
+          <p>Click “Apply for Beta”. We’ll onboard you to Premium for 14 days.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div><b>RunRadar</b> — We track real Solana runs. No hype. Only data.</div>
+      <div>Risk warning: Crypto is high-risk. Past performance does not guarantee future results.</div>
     </div>
   </div>
 
   <script>
-    const API_URL = "https://api.runradar.app/api/closed-public?min_win=80&limit=1";
+    const cfg = window.RUNRADAR;
 
-    function fmtPct(x) {
-      const n = Number(x);
-      if (!Number.isFinite(n)) return null;
-      return n.toFixed(2);
+    // Fill text + links
+    document.getElementById("brand").innerText = cfg.brand;
+    document.getElementById("headline").innerText = cfg.headline;
+    document.getElementById("subheadline").innerText = cfg.subheadline;
+    document.getElementById("trialText").innerText = cfg.trialText;
+
+    document.getElementById("priceText").innerText = cfg.priceText;
+
+    const publicBtns = [document.getElementById("btnPublic"), document.getElementById("btnPublic2")];
+    publicBtns.forEach(b => b.href = cfg.publicTelegramUrl);
+
+    document.getElementById("btnBeta").href = cfg.betaApplyUrl;
+    document.getElementById("btnCheckout").href = cfg.checkoutUrl;
+
+    // Live last run
+    const lastRunEl = document.getElementById("lastRun");
+    const lastRunBig = document.getElementById("lastRunBig");
+    const lastRunMeta = document.getElementById("lastRunMeta");
+
+    function setUnavailable() {
+      lastRunEl.innerText = "Live data unavailable.";
+      lastRunBig.innerText = "—";
+      lastRunMeta.innerText = "Public endpoint blocked, down, or not deployed.";
     }
 
-    fetch(API_URL, { cache: "no-store" })
-      .then(res => {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.json();
-      })
-      .then(data => {
-        const el = document.getElementById("lastRun");
+    async function loadLastRun() {
+      try {
+        const url = cfg.apiBase + cfg.apiLastClosedPath;
+        const res = await fetch(url);
+        if (!res.ok) return setUnavailable();
+        const data = await res.json();
 
         if (!Array.isArray(data) || data.length === 0) {
-          el.textContent = "No recent qualifying runs.";
+          lastRunEl.innerText = "No recent qualifying runs.";
+          lastRunBig.innerText = "—";
+          lastRunMeta.innerText = "Try lowering min_win in the public endpoint.";
           return;
         }
 
         const r = data[0];
-        const pct = fmtPct(r.pnl_pct);
-        if (!pct) {
-          el.textContent = "Last verified run: (data format issue)";
-          return;
-        }
+        const pnl = (r.pnl_pct !== undefined) ? Number(r.pnl_pct).toFixed(2) : null;
+        const sym = r.symbol || r.name || "—";
 
-        // Optional: show token name if available
-        const name = (r.name || r.symbol || "").toString().trim();
-        if (name) {
-          el.textContent = `Last verified run: +${pct}% (${name})`;
-        } else {
-          el.textContent = `Last verified run: +${pct}%`;
-        }
-      })
-      .catch(() => {
-        document.getElementById("lastRun").textContent = "Live data unavailable.";
-      });
+        lastRunEl.innerText = pnl ? `Last verified run: +${pnl}% (${sym})` : `Last verified run: (${sym})`;
+        lastRunBig.innerText = pnl ? `+${pnl}%` : "—";
+        lastRunMeta.innerText = sym ? `Token: ${sym}` : "";
+      } catch (e) {
+        setUnavailable();
+      }
+    }
+
+    loadLastRun();
   </script>
 </body>
 </html>
