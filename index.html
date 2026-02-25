@@ -1,110 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>RunRadar</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RunRadar</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(circle at center, #0f1b1f 0%, #0a0f12 100%);
-  color: #fff;
-  text-align: center;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at center, #0f1b1f 0%, #0a0f12 100%);
+      color: #fff;
+      text-align: center;
+    }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 80px 20px;
-}
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 80px 20px;
+    }
 
-h1 { font-size: 48px; margin-bottom: 20px; }
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
 
-.tagline { font-size: 20px; opacity: 0.85; margin-bottom: 10px; }
+    .tagline {
+      font-size: 20px;
+      opacity: 0.85;
+      margin-bottom: 10px;
+    }
 
-.subline { font-size: 16px; opacity: 0.7; margin-bottom: 25px; }
+    .subline {
+      font-size: 16px;
+      opacity: 0.7;
+      margin-bottom: 25px;
+    }
 
-.button {
-  display: inline-block;
-  padding: 15px 30px;
-  background: #00ff88;
-  color: #000;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 8px;
-  margin-top: 10px;
-}
+    .button {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #00ff88;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
 
-.badge { margin-top: 30px; font-size: 14px; opacity: 0.6; }
+    .lastRun {
+      margin-top: 15px;
+      color: #00ff88;
+      font-weight: bold;
+      min-height: 22px;
+    }
 
-.lastRun { margin-top: 15px; color: #00ff88; font-weight: bold; }
+    .badge {
+      margin-top: 30px;
+      font-size: 14px;
+      opacity: 0.6;
+    }
 
-.section { margin-top: 100px; }
+    .section {
+      margin-top: 100px;
+    }
 
-.cards {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+    .cards {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-.card {
-  background: #111a1f;
-  padding: 20px;
-  border-radius: 10px;
-  width: 250px;
-  opacity: 0.85;
-}
-</style>
-
-<script src="./config.js"></script>
+    .card {
+      background: #111a1f;
+      padding: 20px;
+      border-radius: 10px;
+      width: 250px;
+      opacity: 0.85;
+    }
+  </style>
 </head>
 
 <body>
-<div class="container">
-  <h1 id="title"></h1>
-  <div class="tagline" id="tagline"></div>
-  <div class="subline" id="subline"></div>
+  <div class="container">
+    <h1 id="title">RunRadar</h1>
 
-  <a id="cta" class="button" target="_blank"></a>
+    <div class="tagline" id="tagline">
+      Track verified Solana runs. No hype. Only data.
+    </div>
 
-  <div class="lastRun">
-    Live results posted directly in Telegram.
-  </div>
+    <div class="subline" id="subline">
+      Results channel shows top runs (Min +80%).
+    </div>
 
-  <div class="badge" id="badge"></div>
+    <a id="cta" class="button" href="https://t.me/solrunresults" target="_blank" rel="noopener">
+      Join Telegram
+    </a>
 
-  <div class="section">
-    <h2>What We Do</h2>
-    <div class="cards">
-      <div class="card">
-        <strong>Real performance</strong><br/>
-        Track closed runs with real % performance.
-      </div>
-      <div class="card">
-        <strong>Only top setups</strong><br/>
-        Filtered results — no spam, no noise.
-      </div>
-      <div class="card">
-        <strong>Transparent history</strong><br/>
-        Everything is archived and verifiable.
+    <div class="lastRun" id="lastRun">Loading latest run…</div>
+
+    <div class="badge" id="badge">
+      100% transparent. No signals. Only archived data.
+    </div>
+
+    <div class="section">
+      <h2>What We Do</h2>
+      <div class="cards">
+        <div class="card">
+          <strong>Real performance</strong><br />
+          Track closed runs with real % performance.
+        </div>
+        <div class="card">
+          <strong>Only top setups</strong><br />
+          Filtered results — no spam, no noise.
+        </div>
+        <div class="card">
+          <strong>Transparent history</strong><br />
+          Everything is archived and verifiable.
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-const cfg = window.RUNRADAR;
+  <script>
+    const API_URL = "https://api.runradar.app/api/closed-public?min_win=80&limit=1";
 
-document.getElementById("title").innerText = cfg.title;
-document.getElementById("tagline").innerText = cfg.tagline;
-document.getElementById("subline").innerText = cfg.subline;
-document.getElementById("cta").innerText = cfg.primaryCtaText;
-document.getElementById("cta").href = cfg.joinTelegramURL;
-document.getElementById("badge").innerText = cfg.badgeText;
-</script>
+    function fmtPct(x) {
+      const n = Number(x);
+      if (!Number.isFinite(n)) return null;
+      return n.toFixed(2);
+    }
 
+    fetch(API_URL, { cache: "no-store" })
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(data => {
+        const el = document.getElementById("lastRun");
+
+        if (!Array.isArray(data) || data.length === 0) {
+          el.textContent = "No recent qualifying runs.";
+          return;
+        }
+
+        const r = data[0];
+        const pct = fmtPct(r.pnl_pct);
+        if (!pct) {
+          el.textContent = "Last verified run: (data format issue)";
+          return;
+        }
+
+        // Optional: show token name if available
+        const name = (r.name || r.symbol || "").toString().trim();
+        if (name) {
+          el.textContent = `Last verified run: +${pct}% (${name})`;
+        } else {
+          el.textContent = `Last verified run: +${pct}%`;
+        }
+      })
+      .catch(() => {
+        document.getElementById("lastRun").textContent = "Live data unavailable.";
+      });
+  </script>
 </body>
 </html>
