@@ -8,9 +8,6 @@
 
     <style>
       :root {
-        --bg: #0b0f17;
-        --panel: rgba(255, 255, 255, 0.06);
-        --panel2: rgba(255, 255, 255, 0.08);
         --text: rgba(255, 255, 255, 0.92);
         --muted: rgba(255, 255, 255, 0.70);
         --muted2: rgba(255, 255, 255, 0.55);
@@ -19,7 +16,6 @@
         --radius: 16px;
         --radius2: 22px;
         --max: 1120px;
-
         --green1: #00c853;
         --green2: #00e676;
       }
@@ -39,7 +35,7 @@
         overflow-x: hidden;
       }
 
-      /* subtle moving grid = "alive" but not childish */
+      /* subtle moving grid for “alive” feel */
       body::before {
         content:"";
         position: fixed;
@@ -69,15 +65,10 @@
 
       .brand {
         display: flex; gap: 10px; align-items: center;
-        font-weight: 750; letter-spacing: 0.2px;
+        font-weight: 800; letter-spacing: 0.2px;
       }
 
-      .tgIcon {
-        width: 28px;
-        height: 28px;
-        filter: invert(1);
-        opacity: 0.95;
-      }
+      .tgIcon { width: 28px; height: 28px; filter: invert(1); opacity: 0.95; }
 
       .navlinks { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
       .navlinks a {
@@ -85,6 +76,7 @@
         color: var(--muted);
         border: 1px solid transparent;
         background: rgba(255,255,255,0.00);
+        cursor: pointer;
       }
       .navlinks a:hover { border-color: var(--line); background: rgba(255,255,255,0.03); color: var(--text); }
 
@@ -101,7 +93,6 @@
           radial-gradient(circle at 80% 15%, rgba(255, 255, 255, 0.10), transparent 55%),
           linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
       }
-
       .hero::after{
         content:"";
         position:absolute; inset:-40% -30% auto auto;
@@ -124,7 +115,6 @@
         line-height: 1.08;
         letter-spacing: -0.6px;
       }
-
       .sub { color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 56ch; }
       .support { margin-top: 10px; color: var(--muted2); font-size: 14px; line-height: 1.6; }
 
@@ -137,13 +127,14 @@
         border: 1px solid var(--line);
         background: rgba(255,255,255,0.04);
         color: var(--text);
-        font-weight: 700;
+        font-weight: 750;
         letter-spacing: 0.2px;
         min-width: 190px;
         cursor: pointer;
         transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         position: relative;
         overflow: hidden;
+        user-select: none;
       }
       .btn:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); }
 
@@ -152,11 +143,9 @@
         background: linear-gradient(135deg, var(--green1), var(--green2));
         border: none;
         color: #06110b;
-        font-weight: 850;
+        font-weight: 900;
       }
-      .btn.primary:hover {
-        box-shadow: 0 10px 25px rgba(0, 230, 118, 0.30);
-      }
+      .btn.primary:hover { box-shadow: 0 10px 25px rgba(0, 230, 118, 0.30); }
       .btn.primary::after {
         content: "";
         position: absolute;
@@ -168,9 +157,7 @@
         transform: skewX(-25deg);
         transition: left 0.65s ease;
       }
-      .btn.primary:hover::after {
-        left: 130%;
-      }
+      .btn.primary:hover::after { left: 130%; }
 
       .note { margin-top: 10px; color: var(--muted2); font-size: 12.5px; }
 
@@ -203,7 +190,6 @@
         background: linear-gradient(160deg, rgba(20,25,35,0.9), rgba(10,15,25,0.95));
         backdrop-filter: blur(14px);
       }
-
       .badge {
         display:inline-flex; align-items:center; gap:8px;
         padding: 8px 10px; border-radius: 999px;
@@ -213,9 +199,8 @@
         font-size: 12.5px;
         margin-bottom: 12px;
       }
-
       .priceLine { margin-top: 8px; color: var(--muted); font-size: 14px; }
-      .trialLine { margin-top: 6px; color: var(--text); font-size: 14px; font-weight: 650; }
+      .trialLine { margin-top: 6px; color: var(--text); font-size: 14px; font-weight: 700; }
 
       .stats {
         display:grid;
@@ -230,7 +215,7 @@
         background: rgba(255,255,255,0.03);
       }
       .stat .k { color: var(--muted2); font-size: 12px; }
-      .stat .v { margin-top: 4px; font-size: 18px; font-weight: 850; color: #fff; }
+      .stat .v { margin-top: 4px; font-size: 18px; font-weight: 900; color: #fff; }
 
       section { margin-top: 18px; }
       .sectionCard {
@@ -239,7 +224,6 @@
         background: rgba(255,255,255,0.03);
         border: 1px solid var(--line);
       }
-
       h2 { margin: 0 0 10px 0; font-size: 22px; letter-spacing: -0.2px; }
       p { margin: 0; color: var(--muted); line-height: 1.7; }
 
@@ -249,7 +233,6 @@
         gap: 14px;
         margin-top: 14px;
       }
-
       .mini {
         padding: 16px;
         border-radius: var(--radius);
@@ -259,7 +242,96 @@
       .mini h3 { margin: 0 0 8px 0; font-size: 16px; }
       .mini p { font-size: 14px; color: var(--muted); }
 
-      /* Access form */
+      /* Pricing */
+      .pricingGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .plan {
+        padding: 18px;
+        border-radius: var(--radius2);
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.03);
+      }
+      .planTitle { font-weight: 900; font-size: 16px; }
+      .planPrice { margin-top: 8px; font-size: 28px; font-weight: 950; letter-spacing: -0.3px; }
+      .planDesc { margin-top: 10px; color: var(--muted); line-height: 1.6; font-size: 14px; }
+      .plan ul { margin: 12px 0 0 18px; color: var(--muted); }
+      .plan li { margin: 6px 0; }
+
+      .faq { margin-top: 12px; }
+      details {
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        border-radius: 14px;
+        padding: 12px 14px;
+      }
+      details + details { margin-top: 10px; }
+      summary { cursor: pointer; font-weight: 800; color: var(--text); }
+      summary::-webkit-details-marker { display: none; }
+
+      .footer {
+        margin: 18px 0 30px;
+        color: var(--muted2);
+        font-size: 12.5px;
+        border-top: 1px solid var(--line);
+        padding-top: 16px;
+      }
+
+      /* ===== MODAL ===== */
+      .modalOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.66);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        z-index: 1000;
+      }
+      .modalOverlay.open { display: flex; }
+
+      .modal {
+        width: 100%;
+        max-width: 560px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: linear-gradient(160deg, rgba(20,25,35,0.98), rgba(10,15,25,0.98));
+        box-shadow: 0 35px 120px rgba(0,0,0,0.75);
+        overflow: hidden;
+        transform: translateY(10px);
+        animation: pop 180ms ease-out forwards;
+      }
+      @keyframes pop {
+        to { transform: translateY(0); }
+      }
+      .modalHeader {
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255,255,255,0.10);
+      }
+      .modalHeader .title {
+        font-weight: 950;
+        letter-spacing: -0.2px;
+      }
+      .closeBtn {
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.04);
+        color: var(--text);
+        border-radius: 12px;
+        padding: 8px 10px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+      .closeBtn:hover { background: rgba(255,255,255,0.07); }
+
+      .modalBody { padding: 18px; }
+      .modalText { color: var(--muted); line-height: 1.6; }
+
       .formRow {
         margin-top: 14px;
         display: flex;
@@ -289,44 +361,6 @@
         display: none;
       }
 
-      /* Pricing */
-      .pricingGrid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-        margin-top: 14px;
-      }
-      .plan {
-        padding: 18px;
-        border-radius: var(--radius2);
-        border: 1px solid var(--line);
-        background: rgba(255,255,255,0.03);
-      }
-      .planTitle { font-weight: 850; font-size: 16px; }
-      .planPrice { margin-top: 8px; font-size: 28px; font-weight: 900; letter-spacing: -0.3px; }
-      .planDesc { margin-top: 10px; color: var(--muted); line-height: 1.6; font-size: 14px; }
-      .plan ul { margin: 12px 0 0 18px; color: var(--muted); }
-      .plan li { margin: 6px 0; }
-
-      .faq { margin-top: 12px; }
-      details {
-        border: 1px solid var(--line);
-        background: rgba(255,255,255,0.02);
-        border-radius: 14px;
-        padding: 12px 14px;
-      }
-      details + details { margin-top: 10px; }
-      summary { cursor: pointer; font-weight: 700; color: var(--text); }
-      summary::-webkit-details-marker { display: none; }
-
-      .footer {
-        margin: 18px 0 30px;
-        color: var(--muted2);
-        font-size: 12.5px;
-        border-top: 1px solid var(--line);
-        padding-top: 16px;
-      }
-
       @media (max-width: 920px){
         .grid { grid-template-columns: 1fr; }
         .cols { grid-template-columns: 1fr; }
@@ -341,7 +375,6 @@
     <div class="wrap">
       <div class="nav">
         <div class="brand">
-          <!-- Telegram icon left -->
           <img
             class="tgIcon"
             src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg"
@@ -351,10 +384,9 @@
         </div>
 
         <div class="navlinks">
-          <!-- Results + Beta Access = same place (email form section) -->
-          <a href="#access" id="navResults">Results</a>
-          <a href="#access" id="navBeta">Beta Access</a>
-          <!-- Pricing scrolls to pricing section -->
+          <!-- и двете го отвараат modal -->
+          <a id="navResults" role="button" tabindex="0">Results</a>
+          <a id="navBeta" role="button" tabindex="0">Beta Access</a>
           <a href="#pricing" id="navPricing">Pricing</a>
         </div>
       </div>
@@ -367,8 +399,9 @@
             <div class="support" id="supportLine"></div>
 
             <div class="ctaRow">
-              <a class="btn primary" id="ctaPrimary" href="#access"></a>
-              <a class="btn" id="ctaSecondary" href="#access"></a>
+              <!-- CTA ќе отвара modal -->
+              <button class="btn primary" id="ctaPrimary" type="button"></button>
+              <button class="btn" id="ctaSecondary" type="button"></button>
             </div>
 
             <div class="note" id="noteText"></div>
@@ -426,26 +459,6 @@
         <div class="cols" id="features"></div>
       </section>
 
-      <!-- ACCESS (email first) -->
-      <section class="sectionCard" id="access">
-        <h2 id="accessTitle"></h2>
-        <p id="accessText"></p>
-
-        <form id="leadForm">
-          <div class="formRow">
-            <input class="input" id="leadEmail" type="email" placeholder="Your email address" required />
-            <button class="btn primary" type="submit" id="leadBtn">Request Access</button>
-          </div>
-
-          <div class="successBox" id="successBox">
-            ✅ Thanks. Redirecting you to Telegram…
-          </div>
-
-          <div class="formHint" id="accessPrivacy"></div>
-        </form>
-      </section>
-
-      <!-- PRICING -->
       <section class="sectionCard" id="pricing">
         <h2>Pricing</h2>
         <p>Start free for 14 days. Continue only if it’s valuable.</p>
@@ -462,13 +475,13 @@
               <li>No payment now</li>
             </ul>
             <div style="margin-top:14px;">
-              <a class="btn primary" href="#access">Start Free 14-Day Access</a>
+              <button class="btn primary" id="startFromPricing" type="button">Start Free 14-Day Access</button>
             </div>
           </div>
 
           <div class="plan">
             <div class="planTitle">Pro</div>
-            <div class="planPrice" id="proPrice">$49<span style="font-size:14px;font-weight:700;color:var(--muted);">/month</span></div>
+            <div class="planPrice">$49<span style="font-size:14px;font-weight:800;color:var(--muted);">/month</span></div>
             <div class="planDesc">Continue after beta with full access.</div>
             <ul>
               <li>Same platform, uninterrupted</li>
@@ -495,7 +508,33 @@
       </div>
     </div>
 
-    <!-- Config MUST load before this script -->
+    <!-- ===== MODAL MARKUP ===== -->
+    <div class="modalOverlay" id="modalOverlay" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modalHeader">
+          <div class="title" id="modalTitle">Get free beta access</div>
+          <button class="closeBtn" id="closeModal" type="button">Close</button>
+        </div>
+
+        <div class="modalBody">
+          <div class="modalText" id="modalText"></div>
+
+          <form id="leadForm">
+            <div class="formRow">
+              <input class="input" id="leadEmail" type="email" placeholder="Your email address" required />
+              <button class="btn primary" type="submit" id="leadBtn">Request Access</button>
+            </div>
+
+            <div class="successBox" id="successBox">
+              ✅ Thanks. Redirecting you to Telegram…
+            </div>
+
+            <div class="formHint" id="modalPrivacy"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <script src="./config.js"></script>
 
     <script>
@@ -515,11 +554,11 @@
         document.getElementById("trialText").textContent = pick(C.trialText, "");
         document.getElementById("noteText").textContent = pick(C.noteText, "");
 
-        // CTA labels (both scroll to #access)
+        // CTA labels
         document.getElementById("ctaPrimary").textContent = pick(C.ctaPrimaryText, "Start Free 14-Day Access");
         document.getElementById("ctaSecondary").textContent = pick(C.ctaSecondaryText, "View Live Results");
 
-        // Stats (manual fallback)
+        // Stats
         const showStats = !!C.showStats && C.fallbackStats;
         const statsBox = document.getElementById("statsBox");
         if (showStats) {
@@ -530,7 +569,7 @@
           document.getElementById("stLast").textContent = C.fallbackStats.lastRun ?? "—";
         }
 
-        // Problem / How
+        // Sections
         document.getElementById("problemTitle").textContent = pick(C.problemTitle, "Most traders enter too late.");
         document.getElementById("problemText").textContent = pick(C.problemText, "");
 
@@ -544,7 +583,6 @@
           howWrap.appendChild(div);
         });
 
-        // Sell points
         document.getElementById("sellTitle").textContent = pick(C.sellTitle, "Why traders switch to RunRadar");
         const sellWrap = document.getElementById("sellPoints");
         sellWrap.innerHTML = "";
@@ -555,7 +593,6 @@
           sellWrap.appendChild(div);
         });
 
-        // Features
         document.getElementById("featuresTitle").textContent = pick(C.featuresTitle, "What you get");
         const featWrap = document.getElementById("features");
         featWrap.innerHTML = "";
@@ -566,7 +603,6 @@
           featWrap.appendChild(div);
         });
 
-        // FAQ
         document.getElementById("faqTitle").textContent = pick(C.faqTitle, "FAQ");
         const faqWrap = document.getElementById("faqs");
         faqWrap.innerHTML = "";
@@ -576,17 +612,12 @@
           faqWrap.appendChild(d);
         });
 
-        // Access section copy
-        document.getElementById("accessTitle").textContent = pick(C.accessTitle, "Get free beta access");
-        document.getElementById("accessText").textContent = pick(C.accessText, "");
-        document.getElementById("accessPrivacy").textContent = pick(C.accessPrivacy, "");
+        document.getElementById("disclaimer").textContent = pick(C.disclaimer, "");
 
-        // Pricing button
-        const checkoutBtn = document.getElementById("checkoutBtn");
-        const checkoutUrl = pick(C.checkoutUrl, "#");
-        checkoutBtn.href = checkoutUrl;
+        // Pricing checkout
+        document.getElementById("checkoutBtn").href = pick(C.checkoutUrl, "#");
 
-        // Live text (simple rotating messages — looks alive)
+        // Live text (feels alive)
         const liveText = document.getElementById("liveText");
         const liveMsgs = [
           "Live activity: monitoring market movement…",
@@ -599,13 +630,46 @@
           liveText.textContent = liveMsgs[li];
         }, 2600);
 
-        // Disclaimer
-        document.getElementById("disclaimer").textContent = pick(C.disclaimer, "");
+        // ===== Modal logic =====
+        const overlay = document.getElementById("modalOverlay");
+        const closeBtn = document.getElementById("closeModal");
 
-        // Lead form behavior:
-        // - If leadFormEndpoint exists -> POST to it (Formspree)
-        // - Else fallback to mailto
-        // - Show success message -> redirect to Telegram after X seconds
+        document.getElementById("modalTitle").textContent = pick(C.modalTitle, "Get free beta access");
+        document.getElementById("modalText").textContent = pick(C.modalText, "");
+        document.getElementById("modalPrivacy").textContent = pick(C.modalPrivacy, "");
+
+        function openModal() {
+          overlay.classList.add("open");
+          overlay.setAttribute("aria-hidden", "false");
+          // focus email
+          setTimeout(() => document.getElementById("leadEmail").focus(), 50);
+        }
+
+        function closeModal() {
+          overlay.classList.remove("open");
+          overlay.setAttribute("aria-hidden", "true");
+        }
+
+        // open triggers
+        const openTriggers = [
+          document.getElementById("ctaPrimary"),
+          document.getElementById("ctaSecondary"),
+          document.getElementById("navResults"),
+          document.getElementById("navBeta"),
+          document.getElementById("startFromPricing")
+        ];
+        openTriggers.forEach((el) => el.addEventListener("click", openModal));
+
+        // close triggers
+        closeBtn.addEventListener("click", closeModal);
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) closeModal();
+        });
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
+        });
+
+        // ===== Lead form submit -> redirect to Telegram =====
         const leadForm = document.getElementById("leadForm");
         const emailInput = document.getElementById("leadEmail");
         const successBox = document.getElementById("successBox");
@@ -614,7 +678,7 @@
         const endpoint = pick(C.leadFormEndpoint, "");
         const toEmail = pick(C.leadToEmail, "");
         const tg = pick(C.telegramUrl, "#");
-        const redirectSeconds = Number(C.leadRedirectSeconds || 2);
+        const redirectSeconds = Number(C.leadRedirectSeconds || 1);
 
         leadForm.addEventListener("submit", async (e) => {
           e.preventDefault();
@@ -626,19 +690,19 @@
 
           try {
             if (endpoint) {
-              const res = await fetch(endpoint, {
+              await fetch(endpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                body: JSON.stringify({ email, source: "runradar-frontend" })
+                body: JSON.stringify({ email, source: "runradar-landing" })
               });
-              // even if Formspree returns 200/302, we proceed
             } else if (toEmail) {
+              // fallback: opens email client (not ideal), then we still redirect
               const subject = encodeURIComponent("RunRadar Beta Access Request");
               const body = encodeURIComponent(`Please grant beta access.\n\nEmail: ${email}\nSource: runradar landing page`);
               window.location.href = `mailto:${toEmail}?subject=${subject}&body=${body}`;
             }
-          } catch (err) {
-            // We still show success and redirect; user intent is access
+          } catch (_) {
+            // still proceed
           }
 
           successBox.style.display = "block";
@@ -656,7 +720,7 @@
           }, 1000);
         });
 
-        // Initial fade-in (app feel)
+        // Initial fade-in
         document.body.style.opacity = 0;
         window.addEventListener("load", () => {
           document.body.style.transition = "opacity 0.7s ease";
