@@ -3,28 +3,35 @@ window.RUNRADAR = {
   // Brand
   brand: "RunRadar",
 
-  // Hero
+  // Links
+  telegramUrl: "https://t.me/solrunresults",
+
+  // Email capture (избери 1)
+  // Option A (најлесно): Formspree endpoint (пример: https://formspree.io/f/xxxxxx)
+  // Option B: Mailto fallback (ако endpoint е празен, ќе користи mailto)
+  leadFormEndpoint: "", // <- стави Formspree URL ако имаш
+  leadToEmail: "sales@futurehomeguide.com", // за mailto fallback
+  leadRedirectSeconds: 2, // после submit, редирект на Telegram
+
+  // Offer / Pricing
+  priceAnchorText: "Regular price: $49/month",
+  trialText: "Free 14-day access for early beta members.",
+  noteText: "Full access during beta. No payment required now.",
+
+  // Checkout (кога ќе имаш)
+  checkoutUrl: "https://your-checkout-link-here", // Stripe/Lemon/Gumroad Payment link
+
+  // Hero copy (human language, без сленг)
   headline: "Identify High-Growth 🚀 Solana Tokens Before the Crowd",
   subheadline:
     "We monitor market activity and highlight tokens showing real growth — with clear, trackable performance data.",
   supportLine: "Built for traders who rely on measurable results, not opinions.",
 
-  // CTAs + Links
+  // CTA labels (CTA ќе скрола до email form)
   ctaPrimaryText: "Start Free 14-Day Access",
-  ctaPrimaryUrl: "https://t.me/solrunresults", // промени ако треба
   ctaSecondaryText: "View Live Results",
-  ctaSecondaryUrl: "https://t.me/solrunresults", // промени ако треба
 
-  // Optional: application / waitlist / checkout
-  betaApplyUrl: "https://t.me/solrunresults", // може да е Typeform / Google Form
-  checkoutUrl: "https://your-checkout-link-here", // LemonSqueezy / Gumroad / Stripe Payment link
-
-  // Offer
-  priceAnchorText: "Regular price: $79/month",
-  trialText: "Currently free for early beta members (14 days).",
-  noteText: "Full access during beta. No payment required now.",
-
-  // Proof / Metrics (fallback ако немаш API)
+  // Proof / Metrics (рачно за сега)
   showStats: true,
   fallbackStats: {
     detectedRuns: 312,
@@ -33,7 +40,7 @@ window.RUNRADAR = {
     lastRun: "Logged 3h ago"
   },
 
-  // Sections content
+  // Sections
   problemTitle: "Most traders enter too late.",
   problemText:
     "By the time something is trending, the main move is often already over. RunRadar filters market activity and highlights tokens showing measurable momentum — before the hype phase.",
@@ -54,6 +61,23 @@ window.RUNRADAR = {
     }
   ],
 
+  // “Sales” section (ова продава)
+  sellTitle: "Why traders switch to RunRadar",
+  sellPoints: [
+    {
+      title: "Enter earlier with measurable data",
+      text: "Less guessing. More informed timing."
+    },
+    {
+      title: "Avoid emotional trades",
+      text: "Focus on what the market is doing — not what people are saying."
+    },
+    {
+      title: "See trackable performance",
+      text: "Results stay verifiable instead of disappearing in chat messages."
+    }
+  ],
+
   featuresTitle: "What you get",
   features: [
     {
@@ -70,7 +94,7 @@ window.RUNRADAR = {
     },
     {
       title: "Fast access",
-      text: "Get updates in seconds and act while the move is still early."
+      text: "Get updates quickly and act while the move is still early."
     }
   ],
 
@@ -86,9 +110,16 @@ window.RUNRADAR = {
     },
     {
       q: "Where do I access the results?",
-      a: "You can view live results via the Results link, and you can also join the Telegram channel for updates."
+      a: "After you request access, you’ll be redirected to the Telegram channel for updates and results."
     }
   ],
+
+  // Lead capture copy
+  accessTitle: "Get free beta access",
+  accessText:
+    "Enter your email to receive access details. After submitting, you’ll be redirected to Telegram.",
+  accessPrivacy:
+    "No spam. One email for access + important updates. Unsubscribe anytime.",
 
   // Footer / Legal
   disclaimer:
