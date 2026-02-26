@@ -6,6 +6,17 @@ window.RUNRADAR = {
   // Telegram (главен канал)
   telegramUrl: "https://t.me/solrunresults",
 
+  // Telegram Live Fetch — set telegramBotToken to enable Bot API fetching.
+  // Leave empty to use the public channel web-scrape fallback.
+  // Channel ID and username for the live "last verified run" section.
+  telegramBotToken: "",
+  telegramChannelId: "-1003820274962",
+  telegramChannelUsername: "solrunresults",
+
+  // ConvertKit form — paste the full script src URL (e.g. https://runradar.ck.page/XXXXXXXX/index.js).
+  // Leave empty to use the built-in email fallback form.
+  convertKitFormUrl: "",
+
   // Lead capture (избери 1)
   // Option A (препорачано): Formspree endpoint (пример: https://formspree.io/f/xxxxxx)
   // Ако е празно -> ќе користи mailto fallback
