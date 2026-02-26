@@ -368,7 +368,26 @@
         .btn { min-width: 0; width: 100%; }
         .formRow { flex-direction: column; }
       }
-    </style>
+    /* --- Modal compact mobile conversion tweaks --- */
+.modalCard{
+  max-height: 88vh;
+  overflow: hidden;
+}
+#modalBody{
+  overflow: auto;
+  max-height: calc(88vh - 72px); /* header inside modal */
+  -webkit-overflow-scrolling: touch;
+}
+.kit-embed-wrap.compact #kitFrame{
+  height: min(420px, 56vh);
+}
+@media (max-width: 480px){
+  .kit-embed-wrap.compact #kitFrame{
+    height: min(380px, 52vh);
+  }
+}
+
+</style>
   </head>
 
   <body>
@@ -643,13 +662,8 @@
 
     document.getElementById("modalTitle").textContent = pick(C.modalTitle, "Get free beta access");
     document.getElementById("modalText").textContent = pick(C.modalText, "Enter your email to get beta access, then jump into Telegram.");
-
-    // Wire Telegram button in modal
-    const tgUrl = pick(C.telegramUrl, "https://t.me/+HKMU7FzyZrlzNDdi");
-    const tgBtn = document.getElementById("tgAfterBtn");
-    if (tgBtn) tgBtn.href = tgUrl;
-
-    function openModal() {
+    // Telegram redirect is handled by ConvertKit form settings (recommended).
+function openModal() {
       overlay.classList.add("open");
       overlay.setAttribute("aria-hidden", "false");
       // Show fallback link if iframe is blocked by browser / headers
