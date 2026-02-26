@@ -519,18 +519,27 @@
         <div class="modalBody">
           <div class="modalText" id="modalText"></div>
 
-          <form id="leadForm">
-            <div class="formRow">
-              <input class="input" id="leadEmail" type="email" placeholder="Your email address" required />
-              <button class="btn primary" type="submit" id="leadBtn">Request Access</button>
-            </div>
+          
+<div class="kit-embed-wrap">
+  <iframe
+    id="kitFrame"
+    src="https://runradar.kit.com/ac3ec09ee0"
+    title="RunRadar beta access form"
+    loading="lazy"
+    style="width:100%;height:420px;border:0;border-radius:16px;background:transparent;"
+  ></iframe>
 
-            <div class="successBox" id="successBox">
-              ✅ Thanks. Redirecting you to Telegram…
-            </div>
+  <div id="kitFallback" style="display:none;margin-top:12px;">
+    <p style="margin:0 0 10px 0;opacity:.85;">
+      If the form doesn’t load inside this window, open it in a new tab:
+    </p>
+    <a href="https://runradar.kit.com/ac3ec09ee0" target="_blank" rel="noopener"
+       style="display:inline-block;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);text-decoration:none;">
+      Open the signup form →
+    </a>
+  </div>
+</div>
 
-            <div class="formHint" id="modalPrivacy"></div>
-          </form>
         </div>
       </div>
     </div>
@@ -675,26 +684,50 @@
         const successBox = document.getElementById("successBox");
         const leadBtn = document.getElementById("leadBtn");
 
-        const endpoint = pick(C.leadFormEndpoint, "https://runradar.kit.com/ac3ec09ee0/subscribe");
+        const endpoint = pick(C.leadFormEndpoint, "");
         const toEmail = pick(C.leadToEmail, "");
         const tg = pick(C.telegramUrl, "#");
         const redirectSeconds = Number(C.leadRedirectSeconds || 1);
+        // Lead form submit (legacy) — runs only if the old custom form exists.
+        if (leadForm) {
+          leadForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = (emailInput.value || "").trim();
+            if (!email) return;
 
-        leadForm.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const email = (emailInput.value || "").trim();
-          if (!email) return;
+            leadBtn.disabled = true;
+            leadBtn.textContent = "Submitting…";
 
-          leadBtn.disabled = true;
-          leadBtn.textContent = "Submitting…";
+            try {
+              if (endpoint) {
+                await fetch(endpoint, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email }),
+                });
+              }
 
-          try {
-            if (endpoint) {
-              await fetch(endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams({ email_address: email })
-              });
+              if (statusMessage) {
+                statusMessage.style.display = "block";
+                statusMessage.innerHTML = "✅ Thanks. Redirecting you to Telegram…";
+              }
+
+              setTimeout(() => {
+                try { window.location.href = "https://t.me/+HKMU7FzyZrlzNDdi"; } catch (e) {}
+              }, 1200);
+            } catch (err) {
+              console.error(err);
+              leadBtn.disabled = false;
+              leadBtn.textContent = "Try again";
+            }
+          });
+        } else {
+          // Kit iframe mode: show a fallback link in case the iframe is blocked (X-Frame-Options).
+          const kitFallback = document.getElementById("kitFallback");
+          if (kitFallback) {
+            setTimeout(() => { kitFallback.style.display = "block"; }, 2500);
+          }
+        }
             } else if (toEmail) {
               // fallback: opens email client (not ideal), then we still redirect
               const subject = encodeURIComponent("RunRadar Beta Access Request");
@@ -706,11 +739,19 @@
           }
 
           successBox.style.display = "block";
-          leadBtn.textContent = "Check your email to confirm →";
-          // Kit uses double opt-in by default.
-          // After confirmation, Kit will redirect the user to Telegram (configured in the form settings).
-          leadBtn.disabled = true;
-});
+          leadBtn.textContent = `Redirecting in ${redirectSeconds}s…`;
+
+          let t = redirectSeconds;
+          const timer = setInterval(() => {
+            t -= 1;
+            if (t <= 0) {
+              clearInterval(timer);
+              window.location.href = tg;
+            } else {
+              leadBtn.textContent = `Redirecting in ${t}s…`;
+            }
+          }, 1000);
+        });
 
         // Initial fade-in
         document.body.style.opacity = 0;
@@ -722,4 +763,3 @@
     </script>
   </body>
 </html>
-
