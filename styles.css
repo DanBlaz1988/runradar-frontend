@@ -716,6 +716,66 @@ ul, ol { list-style: none; }
 .success-text   { font-size: 1.125rem; font-weight: 600; color: var(--color-success); }
 
 /* ======================================
+   ConvertKit form overrides (inside modal)
+   ====================================== */
+.modal-dialog .formkit-form {
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+.modal-dialog .formkit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+.modal-dialog .formkit-field { width: 100%; }
+.modal-dialog .formkit-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  color: var(--color-text) !important;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+  box-sizing: border-box;
+}
+.modal-dialog .formkit-input::placeholder { color: var(--color-text-faint) !important; }
+.modal-dialog .formkit-input:focus {
+  border-color: var(--color-primary-light) !important;
+  box-shadow: 0 0 0 3px rgba(124,58,237,.2) !important;
+}
+.modal-dialog .formkit-submit {
+  width: 100%;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+  background: var(--gradient-primary) !important;
+  color: #fff !important;
+  border: none;
+  border-radius: var(--radius-lg) !important;
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  transition: all var(--transition-base);
+}
+.modal-dialog .formkit-submit:hover { transform: translateY(-1px); box-shadow: var(--shadow-glow), 0 8px 20px rgba(124,58,237,.4); }
+.modal-dialog .formkit-alert-error {
+  color: var(--color-error);
+  font-size: .875rem;
+  padding: 0;
+  margin: 0 0 .5rem;
+  list-style: none;
+}
+.modal-dialog .formkit-powered-by-convertkit-container {
+  text-align: center;
+  margin-top: .75rem;
+  font-size: .75rem;
+}
+.modal-dialog .formkit-powered-by-convertkit { color: var(--color-text-faint) !important; }
+
+/* ======================================
    Scroll-reveal Animations
    ====================================== */
 @keyframes fade-up {

@@ -26,10 +26,6 @@
       .replace(/'/g, '&#039;');
   }
 
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
   /* ── Populate content from config ────────────────────────────── */
   function populateContent() {
     var brand = C.brand || 'RunRadar';
@@ -200,14 +196,7 @@
   }
 
   function resetForm() {
-    var form = el('lead-form');
-    if (form) { form.reset(); form.hidden = false; }
-    var errSpan = el('form-error');
-    if (errSpan) errSpan.textContent = '';
-    var emailInput = el('email-input');
-    if (emailInput) { emailInput.classList.remove('is-error'); emailInput.removeAttribute('aria-invalid'); }
-    var successEl = el('modal-success');
-    if (successEl) successEl.hidden = true;
+    /* ConvertKit manages its own form state; nothing to reset here */
   }
 
   if (modalClose)    modalClose.addEventListener('click', closeModal);
@@ -238,83 +227,6 @@
       var btn = el(id);
       if (btn) btn.addEventListener('click', openModal);
     });
-  }
-
-  /* ── Lead Form Submission ─────────────────────────────────────── */
-  function handleFormSubmit() {
-    var form = el('lead-form');
-    if (!form) return;
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var emailInput = el('email-input');
-      var errSpan   = el('form-error');
-      var submitBtn = el('form-submit');
-      var email = emailInput ? emailInput.value.trim() : '';
-
-      /* Validate */
-      if (!email || !isValidEmail(email)) {
-        if (emailInput) { emailInput.classList.add('is-error'); emailInput.setAttribute('aria-invalid', 'true'); }
-        if (errSpan) errSpan.textContent = 'Please enter a valid email address.';
-        if (emailInput) emailInput.focus();
-        return;
-      }
-
-      if (emailInput) { emailInput.classList.remove('is-error'); emailInput.removeAttribute('aria-invalid'); }
-      if (errSpan) errSpan.textContent = '';
-      if (submitBtn) submitBtn.classList.add('is-loading');
-
-      var endpoint = C.leadFormEndpoint;
-      if (endpoint) {
-        fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email })
-        }).then(function (res) {
-          if (submitBtn) submitBtn.classList.remove('is-loading');
-          if (res.ok) {
-            onSubmitSuccess(form);
-          } else {
-            if (errSpan) errSpan.textContent = 'Submission failed. Please try again.';
-          }
-        }).catch(function () {
-          if (submitBtn) submitBtn.classList.remove('is-loading');
-          if (errSpan) errSpan.textContent = 'Network error. Please try again.';
-        });
-      } else {
-        /* mailto fallback */
-        var toEmail  = C.leadToEmail || 'contact@runradar.app';
-        var subject  = encodeURIComponent('Beta Access Request');
-        var body     = encodeURIComponent('Email: ' + email);
-        window.location.href = 'mailto:' + toEmail + '?subject=' + subject + '&body=' + body;
-        setTimeout(function () {
-          if (submitBtn) submitBtn.classList.remove('is-loading');
-          onSubmitSuccess(form);
-        }, 600);
-      }
-    });
-
-    /* Clear validation on input */
-    var emailInput = el('email-input');
-    if (emailInput) {
-      emailInput.addEventListener('input', function () {
-        this.classList.remove('is-error');
-        this.removeAttribute('aria-invalid');
-        var errSpan = el('form-error');
-        if (errSpan) errSpan.textContent = '';
-      });
-    }
-  }
-
-  function onSubmitSuccess(form) {
-    if (form) form.hidden = true;
-    var successEl = el('modal-success');
-    if (successEl) successEl.hidden = false;
-    var delay = ((C.leadRedirectSeconds || 1) * 1000);
-    setTimeout(function () {
-      window.open(C.telegramUrl, '_blank', 'noopener,noreferrer');
-      closeModal();
-    }, delay);
   }
 
   /* ── FAQ Accordion ────────────────────────────────────────────── */
@@ -386,7 +298,6 @@
   function init() {
     populateContent();
     bindCTAButtons();
-    handleFormSubmit();
     initFAQ();
     initScrollReveal();
     initNavbar();
