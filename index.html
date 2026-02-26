@@ -387,6 +387,9 @@
   }
 }
 
+/* --- Aggressive modal copy removal (conversion > copy) --- */
+#modalText{ display:none !important; }
+#modalBody > p{ display:none !important; } /* hide any stray paragraphs inside modal body */
 </style>
   </head>
 
@@ -550,8 +553,7 @@
 
   <div id="kitFallback" style="display:none;margin-top:12px;">
     <p style="margin:0 0 10px 0;opacity:.85;">
-      If the form doesn’t load inside this window, open it in a new tab:
-    </p>
+      </p>
     <a href="https://runradar.kit.com/ac3ec09ee0" target="_blank" rel="noopener"
        style="display:inline-block;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);text-decoration:none;">
       Open the signup form →
@@ -661,8 +663,8 @@
     const closeBtn = document.getElementById("closeModal");
 
     document.getElementById("modalTitle").textContent = pick(C.modalTitle, "Get free beta access");
-    document.getElementById("modalText").textContent = pick(C.modalText, "Enter your email to get beta access, then jump into Telegram.");
-    // Telegram redirect is handled by ConvertKit form settings (recommended).
+    document.getElementById("modalText").textContent = "";
+// Telegram redirect is handled by ConvertKit form settings (recommended).
 function openModal() {
       overlay.classList.add("open");
       overlay.setAttribute("aria-hidden", "false");
