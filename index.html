@@ -3,60 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
-    <meta property="og:title" content="Your Page Title" />
+    <title>RunRadar — Find SOL Runs Before They Explode</title>
+    <meta name="description" content="RunRadar monitors Solana market activity and highlights tokens showing real momentum — with clear, trackable performance data." />
+    <meta property="og:title" content="RunRadar — Find SOL Runs Before They Explode" />
+    <meta property="og:description" content="Track Solana market momentum before the hype phase." />
     <meta property="og:image" content="URL_to_image" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="config.js" defer></script>
 </head>
 <body>
+    <!-- Skip link for keyboard/screen-reader users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <nav>
-        <!-- Navigation content goes here -->
+
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container nav-container">
+            <a href="#" class="brand" aria-label="RunRadar home">
+                <span class="brand-icon" aria-hidden="true">📡</span>
+                <span class="brand-name" id="nav-brand">RunRadar</span>
+            </a>
+            <button class="nav-cta" id="nav-cta-btn" type="button">
+                Get Free Access
+            </button>
+        </div>
     </nav>
-    <header class="hero">
-        <!-- Hero content here -->
+
+    <!-- Hero -->
+    <header class="hero" id="hero" role="banner">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-badge" aria-label="Beta — Free Access Available">
+                    <span class="badge-dot" aria-hidden="true"></span>
+                    <span>Beta — Free Access Available</span>
+                </div>
+                <h1 class="hero-headline" id="hero-headline">Find SOL Runs Before They Explode</h1>
+                <p class="hero-subheadline" id="hero-subheadline">We monitor market activity and highlight tokens showing real growth — with clear, trackable performance data.</p>
+                <p class="hero-support" id="hero-support">Built for traders who rely on measurable results, not opinions.</p>
+                <div class="hero-cta-group" role="group" aria-label="Primary actions">
+                    <button class="btn btn-primary btn-lg" id="hero-cta-primary" type="button">
+                        <span>Start Free 14-Day Access</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <a href="https://t.me/solrunresults" class="btn btn-secondary btn-lg" id="hero-cta-secondary"
+                       target="_blank" rel="noopener noreferrer">
+                        View Live Results
+                    </a>
+                </div>
+            </div>
+            <!-- Stats bar -->
+            <div class="stats-grid" id="stats-grid" role="region" aria-label="Performance statistics">
+                <!-- populated by app.js -->
+            </div>
+        </div>
+        <div class="hero-bg" aria-hidden="true">
+            <div class="hero-glow hero-glow-1"></div>
+            <div class="hero-glow hero-glow-2"></div>
+        </div>
     </header>
+
     <main id="main-content">
-        <section class="problem">
-            <!-- Problem section content -->
+
+        <!-- Problem -->
+        <section class="section problem" id="problem" aria-labelledby="problem-title">
+            <div class="container">
+                <div class="problem-content">
+                    <h2 id="problem-title" class="section-title">Most traders enter too late.</h2>
+                    <p id="problem-text" class="section-text problem-text">By the time something is trending, the main move is often already over. RunRadar filters market activity and highlights tokens showing measurable momentum — before the hype phase.</p>
+                </div>
+            </div>
         </section>
-        <section class="how">
-            <!-- How it works section -->
+
+        <!-- How It Works -->
+        <section class="section how" id="how" aria-labelledby="how-title">
+            <div class="container">
+                <h2 id="how-title" class="section-title center">How RunRadar works</h2>
+                <ol class="steps-grid" id="steps-grid" aria-label="How RunRadar works — three steps">
+                    <!-- populated by app.js -->
+                </ol>
+            </div>
         </section>
-        <section class="sell">
-            <!-- Sell section content -->
+
+        <!-- Why Switch -->
+        <section class="section sell" id="sell" aria-labelledby="sell-title">
+            <div class="container">
+                <h2 id="sell-title" class="section-title center">Why traders switch to RunRadar</h2>
+                <ul class="sell-grid" id="sell-grid" aria-label="Reasons to use RunRadar">
+                    <!-- populated by app.js -->
+                </ul>
+            </div>
         </section>
-        <section class="features">
-            <!-- Features section content -->
+
+        <!-- Features -->
+        <section class="section features" id="features" aria-labelledby="features-title">
+            <div class="container">
+                <h2 id="features-title" class="section-title center">What you get</h2>
+                <ul class="features-grid" id="features-grid" aria-label="RunRadar features">
+                    <!-- populated by app.js -->
+                </ul>
+            </div>
         </section>
-        <section class="pricing">
-            <!-- Pricing section content -->
+
+        <!-- Pricing -->
+        <section class="section pricing" id="pricing" aria-labelledby="pricing-title">
+            <div class="container">
+                <div class="pricing-card">
+                    <div class="pricing-badge">Limited Beta Access</div>
+                    <h2 id="pricing-title" class="pricing-title">Start Free. No Credit Card.</h2>
+                    <p id="pricing-anchor" class="pricing-anchor"></p>
+                    <p id="pricing-trial" class="pricing-trial"></p>
+                    <button class="btn btn-primary btn-xl" id="pricing-cta" type="button">
+                        <span>Start Free 14-Day Access</span>
+                    </button>
+                    <p id="pricing-note" class="pricing-note"></p>
+                </div>
+            </div>
         </section>
-        <section class="faq">
-            <!-- FAQ section content -->
+
+        <!-- FAQ -->
+        <section class="section faq" id="faq" aria-labelledby="faq-title">
+            <div class="container">
+                <h2 id="faq-title" class="section-title center">FAQ</h2>
+                <div class="faq-list" id="faq-list">
+                    <!-- populated by app.js -->
+                </div>
+            </div>
         </section>
+
     </main>
-    <div id="modal" class="modal">
-        <!-- Modal content here -->
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-brand">
+                <span aria-hidden="true">📡</span>
+                <span id="footer-brand">RunRadar</span>
+            </div>
+            <p id="footer-disclaimer" class="footer-disclaimer"></p>
+            <p class="footer-copy">
+                &copy; <span id="footer-year"></span> <span id="footer-brand-copy">RunRadar</span>. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Lead Capture Modal -->
+    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-dialog">
+            <button class="modal-close" id="modal-close" type="button" aria-label="Close dialog">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="modal-icon" aria-hidden="true">📡</div>
+            <h2 class="modal-title" id="modal-title">Get free beta access</h2>
+            <p class="modal-text" id="modal-text">Enter your email to receive access details. After submitting, you'll be redirected to Telegram.</p>
+            <form class="modal-form" id="lead-form" novalidate>
+                <div class="form-group">
+                    <label for="email-input" class="sr-only">Email address</label>
+                    <input
+                        type="email"
+                        id="email-input"
+                        name="email"
+                        class="form-input"
+                        placeholder="your@email.com"
+                        required
+                        autocomplete="email"
+                        aria-required="true"
+                        aria-describedby="form-error"
+                    >
+                    <span id="form-error" class="form-error" role="alert" aria-live="polite"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-xl btn-full" id="form-submit">
+                    <span class="btn-text">Get Free Access</span>
+                    <span class="btn-loading" aria-hidden="true">
+                        <svg class="spinner" viewBox="0 0 24 24" fill="none" focusable="false">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-dasharray="60" stroke-dashoffset="45"/>
+                        </svg>
+                        Sending…
+                    </span>
+                </button>
+            </form>
+            <p class="modal-privacy" id="modal-privacy">No spam. One email for access + important updates. Unsubscribe anytime.</p>
+            <div class="modal-success" id="modal-success" hidden>
+                <div class="success-icon" aria-hidden="true">✅</div>
+                <p class="success-text" role="status" aria-live="polite">You're in! Redirecting to Telegram…</p>
+            </div>
+        </div>
     </div>
-    <script>
-        // Original JavaScript functionality preserved
-        // Improved UX features
-        document.querySelectorAll('button').forEach(button => {
-            button.setAttribute('aria-label', button.textContent);
-            button.classList.add('focus-visible');
-            button.addEventListener('mouseenter', () => {
-                button.classList.add('hover-effect');
-            });
-            button.addEventListener('mouseleave', () => {
-                button.classList.remove('hover-effect');
-            });
-            button.addEventListener('click', () => {
-                button.classList.toggle('active');
-            });
-        });
-    </script>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
