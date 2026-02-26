@@ -1,62 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
-    <meta property="og:title" content="Your Page Title" />
-    <meta property="og:image" content="URL_to_image" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="stylesheet" href="styles.css">
-    <script src="config.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RunRadar</title>
+  <meta property="og:title" content="RunRadar – Find SOL Runs Before They Explode" />
+  <meta property="og:description" content="We monitor market activity and highlight tokens showing real growth — with clear, trackable performance data." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script src="config.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2e;
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 12px;
+    }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
+
+    /* Skip link */
+    .skip-link { position: absolute; top: -40px; left: 8px; background: var(--accent); color: #fff; padding: 8px 16px; border-radius: var(--radius); text-decoration: none; z-index: 100; }
+    .skip-link:focus { top: 8px; }
+
+    /* Nav */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; border-bottom: 1px solid var(--border); }
+    .nav-brand { font-size: 1.25rem; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-cta { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: var(--radius); cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+    .nav-cta:hover { background: var(--accent-hover); }
+
+    /* Hero */
+    .hero { text-align: center; padding: 80px 5% 60px; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+    .hero p.sub { font-size: 1.15rem; color: var(--muted); max-width: 600px; margin: 0 auto 12px; }
+    .hero p.support { font-size: 0.95rem; color: var(--muted); margin-bottom: 36px; }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #fff; border: none; padding: 14px 28px; border-radius: var(--radius); cursor: pointer; font-size: 1rem; font-weight: 700; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 14px 28px; border-radius: var(--radius); cursor: pointer; font-size: 1rem; font-weight: 600; text-decoration: none; display: inline-block; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Stats */
+    .stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; padding: 40px 5%; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stat { text-align: center; }
+    .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+
+    /* Sections */
+    section { padding: 64px 5%; }
+    section:nth-child(even) { background: var(--surface); }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; margin-bottom: 16px; }
+    .section-text { color: var(--muted); max-width: 620px; line-height: 1.7; }
+
+    /* Cards grid */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 36px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+    section:nth-child(even) .card { background: var(--bg); }
+    .card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .card p { font-size: 0.9rem; color: var(--muted); }
+
+    /* Pricing */
+    .pricing-box { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 36px; max-width: 420px; margin-top: 32px; }
+    .price-anchor { color: var(--muted); text-decoration: line-through; font-size: 0.95rem; margin-bottom: 8px; }
+    .price-trial { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+    .price-note { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; }
+
+    /* FAQ */
+    .faq-list { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; max-width: 700px; }
+    details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; }
+    section:nth-child(even) details { background: var(--bg); }
+    summary { cursor: pointer; font-weight: 600; list-style: none; }
+    summary::after { content: " +"; float: right; color: var(--accent); }
+    details[open] summary::after { content: " −"; }
+    details p { margin-top: 12px; color: var(--muted); font-size: 0.95rem; }
+
+    /* Footer */
+    footer { padding: 32px 5%; text-align: center; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; max-width: 440px; width: 90%; position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; line-height: 1; }
+    .modal-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+    .modal-text { color: var(--muted); font-size: 0.95rem; margin-bottom: 24px; }
+    .modal-form input[type="email"] { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 1rem; margin-bottom: 14px; }
+    .modal-form input[type="email"]:focus { outline: none; border-color: var(--accent); }
+    .modal-form button[type="submit"] { width: 100%; }
+    .modal-privacy { font-size: 0.78rem; color: var(--muted); margin-top: 12px; text-align: center; }
+    .modal-success { display: none; text-align: center; padding: 20px 0; }
+    .modal-success p { color: var(--muted); }
+  </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <nav>
-        <!-- Navigation content goes here -->
-    </nav>
-    <header class="hero">
-        <!-- Hero content here -->
-    </header>
-    <main id="main-content">
-        <section class="problem">
-            <!-- Problem section content -->
-        </section>
-        <section class="how">
-            <!-- How it works section -->
-        </section>
-        <section class="sell">
-            <!-- Sell section content -->
-        </section>
-        <section class="features">
-            <!-- Features section content -->
-        </section>
-        <section class="pricing">
-            <!-- Pricing section content -->
-        </section>
-        <section class="faq">
-            <!-- FAQ section content -->
-        </section>
-    </main>
-    <div id="modal" class="modal">
-        <!-- Modal content here -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav>
+    <a class="nav-brand" id="nav-brand" href="#">RunRadar</a>
+    <button class="nav-cta" id="nav-cta" aria-label="Get access">Get Access</button>
+  </nav>
+
+  <header class="hero" id="main-content">
+    <h1 id="hero-headline"></h1>
+    <p class="sub" id="hero-sub"></p>
+    <p class="support" id="hero-support"></p>
+    <div class="hero-btns">
+      <button class="btn-primary" id="hero-cta-primary"></button>
+      <a class="btn-secondary" id="hero-cta-secondary" href="#" target="_blank" rel="noopener noreferrer"></a>
     </div>
-    <script>
-        // Original JavaScript functionality preserved
-        // Improved UX features
-        document.querySelectorAll('button').forEach(button => {
-            button.setAttribute('aria-label', button.textContent);
-            button.classList.add('focus-visible');
-            button.addEventListener('mouseenter', () => {
-                button.classList.add('hover-effect');
-            });
-            button.addEventListener('mouseleave', () => {
-                button.classList.remove('hover-effect');
-            });
-            button.addEventListener('click', () => {
-                button.classList.toggle('active');
-            });
+  </header>
+
+  <div class="stats" id="stats-section" style="display:none"></div>
+
+  <main>
+    <section class="problem" id="section-problem">
+      <h2 class="section-title" id="problem-title"></h2>
+      <p class="section-text" id="problem-text"></p>
+    </section>
+
+    <section class="how" id="section-how">
+      <h2 class="section-title" id="how-title"></h2>
+      <div class="cards" id="how-cards"></div>
+    </section>
+
+    <section class="sell" id="section-sell">
+      <h2 class="section-title" id="sell-title"></h2>
+      <div class="cards" id="sell-cards"></div>
+    </section>
+
+    <section class="features" id="section-features">
+      <h2 class="section-title" id="features-title"></h2>
+      <div class="cards" id="features-cards"></div>
+    </section>
+
+    <section class="pricing" id="section-pricing">
+      <h2 class="section-title">Pricing</h2>
+      <div class="pricing-box">
+        <p class="price-anchor" id="price-anchor"></p>
+        <p class="price-trial" id="price-trial"></p>
+        <p class="price-note" id="price-note"></p>
+        <button class="btn-primary" id="pricing-cta"></button>
+      </div>
+    </section>
+
+    <section class="faq" id="section-faq">
+      <h2 class="section-title" id="faq-title"></h2>
+      <div class="faq-list" id="faq-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p id="footer-disclaimer"></p>
+  </footer>
+
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-el">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+      <div id="modal-form-wrap">
+        <h2 class="modal-title" id="modal-title-el"></h2>
+        <p class="modal-text" id="modal-text-el"></p>
+        <form class="modal-form" id="lead-form" novalidate>
+          <input type="email" id="lead-email" placeholder="your@email.com" required autocomplete="email" aria-label="Email address">
+          <button type="submit" class="btn-primary" id="modal-submit">Submit</button>
+        </form>
+        <p class="modal-privacy" id="modal-privacy-el"></p>
+      </div>
+      <div class="modal-success" id="modal-success">
+        <p>✅ Check your inbox! Redirecting you to Telegram...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var R = window.RUNRADAR;
+      if (!R) return;
+
+      // Safely convert a value to a string
+      function str(val) { return String(val || ''); }
+
+      // Escape a string for safe insertion as HTML text content
+      function esc(val) {
+        return str(val)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      // Build a card element using DOM (no innerHTML risk)
+      function makeCard(title, text) {
+        var div = document.createElement('div');
+        div.className = 'card';
+        var h3 = document.createElement('h3');
+        h3.textContent = str(title);
+        var p = document.createElement('p');
+        p.textContent = str(text);
+        div.appendChild(h3);
+        div.appendChild(p);
+        return div;
+      }
+
+      // Nav
+      document.getElementById('nav-brand').textContent = str(R.brand);
+      document.getElementById('nav-cta').textContent = str(R.ctaPrimaryText);
+
+      // Hero
+      document.getElementById('hero-headline').textContent = str(R.headline);
+      document.getElementById('hero-sub').textContent = str(R.subheadline);
+      document.getElementById('hero-support').textContent = str(R.supportLine);
+      document.getElementById('hero-cta-primary').textContent = str(R.ctaPrimaryText);
+      var secBtn = document.getElementById('hero-cta-secondary');
+      secBtn.textContent = str(R.ctaSecondaryText);
+      secBtn.href = str(R.telegramUrl);
+
+      // Stats
+      if (R.showStats && R.fallbackStats) {
+        var s = R.fallbackStats;
+        var statsEl = document.getElementById('stats-section');
+        statsEl.style.display = '';
+        [
+          { value: s.detectedRuns, label: 'Runs Detected' },
+          { value: s.bestRun, label: 'Best Run' },
+          { value: s.avgRun, label: 'Avg Run' },
+          { value: s.lastRun, label: 'Last Update' }
+        ].forEach(function (item) {
+          var div = document.createElement('div');
+          div.className = 'stat';
+          div.innerHTML = '<div class="stat-value">' + esc(item.value) + '</div><div class="stat-label">' + esc(item.label) + '</div>';
+          statsEl.appendChild(div);
         });
-    </script>
+      }
+
+      // Problem
+      document.getElementById('problem-title').textContent = str(R.problemTitle);
+      document.getElementById('problem-text').textContent = str(R.problemText);
+
+      // How steps
+      document.getElementById('how-title').textContent = str(R.howTitle);
+      var howCards = document.getElementById('how-cards');
+      (R.howSteps || []).forEach(function (step) { howCards.appendChild(makeCard(step.title, step.text)); });
+
+      // Sell points
+      document.getElementById('sell-title').textContent = str(R.sellTitle);
+      var sellCards = document.getElementById('sell-cards');
+      (R.sellPoints || []).forEach(function (point) { sellCards.appendChild(makeCard(point.title, point.text)); });
+
+      // Features
+      document.getElementById('features-title').textContent = str(R.featuresTitle);
+      var featCards = document.getElementById('features-cards');
+      (R.features || []).forEach(function (f) { featCards.appendChild(makeCard(f.title, f.text)); });
+
+      // Pricing
+      document.getElementById('price-anchor').textContent = str(R.priceAnchorText);
+      document.getElementById('price-trial').textContent = str(R.trialText);
+      document.getElementById('price-note').textContent = str(R.noteText);
+      document.getElementById('pricing-cta').textContent = str(R.ctaPrimaryText);
+
+      // FAQ
+      document.getElementById('faq-title').textContent = str(R.faqTitle);
+      var faqList = document.getElementById('faq-list');
+      (R.faqs || []).forEach(function (f) {
+        var details = document.createElement('details');
+        var summary = document.createElement('summary');
+        summary.textContent = str(f.q);
+        var p = document.createElement('p');
+        p.textContent = str(f.a);
+        details.appendChild(summary);
+        details.appendChild(p);
+        faqList.appendChild(details);
+      });
+
+      // Footer
+      document.getElementById('footer-disclaimer').textContent = str(R.disclaimer);
+
+      // Modal content
+      document.getElementById('modal-title-el').textContent = str(R.modalTitle);
+      document.getElementById('modal-text-el').textContent = str(R.modalText);
+      document.getElementById('modal-privacy-el').textContent = str(R.modalPrivacy);
+
+      // Modal open/close with focus trap
+      var modal = document.getElementById('modal');
+      var lastFocused = null;
+      var FOCUSABLE = 'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])';
+
+      function openModal() {
+        lastFocused = document.activeElement;
+        modal.classList.add('open');
+        document.getElementById('lead-email').focus();
+      }
+      function closeModal() {
+        modal.classList.remove('open');
+        if (lastFocused) lastFocused.focus();
+      }
+
+      ['nav-cta', 'hero-cta-primary', 'pricing-cta'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', openModal);
+      });
+      document.getElementById('modal-close').addEventListener('click', closeModal);
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { closeModal(); return; }
+        if (e.key === 'Tab' && modal.classList.contains('open')) {
+          var focusable = Array.prototype.slice.call(modal.querySelectorAll(FOCUSABLE));
+          if (!focusable.length) { e.preventDefault(); return; }
+          var first = focusable[0], last = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+          } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        }
+      });
+
+      // Email validation helper
+      function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      // Lead form submission
+      var submitBtn = document.getElementById('modal-submit');
+      document.getElementById('lead-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var emailInput = document.getElementById('lead-email');
+        var email = emailInput.value.trim();
+        if (!isValidEmail(email)) {
+          emailInput.setCustomValidity('Please enter a valid email address.');
+          emailInput.reportValidity();
+          return;
+        }
+        emailInput.setCustomValidity('');
+        var endpoint = str(R.leadFormEndpoint);
+        submitBtn.disabled = true;
+
+        function onSuccess() {
+          document.getElementById('modal-form-wrap').style.display = 'none';
+          document.getElementById('modal-success').style.display = 'block';
+          setTimeout(function () {
+            window.open(str(R.telegramUrl), '_blank', 'noopener,noreferrer');
+            closeModal();
+            document.getElementById('modal-form-wrap').style.display = '';
+            document.getElementById('modal-success').style.display = 'none';
+            submitBtn.disabled = false;
+          }, (R.leadRedirectSeconds || 1) * 1000);
+        }
+
+        function onError() {
+          submitBtn.disabled = false;
+          emailInput.setCustomValidity('Submission failed. Please try again.');
+          emailInput.reportValidity();
+        }
+
+        if (endpoint) {
+          fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ email: email })
+          }).then(function (res) {
+            if (res.ok) { onSuccess(); } else { onError(); }
+          }).catch(function () { onError(); });
+        } else {
+          window.location.href = 'mailto:' + str(R.leadToEmail) + '?subject=RunRadar%20Beta%20Access&body=Please%20grant%20me%20access.%20My%20email%3A%20' + encodeURIComponent(email);
+          onSuccess();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
