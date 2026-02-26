@@ -547,219 +547,150 @@
     <script src="./config.js"></script>
 
     <script>
-      (function () {
-        const C = window.RUNRADAR || {};
-        const pick = (v, fallback) => (typeof v === "string" && v.trim() ? v : fallback);
+  (function () {
+    const C = window.RUNRADAR || {};
+    const pick = (v, fallback) => (typeof v === "string" && v.trim() ? v : fallback);
 
-        // Brand + hero copy
-        document.title = pick(C.brand, "RunRadar");
-        document.getElementById("brandName").textContent = pick(C.brand, "RunRadar");
-        document.getElementById("headline").textContent = pick(C.headline, "");
-        document.getElementById("subheadline").textContent = pick(C.subheadline, "");
-        document.getElementById("supportLine").textContent = pick(C.supportLine, "");
+    // Brand + hero copy
+    document.title = pick(C.brand, "RunRadar");
+    document.getElementById("brandName").textContent = pick(C.brand, "RunRadar");
+    document.getElementById("headline").textContent = pick(C.headline, "");
+    document.getElementById("subheadline").textContent = pick(C.subheadline, "");
+    document.getElementById("supportLine").textContent = pick(C.supportLine, "");
 
-        // Offer text
-        document.getElementById("priceAnchorText").textContent = pick(C.priceAnchorText, "");
-        document.getElementById("trialText").textContent = pick(C.trialText, "");
-        document.getElementById("noteText").textContent = pick(C.noteText, "");
+    // Offer text
+    document.getElementById("priceAnchorText").textContent = pick(C.priceAnchorText, "");
+    document.getElementById("trialText").textContent = pick(C.trialText, "");
+    document.getElementById("noteText").textContent = pick(C.noteText, "");
 
-        // CTA labels
-        document.getElementById("ctaPrimary").textContent = pick(C.ctaPrimaryText, "Start Free 14-Day Access");
-        document.getElementById("ctaSecondary").textContent = pick(C.ctaSecondaryText, "View Live Results");
+    // CTA labels
+    document.getElementById("ctaPrimary").textContent = pick(C.ctaPrimaryText, "Start Free 14-Day Access");
+    document.getElementById("ctaSecondary").textContent = pick(C.ctaSecondaryText, "View Live Results");
 
-        // Stats
-        const showStats = !!C.showStats && C.fallbackStats;
-        const statsBox = document.getElementById("statsBox");
-        if (showStats) {
-          statsBox.style.display = "grid";
-          document.getElementById("stDetected").textContent = C.fallbackStats.detectedRuns ?? "—";
-          document.getElementById("stBest").textContent = C.fallbackStats.bestRun ?? "—";
-          document.getElementById("stAvg").textContent = C.fallbackStats.avgRun ?? "—";
-          document.getElementById("stLast").textContent = C.fallbackStats.lastRun ?? "—";
-        }
+    // Stats (optional)
+    const showStats = !!C.showStats && C.fallbackStats;
+    const statsBox = document.getElementById("statsBox");
+    if (showStats) {
+      statsBox.style.display = "grid";
+      document.getElementById("stDetected").textContent = C.fallbackStats.detectedRuns ?? "—";
+      document.getElementById("stBest").textContent = C.fallbackStats.bestRun ?? "—";
+      document.getElementById("stAvg").textContent = C.fallbackStats.avgRun ?? "—";
+      document.getElementById("stLast").textContent = C.fallbackStats.lastRun ?? "—";
+    }
 
-        // Sections
-        document.getElementById("problemTitle").textContent = pick(C.problemTitle, "Most traders enter too late.");
-        document.getElementById("problemText").textContent = pick(C.problemText, "");
+    // Sections
+    document.getElementById("problemTitle").textContent = pick(C.problemTitle, "Most traders enter too late.");
+    document.getElementById("problemText").textContent = pick(C.problemText, "");
 
-        document.getElementById("howTitle").textContent = pick(C.howTitle, "How it works");
-        const howWrap = document.getElementById("howSteps");
-        howWrap.innerHTML = "";
-        (C.howSteps || []).forEach((s) => {
-          const div = document.createElement("div");
-          div.className = "mini";
-          div.innerHTML = `<h3>${s.title || ""}</h3><p>${s.text || ""}</p>`;
-          howWrap.appendChild(div);
-        });
+    document.getElementById("howTitle").textContent = pick(C.howTitle, "How it works");
+    const howWrap = document.getElementById("howSteps");
+    howWrap.innerHTML = "";
+    (C.howSteps || []).forEach((s) => {
+      const div = document.createElement("div");
+      div.className = "mini";
+      div.innerHTML = `<h3>${s.title || ""}</h3><p>${s.text || ""}</p>`;
+      howWrap.appendChild(div);
+    });
 
-        document.getElementById("sellTitle").textContent = pick(C.sellTitle, "Why traders switch to RunRadar");
-        const sellWrap = document.getElementById("sellPoints");
-        sellWrap.innerHTML = "";
-        (C.sellPoints || []).forEach((s) => {
-          const div = document.createElement("div");
-          div.className = "mini";
-          div.innerHTML = `<h3>${s.title || ""}</h3><p>${s.text || ""}</p>`;
-          sellWrap.appendChild(div);
-        });
+    document.getElementById("sellTitle").textContent = pick(C.sellTitle, "Why traders switch to RunRadar");
+    const sellWrap = document.getElementById("sellPoints");
+    sellWrap.innerHTML = "";
+    (C.sellPoints || []).forEach((s) => {
+      const div = document.createElement("div");
+      div.className = "mini";
+      div.innerHTML = `<h3>${s.title || ""}</h3><p>${s.text || ""}</p>`;
+      sellWrap.appendChild(div);
+    });
 
-        document.getElementById("featuresTitle").textContent = pick(C.featuresTitle, "What you get");
-        const featWrap = document.getElementById("features");
-        featWrap.innerHTML = "";
-        (C.features || []).forEach((f) => {
-          const div = document.createElement("div");
-          div.className = "mini";
-          div.innerHTML = `<h3>${f.title || ""}</h3><p>${f.text || ""}</p>`;
-          featWrap.appendChild(div);
-        });
+    document.getElementById("featuresTitle").textContent = pick(C.featuresTitle, "What you get");
+    const featWrap = document.getElementById("features");
+    featWrap.innerHTML = "";
+    (C.features || []).forEach((f) => {
+      const div = document.createElement("div");
+      div.className = "mini";
+      div.innerHTML = `<h3>${f.title || ""}</h3><p>${f.text || ""}</p>`;
+      featWrap.appendChild(div);
+    });
 
-        document.getElementById("faqTitle").textContent = pick(C.faqTitle, "FAQ");
-        const faqWrap = document.getElementById("faqs");
-        faqWrap.innerHTML = "";
-        (C.faqs || []).forEach((x) => {
-          const d = document.createElement("details");
-          d.innerHTML = `<summary>${x.q || ""}</summary><p style="margin-top:10px;color:var(--muted);">${x.a || ""}</p>`;
-          faqWrap.appendChild(d);
-        });
+    document.getElementById("faqTitle").textContent = pick(C.faqTitle, "FAQ");
+    const faqWrap = document.getElementById("faqs");
+    faqWrap.innerHTML = "";
+    (C.faqs || []).forEach((x) => {
+      const d = document.createElement("details");
+      d.innerHTML = `<summary>${x.q || ""}</summary><p style="margin-top:10px;color:var(--muted);">${x.a || ""}</p>`;
+      faqWrap.appendChild(d);
+    });
 
-        document.getElementById("disclaimer").textContent = pick(C.disclaimer, "");
+    document.getElementById("disclaimer").textContent = pick(C.disclaimer, "");
+    document.getElementById("checkoutBtn").href = pick(C.checkoutUrl, "#");
 
-        // Pricing checkout
-        document.getElementById("checkoutBtn").href = pick(C.checkoutUrl, "#");
+    // Live text
+    const liveText = document.getElementById("liveText");
+    const liveMsgs = [
+      "Live activity: monitoring market movement…",
+      "Live activity: tracking new momentum…",
+      "Live activity: scanning for measurable growth…"
+    ];
+    let li = 0;
+    setInterval(() => {
+      li = (li + 1) % liveMsgs.length;
+      liveText.textContent = liveMsgs[li];
+    }, 2600);
 
-        // Live text (feels alive)
-        const liveText = document.getElementById("liveText");
-        const liveMsgs = [
-          "Live activity: monitoring market movement…",
-          "Live activity: tracking new momentum…",
-          "Live activity: scanning for measurable growth…"
-        ];
-        let li = 0;
-        setInterval(() => {
-          li = (li + 1) % liveMsgs.length;
-          liveText.textContent = liveMsgs[li];
-        }, 2600);
+    // ===== Modal logic =====
+    const overlay = document.getElementById("modalOverlay");
+    const closeBtn = document.getElementById("closeModal");
 
-        // ===== Modal logic =====
-        const overlay = document.getElementById("modalOverlay");
-        const closeBtn = document.getElementById("closeModal");
+    document.getElementById("modalTitle").textContent = pick(C.modalTitle, "Get free beta access");
+    document.getElementById("modalText").textContent = pick(C.modalText, "Enter your email to get beta access, then jump into Telegram.");
 
-        document.getElementById("modalTitle").textContent = pick(C.modalTitle, "Get free beta access");
-        document.getElementById("modalText").textContent = pick(C.modalText, "");
-        document.getElementById("modalPrivacy").textContent = pick(C.modalPrivacy, "");
+    // Wire Telegram button in modal
+    const tgUrl = pick(C.telegramUrl, "https://t.me/+HKMU7FzyZrlzNDdi");
+    const tgBtn = document.getElementById("tgAfterBtn");
+    if (tgBtn) tgBtn.href = tgUrl;
 
-        function openModal() {
-          overlay.classList.add("open");
-          overlay.setAttribute("aria-hidden", "false");
-          // focus email
-          setTimeout(() => document.getElementById("leadEmail").focus(), 50);
-        }
+    function openModal() {
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+      // Show fallback link if iframe is blocked by browser / headers
+      const kitFallback = document.getElementById("kitFallback");
+      if (kitFallback) {
+        setTimeout(() => { kitFallback.style.display = "block"; }, 2500);
+      }
+    }
 
-        function closeModal() {
-          overlay.classList.remove("open");
-          overlay.setAttribute("aria-hidden", "true");
-        }
+    function closeModal() {
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+    }
 
-        // open triggers
-        const openTriggers = [
-          document.getElementById("ctaPrimary"),
-          document.getElementById("ctaSecondary"),
-          document.getElementById("navResults"),
-          document.getElementById("navBeta"),
-          document.getElementById("startFromPricing")
-        ];
-        openTriggers.forEach((el) => el.addEventListener("click", openModal));
+    // Open triggers
+    const openTriggers = [
+      document.getElementById("ctaPrimary"),
+      document.getElementById("ctaSecondary"),
+      document.getElementById("navResults"),
+      document.getElementById("navBeta"),
+      document.getElementById("startFromPricing")
+    ].filter(Boolean);
 
-        // close triggers
-        closeBtn.addEventListener("click", closeModal);
-        overlay.addEventListener("click", (e) => {
-          if (e.target === overlay) closeModal();
-        });
-        window.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
-        });
+    openTriggers.forEach((el) => el.addEventListener("click", openModal));
 
-        // ===== Lead form submit -> redirect to Telegram =====
-        const leadForm = document.getElementById("leadForm");
-        const emailInput = document.getElementById("leadEmail");
-        const successBox = document.getElementById("successBox");
-        const leadBtn = document.getElementById("leadBtn");
+    // Close triggers
+    closeBtn.addEventListener("click", closeModal);
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeModal();
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
+    });
 
-        const endpoint = pick(C.leadFormEndpoint, "");
-        const toEmail = pick(C.leadToEmail, "");
-        const tg = pick(C.telegramUrl, "#");
-        const redirectSeconds = Number(C.leadRedirectSeconds || 1);
-        // Lead form submit (legacy) — runs only if the old custom form exists.
-        if (leadForm) {
-          leadForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = (emailInput.value || "").trim();
-            if (!email) return;
-
-            leadBtn.disabled = true;
-            leadBtn.textContent = "Submitting…";
-
-            try {
-              if (endpoint) {
-                await fetch(endpoint, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ email }),
-                });
-              }
-
-              if (statusMessage) {
-                statusMessage.style.display = "block";
-                statusMessage.innerHTML = "✅ Thanks. Redirecting you to Telegram…";
-              }
-
-              setTimeout(() => {
-                try { window.location.href = "https://t.me/+HKMU7FzyZrlzNDdi"; } catch (e) {}
-              }, 1200);
-            } catch (err) {
-              console.error(err);
-              leadBtn.disabled = false;
-              leadBtn.textContent = "Try again";
-            }
-          });
-        } else {
-          // Kit iframe mode: show a fallback link in case the iframe is blocked (X-Frame-Options).
-          const kitFallback = document.getElementById("kitFallback");
-          if (kitFallback) {
-            setTimeout(() => { kitFallback.style.display = "block"; }, 2500);
-          }
-        }
-            } else if (toEmail) {
-              // fallback: opens email client (not ideal), then we still redirect
-              const subject = encodeURIComponent("RunRadar Beta Access Request");
-              const body = encodeURIComponent(`Please grant beta access.\n\nEmail: ${email}\nSource: runradar landing page`);
-              window.location.href = `mailto:${toEmail}?subject=${subject}&body=${body}`;
-            }
-          } catch (_) {
-            // still proceed
-          }
-
-          successBox.style.display = "block";
-          leadBtn.textContent = `Redirecting in ${redirectSeconds}s…`;
-
-          let t = redirectSeconds;
-          const timer = setInterval(() => {
-            t -= 1;
-            if (t <= 0) {
-              clearInterval(timer);
-              window.location.href = tg;
-            } else {
-              leadBtn.textContent = `Redirecting in ${t}s…`;
-            }
-          }, 1000);
-        });
-
-        // Initial fade-in
-        document.body.style.opacity = 0;
-        window.addEventListener("load", () => {
-          document.body.style.transition = "opacity 0.7s ease";
-          document.body.style.opacity = 1;
-        });
-      })();
-    </script>
+    // Initial fade-in
+    document.body.style.opacity = 0;
+    window.addEventListener("load", () => {
+      document.body.style.transition = "opacity 0.7s ease";
+      document.body.style.opacity = 1;
+    });
+  })();
+</script>
   </body>
 </html>
