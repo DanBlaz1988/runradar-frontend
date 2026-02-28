@@ -3,6 +3,9 @@ window.RUNRADAR = {
   // Brand
   brand: "RunRadar",
 
+  // API base (Railway backend)
+  apiBase: "https://app.runradar.app",
+
   // Telegram (главен канал)
   telegramUrl: "https://t.me/solrunresults",
 
