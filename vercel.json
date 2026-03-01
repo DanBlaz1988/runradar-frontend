@@ -4,6 +4,7 @@
     { "source": "/robots.txt", "destination": "https://app.runradar.app/robots.txt" },
     { "source": "/blog/:path*", "destination": "/blog.html" },
     { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/admin", "destination": "/admin.html" }
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/results", "destination": "/results.html" }
   ]
 }
