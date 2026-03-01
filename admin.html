@@ -8,409 +8,267 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #080b10;
-      --bg2: #0d1117;
-      --bg3: #111820;
-      --border: rgba(255,255,255,0.07);
-      --border-bright: rgba(255,255,255,0.12);
-      --text: #e8eef6;
-      --text-secondary: #8a9ab5;
-      --text-muted: #4a5568;
-      --green: #00e676;
-      --green-dim: rgba(0,230,118,0.1);
-      --green-border: rgba(0,230,118,0.2);
-      --red: #ff4d4d;
-      --red-dim: rgba(255,77,77,0.1);
-      --red-border: rgba(255,77,77,0.2);
-      --cyan: #00b4d8;
-      --font: 'Space Grotesk', sans-serif;
-      --mono: 'JetBrains Mono', monospace;
+      --bg:#080b10;--bg2:#0d1117;--bg3:#111820;
+      --border:rgba(255,255,255,0.07);--border-bright:rgba(255,255,255,0.12);
+      --text:#e8eef6;--text-secondary:#8a9ab5;--text-muted:#4a5568;
+      --green:#00e676;--green-dim:rgba(0,230,118,0.1);--green-border:rgba(0,230,118,0.2);
+      --red:#ff4d4d;--red-dim:rgba(255,77,77,0.1);--red-border:rgba(255,77,77,0.2);
+      --cyan:#00b4d8;--font:'Space Grotesk',sans-serif;--mono:'JetBrains Mono',monospace;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-
-    /* ── LOGIN SCREEN ── */
-    .login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: radial-gradient(ellipse at center, rgba(0,230,118,0.04) 0%, transparent 70%);
-    }
-    .login-box {
-      background: var(--bg2);
-      border: 1px solid var(--border-bright);
-      border-radius: 16px;
-      padding: 40px 36px;
-      width: 100%;
-      max-width: 380px;
-      position: relative;
-    }
-    .login-box::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--green), transparent);
-      border-radius: 16px 16px 0 0;
-    }
-    .login-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 28px; }
-    .login-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
-    .login-logo span { font-weight: 700; font-size: 1.1rem; }
-    .login-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
-    .login-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 28px; }
-    .login-error { background: var(--red-dim); border: 1px solid var(--red-border); color: var(--red); border-radius: 8px; padding: 10px 14px; font-size: 0.84rem; margin-bottom: 16px; display: none; }
-    .login-error.show { display: block; }
-
-    /* ── ADMIN SCREEN ── */
-    .admin-screen { display: none; }
-    .admin-screen.show { display: block; }
-
-    .topbar {
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 0;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-    .topbar-inner {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .topbar-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1rem; }
-    .topbar-badge {
-      background: var(--green-dim);
-      border: 1px solid var(--green-border);
-      color: var(--green);
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 2px 10px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .topbar-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
-    .btn-sm {
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 7px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: var(--font);
-      transition: all 0.2s;
-      border: none;
-    }
-    .btn-sm.ghost { background: none; border: 1px solid var(--border-bright); color: var(--text-secondary); }
-    .btn-sm.ghost:hover { border-color: var(--red-border); color: var(--red); }
-    .btn-sm.primary { background: var(--green); color: #000; font-weight: 700; }
-    .btn-sm.primary:hover { background: #00ff88; }
-
-    .admin-body { max-width: 1000px; margin: 0 auto; padding: 32px 20px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
-    @media (max-width: 768px) { .admin-body { grid-template-columns: 1fr; } }
-
-    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
-    .card-title { font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-
-    label { display: block; font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; letter-spacing: 0.05em; text-transform: uppercase; }
-    input, textarea, select {
-      width: 100%;
-      background: var(--bg3);
-      border: 1px solid var(--border-bright);
-      border-radius: 8px;
-      color: var(--text);
-      font-family: var(--font);
-      font-size: 0.88rem;
-      padding: 10px 13px;
-      margin-bottom: 16px;
-      transition: border-color 0.2s;
-      outline: none;
-    }
-    input:focus, textarea:focus, select:focus { border-color: var(--green); }
-    textarea { min-height: 200px; resize: vertical; line-height: 1.6; font-family: var(--mono); font-size: 0.82rem; }
-    .hint { font-size: 0.75rem; color: var(--text-muted); margin-top: -12px; margin-bottom: 16px; }
-
-    .btn-publish {
-      background: var(--green);
-      color: #000;
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      border: none;
-      font-family: var(--font);
-      transition: all 0.2s;
-      width: 100%;
-    }
-    .btn-publish:hover { background: #00ff88; }
-    .btn-publish:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .pub-status { margin-top: 14px; padding: 12px 14px; border-radius: 8px; font-size: 0.84rem; display: none; }
-    .pub-status.success { background: var(--green-dim); border: 1px solid var(--green-border); color: var(--green); display: block; }
-    .pub-status.error { background: var(--red-dim); border: 1px solid var(--red-border); color: var(--red); display: block; }
-
-    /* Posts list */
-    .post-item {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .post-item-info { flex: 1; min-width: 0; }
-    .post-item-title { font-size: 0.84rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .post-item-meta { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
-    .badge { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 999px; flex-shrink: 0; }
-    .badge.run { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
-    .badge.seo { background: rgba(0,180,216,0.1); color: var(--cyan); border: 1px solid rgba(0,180,216,0.2); }
-    .post-link { font-size: 0.72rem; color: var(--cyan); text-decoration: none; flex-shrink: 0; }
-    .post-link:hover { text-decoration: underline; }
-    .empty { text-align: center; padding: 28px; color: var(--text-muted); font-size: 0.84rem; }
-
-    /* Stats */
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
-    .stat-box { background: var(--bg3); padding: 14px; text-align: center; }
-    .stat-val { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; color: var(--green); }
-    .stat-lbl { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
-
-    /* Shared input style */
-    .field { margin-bottom: 0; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+    .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at center,rgba(0,230,118,0.04) 0%,transparent 70%)}
+    .login-box{background:var(--bg2);border:1px solid var(--border-bright);border-radius:16px;padding:40px 36px;width:100%;max-width:380px;position:relative}
+    .login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);border-radius:16px 16px 0 0}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.1rem}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+    .login-title{font-size:1.3rem;font-weight:700;margin:20px 0 6px}
+    .login-sub{font-size:0.85rem;color:var(--text-muted);margin-bottom:24px}
+    .alert-err{background:var(--red-dim);border:1px solid var(--red-border);color:var(--red);border-radius:8px;padding:10px 14px;font-size:0.84rem;margin-bottom:14px;display:none}
+    .alert-err.show{display:block}
+    .admin-screen{display:none}
+    .admin-screen.show{display:block}
+    .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:50}
+    .topbar-inner{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px}
+    .tpbadge{background:var(--green-dim);border:1px solid var(--green-border);color:var(--green);font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:0.08em}
+    .tp-actions{margin-left:auto;display:flex;gap:10px}
+    .btn-sm{font-size:0.8rem;font-weight:600;padding:7px 16px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all 0.2s;border:1px solid var(--border-bright);background:none;color:var(--text-secondary);text-decoration:none;display:inline-block}
+    .btn-sm:hover{border-color:var(--red-border);color:var(--red)}
+    .admin-body{max-width:1000px;margin:0 auto;padding:32px 20px;display:grid;grid-template-columns:1fr 360px;gap:24px}
+    @media(max-width:768px){.admin-body{grid-template-columns:1fr}}
+    .card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px}
+    .card:last-child{margin-bottom:0}
+    .card-title{font-size:0.82rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+    label{display:block;font-size:0.75rem;color:var(--text-muted);font-weight:600;margin-bottom:5px;letter-spacing:0.05em;text-transform:uppercase}
+    input,textarea,select{width:100%;background:var(--bg3);border:1px solid var(--border-bright);border-radius:8px;color:var(--text);font-family:var(--font);font-size:0.88rem;padding:10px 13px;margin-bottom:16px;transition:border-color 0.2s;outline:none}
+    input:focus,textarea:focus,select:focus{border-color:var(--green)}
+    textarea{min-height:200px;resize:vertical;line-height:1.6;font-family:var(--mono);font-size:0.8rem}
+    .hint{font-size:0.73rem;color:var(--text-muted);margin-top:-12px;margin-bottom:16px}
+    .btn-pub{background:var(--green);color:#000;font-weight:700;font-size:0.95rem;padding:12px;border-radius:8px;cursor:pointer;border:none;font-family:var(--font);transition:all 0.2s;width:100%}
+    .btn-pub:hover{background:#00ff88}
+    .btn-pub:disabled{opacity:0.5;cursor:not-allowed}
+    .btn-cancel{background:none;border:1px solid var(--border-bright);color:var(--text-secondary);font-weight:600;font-size:0.88rem;padding:10px;border-radius:8px;cursor:pointer;font-family:var(--font);transition:all 0.2s;width:100%;margin-top:8px}
+    .btn-cancel:hover{border-color:var(--red-border);color:var(--red)}
+    .pub-msg{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:0.84rem;display:none}
+    .pub-msg.ok{background:var(--green-dim);border:1px solid var(--green-border);color:var(--green);display:block}
+    .pub-msg.err{background:var(--red-dim);border:1px solid var(--red-border);color:var(--red);display:block}
+    .edit-banner{background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.3);color:var(--cyan);border-radius:8px;padding:10px 14px;font-size:0.84rem;margin-bottom:16px;display:none}
+    .edit-banner.show{display:block}
+    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:10px;overflow:hidden;margin-bottom:20px}
+    .stat{background:var(--bg3);padding:14px;text-align:center}
+    .stat-v{font-family:var(--mono);font-size:1.4rem;font-weight:700;color:var(--green)}
+    .stat-l{font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+    .post-row{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+    .post-info{flex:1;min-width:0}
+    .post-t{font-size:0.83rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .post-m{font-size:0.71rem;color:var(--text-muted);margin-top:2px}
+    .badge{font-size:0.67rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:999px;flex-shrink:0}
+    .badge.run{background:var(--green-dim);color:var(--green);border:1px solid var(--green-border)}
+    .badge.seo{background:rgba(0,180,216,0.1);color:var(--cyan);border:1px solid rgba(0,180,216,0.2)}
+    .row-actions{display:flex;gap:6px;flex-shrink:0}
+    .btn-edit{font-size:0.71rem;font-weight:600;padding:3px 10px;border-radius:5px;cursor:pointer;font-family:var(--font);border:1px solid var(--border-bright);background:none;color:var(--text-secondary);transition:all 0.2s}
+    .btn-edit:hover{border-color:var(--cyan);color:var(--cyan)}
+    .view-link{font-size:0.72rem;color:var(--cyan);text-decoration:none;flex-shrink:0}
+    .view-link:hover{text-decoration:underline}
+    .empty{text-align:center;padding:28px;color:var(--text-muted);font-size:0.84rem}
   </style>
 </head>
 <body>
 
-  <!-- ── LOGIN SCREEN ── -->
+  <!-- LOGIN -->
   <div class="login-screen" id="login-screen">
     <div class="login-box">
-      <div class="login-logo">
-        <div class="login-dot"></div>
-        <span>RunRadar</span>
-      </div>
+      <div class="brand"><div class="dot"></div>RunRadar</div>
       <div class="login-title">Admin Access</div>
       <div class="login-sub">Enter your admin key to continue.</div>
-      <div class="login-error" id="login-error">Incorrect admin key. Try again.</div>
+      <div class="alert-err" id="login-err">Incorrect admin key.</div>
       <label>Admin Key</label>
       <input type="password" id="login-key" placeholder="••••••••••••" autocomplete="current-password">
-      <button class="btn-publish" onclick="doLogin()">Unlock →</button>
+      <button class="btn-pub" onclick="doLogin()">Unlock →</button>
     </div>
   </div>
 
-  <!-- ── ADMIN SCREEN ── -->
+  <!-- ADMIN -->
   <div class="admin-screen" id="admin-screen">
     <div class="topbar">
       <div class="topbar-inner">
-        <div class="topbar-logo">
-          <div class="login-dot"></div>
-          RunRadar
-        </div>
-        <span class="topbar-badge">Admin</span>
-        <div class="topbar-actions">
-          <a href="/blog" class="btn-sm ghost">← Blog</a>
-          <button class="btn-sm ghost" onclick="doLogout()">Logout</button>
+        <div class="brand"><div class="dot"></div>RunRadar</div>
+        <span class="tpbadge">Admin</span>
+        <div class="tp-actions">
+          <a href="/blog" class="btn-sm">← Blog</a>
+          <button class="btn-sm" onclick="doLogout()">Logout</button>
         </div>
       </div>
     </div>
 
     <div class="admin-body">
-
-      <!-- Left: New Post Form -->
       <div>
         <div class="card">
-          <div class="card-title">✍️ New Blog Post</div>
-
+          <div class="card-title">
+            <span id="form-title-label">✍️ New Blog Post</span>
+            <span id="form-mode-badge" style="display:none;font-size:0.72rem;background:rgba(0,180,216,0.1);color:var(--cyan);border:1px solid rgba(0,180,216,0.3);padding:2px 10px;border-radius:999px;text-transform:none;letter-spacing:0">Editing post</span>
+          </div>
+          <div class="edit-banner" id="edit-banner">✏️ Editing: <span id="edit-slug-label"></span></div>
           <label>Title</label>
           <input type="text" id="title" placeholder="e.g. What Is On-Chain Momentum Tracking?">
-
-          <label>Meta Description <span style="color:var(--text-muted);font-weight:400;text-transform:none">(for Google)</span></label>
-          <input type="text" id="meta" placeholder="One sentence summary for search engines...">
-
+          <label>Meta Description (for Google)</label>
+          <input type="text" id="meta" placeholder="One sentence for search engines...">
           <label>Post Type</label>
           <select id="post-type">
             <option value="seo">📚 Education / SEO</option>
             <option value="run">🏁 Run Report</option>
           </select>
-
-          <label>Cover Image URL <span style="color:var(--text-muted);font-weight:400;text-transform:none">(leave blank = auto)</span></label>
-          <input type="text" id="image-url" placeholder="https://... or leave blank">
-
-          <label>Content <span style="color:var(--text-muted);font-weight:400;text-transform:none">(HTML)</span></label>
-          <textarea id="content" placeholder="<p>Write your article here...</p>&#10;<h2>Section title</h2>&#10;<p>More content...</p>"></textarea>
-          <div class="hint">Use &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt; tags.</div>
-
-          <button class="btn-publish" id="pub-btn" onclick="publishPost()">Publish Post →</button>
-          <div class="pub-status" id="pub-status"></div>
+          <label>Cover Image URL (blank = auto)</label>
+          <input type="text" id="image-url" placeholder="https://i.imgur.com/... or leave blank">
+          <div class="hint">Tip: upload image to imgur.com → copy direct link (.jpg/.png)</div>
+          <label>Content (HTML)</label>
+          <textarea id="content" placeholder="<p>Write your article...</p>"></textarea>
+          <div class="hint">Use &lt;p&gt; &lt;h2&gt; &lt;h3&gt; &lt;ul&gt; &lt;li&gt; &lt;strong&gt; tags.</div>
+          <button class="btn-pub" id="pub-btn" onclick="submitPost()">Publish Post →</button>
+          <button class="btn-cancel" id="cancel-btn" onclick="cancelEdit()" style="display:none">✕ Cancel Edit</button>
+          <div class="pub-msg" id="pub-msg"></div>
         </div>
       </div>
 
-      <!-- Right: Stats + Recent Posts -->
       <div>
-        <div class="card" style="margin-bottom:20px">
-          <div class="card-title">📊 Blog Stats</div>
+        <div class="card">
+          <div class="card-title">📊 Stats</div>
           <div class="stats-row">
-            <div class="stat-box"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">Total</div></div>
-            <div class="stat-box"><div class="stat-val" id="s-run">—</div><div class="stat-lbl">Run Posts</div></div>
-            <div class="stat-box"><div class="stat-val" id="s-seo">—</div><div class="stat-lbl">SEO Posts</div></div>
+            <div class="stat"><div class="stat-v" id="s-total">—</div><div class="stat-l">Total</div></div>
+            <div class="stat"><div class="stat-v" id="s-run">—</div><div class="stat-l">Runs</div></div>
+            <div class="stat"><div class="stat-v" id="s-seo">—</div><div class="stat-l">SEO</div></div>
           </div>
         </div>
-
         <div class="card">
           <div class="card-title">📋 Recent Posts</div>
           <div id="posts-list"><div class="empty">Loading...</div></div>
         </div>
       </div>
-
     </div>
   </div>
 
   <script>
     var API = 'https://app.runradar.app';
-    var SESSION_KEY = 'rr_admin_key';
+    var SK = 'rr_ak';
+    var editingSlug = null;
 
-    // ── Login ──────────────────────────────────────────────
     function doLogin() {
       var key = document.getElementById('login-key').value.trim();
       if (!key) return;
-      // Store key and try a test request
-      sessionStorage.setItem(SESSION_KEY, key);
+      sessionStorage.setItem(SK, key);
       showAdmin();
     }
-
     function doLogout() {
-      sessionStorage.removeItem(SESSION_KEY);
+      sessionStorage.removeItem(SK);
       document.getElementById('admin-screen').classList.remove('show');
       document.getElementById('login-screen').style.display = 'flex';
       document.getElementById('login-key').value = '';
     }
-
     function showAdmin() {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('admin-screen').classList.add('show');
       loadPosts();
     }
-
-    // Auto-login if key in session
-    window.addEventListener('load', function() {
-      var key = sessionStorage.getItem(SESSION_KEY);
-      if (key) {
-        showAdmin();
-      }
-    });
-
-    // Enter key on login
+    window.addEventListener('load', function() { if (sessionStorage.getItem(SK)) showAdmin(); });
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') {
-        doLogin();
-      }
+      if (e.key==='Enter' && document.getElementById('login-screen').style.display!=='none') doLogin();
     });
 
-    // ── Publish ────────────────────────────────────────────
-    async function publishPost() {
-      var btn = document.getElementById('pub-btn');
-      var status = document.getElementById('pub-status');
-      status.className = 'pub-status';
-
-      var title = document.getElementById('title').value.trim();
-      var content = document.getElementById('content').value.trim();
-      var meta = document.getElementById('meta').value.trim();
-      var imageUrl = document.getElementById('image-url').value.trim();
-      var postType = document.getElementById('post-type').value;
-      var adminKey = sessionStorage.getItem(SESSION_KEY) || '';
-
-      if (!title || !content) {
-        status.className = 'pub-status error';
-        status.textContent = '❌ Title and content are required.';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Publishing...';
-
-      try {
-        var resp = await fetch(API + '/api/blog', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            admin_key: adminKey,
-            title: title,
-            content: content,
-            meta_description: meta || title.substring(0, 150),
-            image_url: imageUrl || '',
-            post_type: postType,
-          })
-        });
-        var data = await resp.json();
-        if (data.ok) {
-          status.className = 'pub-status success';
-          status.textContent = '✅ Published! /blog/' + data.slug;
-          document.getElementById('title').value = '';
-          document.getElementById('content').value = '';
-          document.getElementById('meta').value = '';
-          document.getElementById('image-url').value = '';
-          loadPosts();
-        } else if (resp.status === 401) {
-          status.className = 'pub-status error';
-          status.textContent = '❌ Wrong admin key.';
-          doLogout();
-        } else {
-          status.className = 'pub-status error';
-          status.textContent = '❌ ' + (data.error || 'Unknown error');
-        }
-      } catch(e) {
-        status.className = 'pub-status error';
-        status.textContent = '❌ Network error: ' + e.message;
-      }
-
-      btn.disabled = false;
-      btn.textContent = 'Publish Post →';
+    function startEdit(slug, title, meta, content, imageUrl, postType) {
+      editingSlug = slug;
+      document.getElementById('title').value = title || '';
+      document.getElementById('meta').value = meta || '';
+      document.getElementById('content').value = content || '';
+      document.getElementById('image-url').value = imageUrl || '';
+      document.getElementById('post-type').value = postType || 'seo';
+      document.getElementById('form-title-label').textContent = '✏️ Edit Post';
+      document.getElementById('form-mode-badge').style.display = 'inline-block';
+      document.getElementById('edit-banner').classList.add('show');
+      document.getElementById('edit-slug-label').textContent = slug;
+      document.getElementById('pub-btn').textContent = 'Save Changes →';
+      document.getElementById('cancel-btn').style.display = 'block';
+      document.getElementById('pub-msg').className = 'pub-msg';
+      window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // ── Load Posts ─────────────────────────────────────────
+    function cancelEdit() {
+      editingSlug = null;
+      ['title','meta','content','image-url'].forEach(function(id){ document.getElementById(id).value=''; });
+      document.getElementById('post-type').value = 'seo';
+      document.getElementById('form-title-label').textContent = '✍️ New Blog Post';
+      document.getElementById('form-mode-badge').style.display = 'none';
+      document.getElementById('edit-banner').classList.remove('show');
+      document.getElementById('pub-btn').textContent = 'Publish Post →';
+      document.getElementById('cancel-btn').style.display = 'none';
+      document.getElementById('pub-msg').className = 'pub-msg';
+    }
+
+    async function submitPost() {
+      var btn = document.getElementById('pub-btn');
+      var msg = document.getElementById('pub-msg');
+      msg.className = 'pub-msg';
+      var title = document.getElementById('title').value.trim();
+      var content = document.getElementById('content').value.trim();
+      if (!title || !content) { msg.className='pub-msg err'; msg.textContent='❌ Title and content required.'; return; }
+      btn.disabled=true; btn.textContent = editingSlug ? 'Saving...' : 'Publishing...';
+
+      var payload = {
+        admin_key: sessionStorage.getItem(SK)||'',
+        title, content,
+        meta_description: document.getElementById('meta').value.trim() || title.substring(0,150),
+        image_url: document.getElementById('image-url').value.trim(),
+        post_type: document.getElementById('post-type').value
+      };
+
+      try {
+        var url = editingSlug ? API+'/api/blog/'+editingSlug : API+'/api/blog';
+        var method = editingSlug ? 'PUT' : 'POST';
+        var r = await fetch(url, { method, headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+        var d = await r.json();
+        if (d.ok) {
+          msg.className='pub-msg ok';
+          msg.textContent = editingSlug ? '✅ Post updated!' : '✅ Published! /blog/'+d.slug;
+          cancelEdit();
+          loadPosts();
+        } else if (r.status===401) {
+          msg.className='pub-msg err'; msg.textContent='❌ Wrong admin key.'; doLogout();
+        } else {
+          msg.className='pub-msg err'; msg.textContent='❌ '+(d.error||'Error');
+        }
+      } catch(e) { msg.className='pub-msg err'; msg.textContent='❌ '+e.message; }
+      btn.disabled=false;
+      btn.textContent = editingSlug ? 'Save Changes →' : 'Publish Post →';
+    }
+
     async function loadPosts() {
       try {
-        var resp = await fetch(API + '/api/blog?limit=50');
-        var posts = await resp.json();
+        var r = await fetch(API+'/api/blog?limit=50');
+        var posts = await r.json();
         var list = document.getElementById('posts-list');
-
-        if (!posts || !posts.length) {
-          list.innerHTML = '<div class="empty">No posts yet.</div>';
-          document.getElementById('s-total').textContent = '0';
-          document.getElementById('s-run').textContent = '0';
-          document.getElementById('s-seo').textContent = '0';
+        if (!posts||!posts.length) {
+          list.innerHTML='<div class="empty">No posts yet.</div>';
+          ['s-total','s-run','s-seo'].forEach(function(id){ document.getElementById(id).textContent='0'; });
           return;
         }
-
-        // Stats
-        var runs = posts.filter(function(p) { return p.post_type === 'run'; }).length;
-        var seos = posts.filter(function(p) { return p.post_type !== 'run'; }).length;
-        document.getElementById('s-total').textContent = posts.length;
-        document.getElementById('s-run').textContent = runs;
-        document.getElementById('s-seo').textContent = seos;
-
-        list.innerHTML = posts.map(function(p) {
-          var date = new Date(p.created_at).toLocaleDateString('en-US', {month:'short', day:'numeric'});
-          var type = p.post_type === 'run' ? 'run' : 'seo';
-          var label = p.post_type === 'run' ? 'Run' : 'SEO';
-          return '<div class="post-item">' +
-            '<div class="post-item-info">' +
-            '<div class="post-item-title">' + p.title + '</div>' +
-            '<div class="post-item-meta">' + date + '</div>' +
-            '</div>' +
-            '<span class="badge ' + type + '">' + label + '</span>' +
-            '<a class="post-link" href="/blog/' + p.slug + '" target="_blank">View →</a>' +
-            '</div>';
+        document.getElementById('s-total').textContent=posts.length;
+        document.getElementById('s-run').textContent=posts.filter(function(p){return p.post_type==='run';}).length;
+        document.getElementById('s-seo').textContent=posts.filter(function(p){return p.post_type!=='run';}).length;
+        list.innerHTML=posts.map(function(p) {
+          var d=new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+          var t=p.post_type==='run'?'run':'seo';
+          var safeTitle=(p.title||'').replace(/'/g,"\\'");
+          var safeMeta=(p.meta_description||'').replace(/'/g,"\\'");
+          var safeContent=(p.content||'').replace(/'/g,"\\'").replace(/\n/g,'\\n');
+          var safeImg=(p.image_url||'').replace(/'/g,"\\'");
+          return '<div class="post-row">'+
+            '<div class="post-info"><div class="post-t">'+p.title+'</div><div class="post-m">'+d+'</div></div>'+
+            '<span class="badge '+t+'">'+t+'</span>'+
+            '<div class="row-actions">'+
+            '<button class="btn-edit" onclick="startEdit(\''+p.slug+'\',\''+safeTitle+'\',\''+safeMeta+'\',\''+safeContent+'\',\''+safeImg+'\',\''+p.post_type+'\')">Edit</button>'+
+            '<a class="view-link" href="/blog/'+p.slug+'" target="_blank">View →</a>'+
+            '</div></div>';
         }).join('');
-      } catch(e) {
-        document.getElementById('posts-list').innerHTML = '<div class="empty">Could not load posts.</div>';
-      }
+      } catch(e) { document.getElementById('posts-list').innerHTML='<div class="empty">Could not load.</div>'; }
     }
   </script>
 </body>
