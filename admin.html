@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RunRadar Admin — Blog</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>RunRadar Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #080b10;
@@ -19,19 +20,104 @@
       --green-dim: rgba(0,230,118,0.1);
       --green-border: rgba(0,230,118,0.2);
       --red: #ff4d4d;
+      --red-dim: rgba(255,77,77,0.1);
+      --red-border: rgba(255,77,77,0.2);
+      --cyan: #00b4d8;
       --font: 'Space Grotesk', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; padding: 40px 20px; }
-    .container { max-width: 760px; margin: 0 auto; }
-    .header { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
-    .header-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
-    .header h1 { font-size: 1.3rem; font-weight: 700; }
-    .header a { margin-left: auto; font-size: 0.85rem; color: var(--text-secondary); text-decoration: none; }
-    .header a:hover { color: var(--green); }
-    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-bottom: 24px; }
-    .card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 20px; color: var(--text); }
-    label { display: block; font-size: 0.82rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    /* ── LOGIN SCREEN ── */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: radial-gradient(ellipse at center, rgba(0,230,118,0.04) 0%, transparent 70%);
+    }
+    .login-box {
+      background: var(--bg2);
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 380px;
+      position: relative;
+    }
+    .login-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+      border-radius: 16px 16px 0 0;
+    }
+    .login-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 28px; }
+    .login-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .login-logo span { font-weight: 700; font-size: 1.1rem; }
+    .login-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .login-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 28px; }
+    .login-error { background: var(--red-dim); border: 1px solid var(--red-border); color: var(--red); border-radius: 8px; padding: 10px 14px; font-size: 0.84rem; margin-bottom: 16px; display: none; }
+    .login-error.show { display: block; }
+
+    /* ── ADMIN SCREEN ── */
+    .admin-screen { display: none; }
+    .admin-screen.show { display: block; }
+
+    .topbar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .topbar-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1rem; }
+    .topbar-badge {
+      background: var(--green-dim);
+      border: 1px solid var(--green-border);
+      color: var(--green);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .topbar-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+    .btn-sm {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-sm.ghost { background: none; border: 1px solid var(--border-bright); color: var(--text-secondary); }
+    .btn-sm.ghost:hover { border-color: var(--red-border); color: var(--red); }
+    .btn-sm.primary { background: var(--green); color: #000; font-weight: 700; }
+    .btn-sm.primary:hover { background: #00ff88; }
+
+    .admin-body { max-width: 1000px; margin: 0 auto; padding: 32px 20px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+    @media (max-width: 768px) { .admin-body { grid-template-columns: 1fr; } }
+
+    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+    .card-title { font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+
+    label { display: block; font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; letter-spacing: 0.05em; text-transform: uppercase; }
     input, textarea, select {
       width: 100%;
       background: var(--bg3);
@@ -39,128 +125,208 @@
       border-radius: 8px;
       color: var(--text);
       font-family: var(--font);
-      font-size: 0.9rem;
-      padding: 11px 14px;
-      margin-bottom: 18px;
+      font-size: 0.88rem;
+      padding: 10px 13px;
+      margin-bottom: 16px;
       transition: border-color 0.2s;
       outline: none;
     }
     input:focus, textarea:focus, select:focus { border-color: var(--green); }
-    textarea { min-height: 220px; resize: vertical; line-height: 1.6; }
-    .hint { font-size: 0.78rem; color: var(--text-muted); margin-top: -14px; margin-bottom: 18px; }
-    .btn {
+    textarea { min-height: 200px; resize: vertical; line-height: 1.6; font-family: var(--mono); font-size: 0.82rem; }
+    .hint { font-size: 0.75rem; color: var(--text-muted); margin-top: -12px; margin-bottom: 16px; }
+
+    .btn-publish {
       background: var(--green);
       color: #000;
       font-weight: 700;
       font-size: 0.95rem;
-      padding: 12px 28px;
-      border-radius: 7px;
+      padding: 12px;
+      border-radius: 8px;
       cursor: pointer;
       border: none;
       font-family: var(--font);
       transition: all 0.2s;
       width: 100%;
     }
-    .btn:hover { background: #00ff88; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .status { margin-top: 16px; padding: 14px 16px; border-radius: 8px; font-size: 0.88rem; display: none; }
-    .status.success { background: var(--green-dim); border: 1px solid var(--green-border); color: var(--green); display: block; }
-    .status.error { background: rgba(255,77,77,0.1); border: 1px solid rgba(255,77,77,0.2); color: var(--red); display: block; }
-    .posts-list { margin-top: 8px; }
+    .btn-publish:hover { background: #00ff88; }
+    .btn-publish:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .pub-status { margin-top: 14px; padding: 12px 14px; border-radius: 8px; font-size: 0.84rem; display: none; }
+    .pub-status.success { background: var(--green-dim); border: 1px solid var(--green-border); color: var(--green); display: block; }
+    .pub-status.error { background: var(--red-dim); border: 1px solid var(--red-border); color: var(--red); display: block; }
+
+    /* Posts list */
     .post-item {
       background: var(--bg3);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
-    .post-item-title { font-size: 0.88rem; font-weight: 600; }
-    .post-item-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
-    .post-type-badge {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 3px 10px;
-      border-radius: 999px;
-      flex-shrink: 0;
-    }
-    .post-type-badge.run { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid var(--green-border); }
-    .post-type-badge.seo { background: rgba(0,180,216,0.1); color: #00b4d8; border: 1px solid rgba(0,180,216,0.2); }
-    .empty { text-align: center; padding: 32px; color: var(--text-muted); font-size: 0.88rem; }
-    .key-notice { background: rgba(255,200,0,0.07); border: 1px solid rgba(255,200,0,0.2); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: #ffc800; margin-bottom: 20px; }
+    .post-item-info { flex: 1; min-width: 0; }
+    .post-item-title { font-size: 0.84rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .post-item-meta { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+    .badge { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 999px; flex-shrink: 0; }
+    .badge.run { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+    .badge.seo { background: rgba(0,180,216,0.1); color: var(--cyan); border: 1px solid rgba(0,180,216,0.2); }
+    .post-link { font-size: 0.72rem; color: var(--cyan); text-decoration: none; flex-shrink: 0; }
+    .post-link:hover { text-decoration: underline; }
+    .empty { text-align: center; padding: 28px; color: var(--text-muted); font-size: 0.84rem; }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+    .stat-box { background: var(--bg3); padding: 14px; text-align: center; }
+    .stat-val { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; color: var(--green); }
+    .stat-lbl { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+    /* Shared input style */
+    .field { margin-bottom: 0; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="header-dot"></div>
-      <h1>RunRadar Admin</h1>
-      <a href="/blog">← Blog</a>
-    </div>
 
-    <!-- New Post -->
-    <div class="card">
-      <h2>✍️ New Blog Post</h2>
-      <div class="key-notice">🔐 Admin key required. Set <code>ADMIN_KEY</code> in Railway env vars.</div>
-
-      <label>Admin Key</label>
-      <input type="password" id="admin-key" placeholder="Your ADMIN_KEY">
-
-      <label>Title</label>
-      <input type="text" id="title" placeholder="e.g. What Is On-Chain Momentum Tracking?">
-
-      <label>Meta Description (for SEO)</label>
-      <input type="text" id="meta" placeholder="150 character description for Google...">
-
-      <label>Post Type</label>
-      <select id="post-type">
-        <option value="seo">📚 Education / SEO</option>
-        <option value="run">🏁 Run Report</option>
-      </select>
-
-      <label>Cover Image URL</label>
-      <input type="text" id="image-url" placeholder="https://source.unsplash.com/1200x630/?crypto (leave blank for auto)">
-
-      <label>Content (HTML)</label>
-      <textarea id="content" placeholder="&lt;p&gt;Write your article here...&lt;/p&gt;&#10;&lt;h2&gt;Section title&lt;/h2&gt;&#10;&lt;p&gt;More text...&lt;/p&gt;"></textarea>
-      <div class="hint">Use &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt; HTML tags.</div>
-
-      <button class="btn" id="submit-btn" onclick="submitPost()">Publish Post →</button>
-      <div class="status" id="status"></div>
-    </div>
-
-    <!-- Existing Posts -->
-    <div class="card">
-      <h2>📋 Recent Posts</h2>
-      <div class="posts-list" id="posts-list">
-        <div class="empty">Loading...</div>
+  <!-- ── LOGIN SCREEN ── -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-box">
+      <div class="login-logo">
+        <div class="login-dot"></div>
+        <span>RunRadar</span>
       </div>
+      <div class="login-title">Admin Access</div>
+      <div class="login-sub">Enter your admin key to continue.</div>
+      <div class="login-error" id="login-error">Incorrect admin key. Try again.</div>
+      <label>Admin Key</label>
+      <input type="password" id="login-key" placeholder="••••••••••••" autocomplete="current-password">
+      <button class="btn-publish" onclick="doLogin()">Unlock →</button>
+    </div>
+  </div>
+
+  <!-- ── ADMIN SCREEN ── -->
+  <div class="admin-screen" id="admin-screen">
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="topbar-logo">
+          <div class="login-dot"></div>
+          RunRadar
+        </div>
+        <span class="topbar-badge">Admin</span>
+        <div class="topbar-actions">
+          <a href="/blog" class="btn-sm ghost">← Blog</a>
+          <button class="btn-sm ghost" onclick="doLogout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-body">
+
+      <!-- Left: New Post Form -->
+      <div>
+        <div class="card">
+          <div class="card-title">✍️ New Blog Post</div>
+
+          <label>Title</label>
+          <input type="text" id="title" placeholder="e.g. What Is On-Chain Momentum Tracking?">
+
+          <label>Meta Description <span style="color:var(--text-muted);font-weight:400;text-transform:none">(for Google)</span></label>
+          <input type="text" id="meta" placeholder="One sentence summary for search engines...">
+
+          <label>Post Type</label>
+          <select id="post-type">
+            <option value="seo">📚 Education / SEO</option>
+            <option value="run">🏁 Run Report</option>
+          </select>
+
+          <label>Cover Image URL <span style="color:var(--text-muted);font-weight:400;text-transform:none">(leave blank = auto)</span></label>
+          <input type="text" id="image-url" placeholder="https://... or leave blank">
+
+          <label>Content <span style="color:var(--text-muted);font-weight:400;text-transform:none">(HTML)</span></label>
+          <textarea id="content" placeholder="<p>Write your article here...</p>&#10;<h2>Section title</h2>&#10;<p>More content...</p>"></textarea>
+          <div class="hint">Use &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt; tags.</div>
+
+          <button class="btn-publish" id="pub-btn" onclick="publishPost()">Publish Post →</button>
+          <div class="pub-status" id="pub-status"></div>
+        </div>
+      </div>
+
+      <!-- Right: Stats + Recent Posts -->
+      <div>
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-title">📊 Blog Stats</div>
+          <div class="stats-row">
+            <div class="stat-box"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">Total</div></div>
+            <div class="stat-box"><div class="stat-val" id="s-run">—</div><div class="stat-lbl">Run Posts</div></div>
+            <div class="stat-box"><div class="stat-val" id="s-seo">—</div><div class="stat-lbl">SEO Posts</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📋 Recent Posts</div>
+          <div id="posts-list"><div class="empty">Loading...</div></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script>
     var API = 'https://app.runradar.app';
+    var SESSION_KEY = 'rr_admin_key';
 
-    async function submitPost() {
-      var btn = document.getElementById('submit-btn');
-      var status = document.getElementById('status');
-      status.className = 'status';
-      status.textContent = '';
+    // ── Login ──────────────────────────────────────────────
+    function doLogin() {
+      var key = document.getElementById('login-key').value.trim();
+      if (!key) return;
+      // Store key and try a test request
+      sessionStorage.setItem(SESSION_KEY, key);
+      showAdmin();
+    }
 
-      var adminKey = document.getElementById('admin-key').value.trim();
+    function doLogout() {
+      sessionStorage.removeItem(SESSION_KEY);
+      document.getElementById('admin-screen').classList.remove('show');
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('login-key').value = '';
+    }
+
+    function showAdmin() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-screen').classList.add('show');
+      loadPosts();
+    }
+
+    // Auto-login if key in session
+    window.addEventListener('load', function() {
+      var key = sessionStorage.getItem(SESSION_KEY);
+      if (key) {
+        showAdmin();
+      }
+    });
+
+    // Enter key on login
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') {
+        doLogin();
+      }
+    });
+
+    // ── Publish ────────────────────────────────────────────
+    async function publishPost() {
+      var btn = document.getElementById('pub-btn');
+      var status = document.getElementById('pub-status');
+      status.className = 'pub-status';
+
       var title = document.getElementById('title').value.trim();
       var content = document.getElementById('content').value.trim();
       var meta = document.getElementById('meta').value.trim();
       var imageUrl = document.getElementById('image-url').value.trim();
       var postType = document.getElementById('post-type').value;
+      var adminKey = sessionStorage.getItem(SESSION_KEY) || '';
 
       if (!title || !content) {
-        status.className = 'status error';
+        status.className = 'pub-status error';
         status.textContent = '❌ Title and content are required.';
         return;
       }
@@ -183,19 +349,23 @@
         });
         var data = await resp.json();
         if (data.ok) {
-          status.className = 'status success';
-          status.textContent = '✅ Post published! Slug: ' + data.slug;
+          status.className = 'pub-status success';
+          status.textContent = '✅ Published! /blog/' + data.slug;
           document.getElementById('title').value = '';
           document.getElementById('content').value = '';
           document.getElementById('meta').value = '';
           document.getElementById('image-url').value = '';
           loadPosts();
+        } else if (resp.status === 401) {
+          status.className = 'pub-status error';
+          status.textContent = '❌ Wrong admin key.';
+          doLogout();
         } else {
-          status.className = 'status error';
-          status.textContent = '❌ Error: ' + (data.error || 'Unknown error');
+          status.className = 'pub-status error';
+          status.textContent = '❌ ' + (data.error || 'Unknown error');
         }
       } catch(e) {
-        status.className = 'status error';
+        status.className = 'pub-status error';
         status.textContent = '❌ Network error: ' + e.message;
       }
 
@@ -203,34 +373,45 @@
       btn.textContent = 'Publish Post →';
     }
 
+    // ── Load Posts ─────────────────────────────────────────
     async function loadPosts() {
       try {
-        var resp = await fetch(API + '/api/blog?limit=20');
+        var resp = await fetch(API + '/api/blog?limit=50');
         var posts = await resp.json();
         var list = document.getElementById('posts-list');
+
         if (!posts || !posts.length) {
           list.innerHTML = '<div class="empty">No posts yet.</div>';
+          document.getElementById('s-total').textContent = '0';
+          document.getElementById('s-run').textContent = '0';
+          document.getElementById('s-seo').textContent = '0';
           return;
         }
+
+        // Stats
+        var runs = posts.filter(function(p) { return p.post_type === 'run'; }).length;
+        var seos = posts.filter(function(p) { return p.post_type !== 'run'; }).length;
+        document.getElementById('s-total').textContent = posts.length;
+        document.getElementById('s-run').textContent = runs;
+        document.getElementById('s-seo').textContent = seos;
+
         list.innerHTML = posts.map(function(p) {
-          var date = new Date(p.created_at).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+          var date = new Date(p.created_at).toLocaleDateString('en-US', {month:'short', day:'numeric'});
           var type = p.post_type === 'run' ? 'run' : 'seo';
           var label = p.post_type === 'run' ? 'Run' : 'SEO';
           return '<div class="post-item">' +
-            '<div>' +
+            '<div class="post-item-info">' +
             '<div class="post-item-title">' + p.title + '</div>' +
-            '<div class="post-item-meta">' + date + ' · <a href="/blog/' + p.slug + '" style="color:#00b4d8" target="_blank">View</a></div>' +
+            '<div class="post-item-meta">' + date + '</div>' +
             '</div>' +
-            '<span class="post-type-badge ' + type + '">' + label + '</span>' +
+            '<span class="badge ' + type + '">' + label + '</span>' +
+            '<a class="post-link" href="/blog/' + p.slug + '" target="_blank">View →</a>' +
             '</div>';
         }).join('');
       } catch(e) {
         document.getElementById('posts-list').innerHTML = '<div class="empty">Could not load posts.</div>';
       }
     }
-
-    loadPosts();
   </script>
 </body>
 </html>
-
