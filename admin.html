@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RunRadar Admin — Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080b10;
+      --bg2: #0d1117;
+      --bg3: #111820;
+      --border: rgba(255,255,255,0.07);
+      --border-bright: rgba(255,255,255,0.12);
+      --text: #e8eef6;
+      --text-secondary: #8a9ab5;
+      --text-muted: #4a5568;
+      --green: #00e676;
+      --green-dim: rgba(0,230,118,0.1);
+      --green-border: rgba(0,230,118,0.2);
+      --red: #ff4d4d;
+      --font: 'Space Grotesk', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; padding: 40px 20px; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .header { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+    .header-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .header h1 { font-size: 1.3rem; font-weight: 700; }
+    .header a { margin-left: auto; font-size: 0.85rem; color: var(--text-secondary); text-decoration: none; }
+    .header a:hover { color: var(--green); }
+    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-bottom: 24px; }
+    .card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 20px; color: var(--text); }
+    label { display: block; font-size: 0.82rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+    input, textarea, select {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border-bright);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      padding: 11px 14px;
+      margin-bottom: 18px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--green); }
+    textarea { min-height: 220px; resize: vertical; line-height: 1.6; }
+    .hint { font-size: 0.78rem; color: var(--text-muted); margin-top: -14px; margin-bottom: 18px; }
+    .btn {
+      background: var(--green);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 28px;
+      border-radius: 7px;
+      cursor: pointer;
+      border: none;
+      font-family: var(--font);
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .btn:hover { background: #00ff88; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .status { margin-top: 16px; padding: 14px 16px; border-radius: 8px; font-size: 0.88rem; display: none; }
+    .status.success { background: var(--green-dim); border: 1px solid var(--green-border); color: var(--green); display: block; }
+    .status.error { background: rgba(255,77,77,0.1); border: 1px solid rgba(255,77,77,0.2); color: var(--red); display: block; }
+    .posts-list { margin-top: 8px; }
+    .post-item {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .post-item-title { font-size: 0.88rem; font-weight: 600; }
+    .post-item-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+    .post-type-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .post-type-badge.run { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid var(--green-border); }
+    .post-type-badge.seo { background: rgba(0,180,216,0.1); color: #00b4d8; border: 1px solid rgba(0,180,216,0.2); }
+    .empty { text-align: center; padding: 32px; color: var(--text-muted); font-size: 0.88rem; }
+    .key-notice { background: rgba(255,200,0,0.07); border: 1px solid rgba(255,200,0,0.2); border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; color: #ffc800; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-dot"></div>
+      <h1>RunRadar Admin</h1>
+      <a href="/blog">← Blog</a>
+    </div>
+
+    <!-- New Post -->
+    <div class="card">
+      <h2>✍️ New Blog Post</h2>
+      <div class="key-notice">🔐 Admin key required. Set <code>ADMIN_KEY</code> in Railway env vars.</div>
+
+      <label>Admin Key</label>
+      <input type="password" id="admin-key" placeholder="Your ADMIN_KEY">
+
+      <label>Title</label>
+      <input type="text" id="title" placeholder="e.g. What Is On-Chain Momentum Tracking?">
+
+      <label>Meta Description (for SEO)</label>
+      <input type="text" id="meta" placeholder="150 character description for Google...">
+
+      <label>Post Type</label>
+      <select id="post-type">
+        <option value="seo">📚 Education / SEO</option>
+        <option value="run">🏁 Run Report</option>
+      </select>
+
+      <label>Cover Image URL</label>
+      <input type="text" id="image-url" placeholder="https://source.unsplash.com/1200x630/?crypto (leave blank for auto)">
+
+      <label>Content (HTML)</label>
+      <textarea id="content" placeholder="&lt;p&gt;Write your article here...&lt;/p&gt;&#10;&lt;h2&gt;Section title&lt;/h2&gt;&#10;&lt;p&gt;More text...&lt;/p&gt;"></textarea>
+      <div class="hint">Use &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt; HTML tags.</div>
+
+      <button class="btn" id="submit-btn" onclick="submitPost()">Publish Post →</button>
+      <div class="status" id="status"></div>
+    </div>
+
+    <!-- Existing Posts -->
+    <div class="card">
+      <h2>📋 Recent Posts</h2>
+      <div class="posts-list" id="posts-list">
+        <div class="empty">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var API = 'https://app.runradar.app';
+
+    async function submitPost() {
+      var btn = document.getElementById('submit-btn');
+      var status = document.getElementById('status');
+      status.className = 'status';
+      status.textContent = '';
+
+      var adminKey = document.getElementById('admin-key').value.trim();
+      var title = document.getElementById('title').value.trim();
+      var content = document.getElementById('content').value.trim();
+      var meta = document.getElementById('meta').value.trim();
+      var imageUrl = document.getElementById('image-url').value.trim();
+      var postType = document.getElementById('post-type').value;
+
+      if (!title || !content) {
+        status.className = 'status error';
+        status.textContent = '❌ Title and content are required.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Publishing...';
+
+      try {
+        var resp = await fetch(API + '/api/blog', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            admin_key: adminKey,
+            title: title,
+            content: content,
+            meta_description: meta || title.substring(0, 150),
+            image_url: imageUrl || '',
+            post_type: postType,
+          })
+        });
+        var data = await resp.json();
+        if (data.ok) {
+          status.className = 'status success';
+          status.textContent = '✅ Post published! Slug: ' + data.slug;
+          document.getElementById('title').value = '';
+          document.getElementById('content').value = '';
+          document.getElementById('meta').value = '';
+          document.getElementById('image-url').value = '';
+          loadPosts();
+        } else {
+          status.className = 'status error';
+          status.textContent = '❌ Error: ' + (data.error || 'Unknown error');
+        }
+      } catch(e) {
+        status.className = 'status error';
+        status.textContent = '❌ Network error: ' + e.message;
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Publish Post →';
+    }
+
+    async function loadPosts() {
+      try {
+        var resp = await fetch(API + '/api/blog?limit=20');
+        var posts = await resp.json();
+        var list = document.getElementById('posts-list');
+        if (!posts || !posts.length) {
+          list.innerHTML = '<div class="empty">No posts yet.</div>';
+          return;
+        }
+        list.innerHTML = posts.map(function(p) {
+          var date = new Date(p.created_at).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+          var type = p.post_type === 'run' ? 'run' : 'seo';
+          var label = p.post_type === 'run' ? 'Run' : 'SEO';
+          return '<div class="post-item">' +
+            '<div>' +
+            '<div class="post-item-title">' + p.title + '</div>' +
+            '<div class="post-item-meta">' + date + ' · <a href="/blog/' + p.slug + '" style="color:#00b4d8" target="_blank">View</a></div>' +
+            '</div>' +
+            '<span class="post-type-badge ' + type + '">' + label + '</span>' +
+            '</div>';
+        }).join('');
+      } catch(e) {
+        document.getElementById('posts-list').innerHTML = '<div class="empty">Could not load posts.</div>';
+      }
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>
+
