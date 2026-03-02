@@ -29,7 +29,11 @@
       --text-muted: #7a9ab0;
       --accent: #00e676;
     }
-    body { background: #0c1018 !important; color: #f0f4f8 !important; }
+    html, body { background: #0c1018 !important; color: #f0f4f8 !important; }
+    .post-content p, .post-content li { color: #c8d6e0 !important; }
+    .post-content h2, .post-content h3 { color: #f0f4f8 !important; }
+    .post-title { color: #f0f4f8 !important; }
+    .post-meta { color: #7a9ab0 !important; }
     .blog-hero {
       padding: 100px 0 48px;
       text-align: center;
@@ -514,7 +518,6 @@
 
     // ── TTS (Text to Speech) ─────────────────────────────────
     var ttsActive = false;
-    var ttsUtterance = null;
 
     function toggleTTS() {
       var btn = document.getElementById('tts-btn');
@@ -524,38 +527,35 @@
         window.speechSynthesis.cancel();
         ttsActive = false;
         btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        btn.title = 'Listen to this article';
         return;
       }
 
       var contentEl = document.getElementById('post-text-content');
       if (!contentEl) return;
-      var text = contentEl.innerText || contentEl.textContent;
-      text = text.replace(/⚠️.*$/s, '').trim();
+      var text = contentEl.innerText || contentEl.textContent || '';
+      text = text.replace(/⚠️[\s\S]*$/, '').replace(/📡[\s\S]*?Get Free Access/g, '').trim();
+      if (!text) return;
 
-      ttsUtterance = new SpeechSynthesisUtterance(text);
-      ttsUtterance.rate = 0.92;
-      ttsUtterance.pitch = 1;
-      ttsUtterance.lang = 'en-US';
+      window.speechSynthesis.cancel();
 
-      // Pick best available voice
-      var voices = window.speechSynthesis.getVoices();
-      var preferred = voices.find(function(v) {
-        return v.name.includes('Google') && v.lang.startsWith('en');
-      }) || voices.find(function(v) {
-        return v.lang.startsWith('en') && !v.name.includes('Microsoft');
-      });
-      if (preferred) ttsUtterance.voice = preferred;
+      // Mobile Chrome fix — split into chunks
+      var chunks = text.match(/.{1,200}[.!?]\s*/g) || [text];
+      var i = 0;
 
-      ttsUtterance.onend = function() {
-        ttsActive = false;
-        if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-      };
+      function speakNext() {
+        if (i >= chunks.length || !ttsActive) return;
+        var u = new SpeechSynthesisUtterance(chunks[i++]);
+        u.rate = 0.92;
+        u.lang = 'en-US';
+        u.onend = speakNext;
+        u.onerror = function() { ttsActive = false; if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'; };
+        window.speechSynthesis.speak(u);
+      }
 
-      window.speechSynthesis.speak(ttsUtterance);
       ttsActive = true;
       btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-      btn.title = 'Stop reading';
+      btn.title = 'Stop';
+      speakNext();
     }
 
   </script>
