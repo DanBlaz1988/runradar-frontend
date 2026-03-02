@@ -20,6 +20,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
+    :root {
+      --bg: #0c1018;
+      --bg2: #131920;
+      --card-bg: #131920;
+      --border: rgba(255,255,255,0.1);
+      --text-primary: #f0f4f8;
+      --text-secondary: #c8d6e0;
+      --text-muted: #7a9ab0;
+      --accent: #00e676;
+    }
+    body { background: #0c1018 !important; color: #f0f4f8 !important; }
     .blog-hero {
       padding: 100px 0 48px;
       text-align: center;
@@ -56,7 +67,7 @@
     }
     .blog-tab.active, .blog-tab:hover {
       background: var(--accent);
-      color: #fff;
+      color: #000;
       border-color: var(--accent);
     }
     .blog-grid {
@@ -82,11 +93,9 @@
       width: 100%;
       height: 180px;
       object-fit: cover;
-      background: #1a1a2e;
+      background: #1a2535;
     }
-    .blog-card-body {
-      padding: 20px;
-    }
+    .blog-card-body { padding: 20px; }
     .blog-card-type {
       font-size: 0.75rem;
       font-weight: 700;
@@ -103,10 +112,7 @@
       line-height: 1.4;
       margin-bottom: 8px;
     }
-    .blog-card-meta {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
+    .blog-card-meta { font-size: 0.8rem; color: var(--text-muted); }
     .blog-card-run-badge {
       display: inline-block;
       background: rgba(34,197,94,0.1);
@@ -120,9 +126,7 @@
     }
 
     /* Single post page */
-    .post-hero {
-      padding: 100px 0 0;
-    }
+    .post-hero { padding: 100px 0 0; }
     .post-hero-img {
       width: 100%;
       height: 380px;
@@ -142,18 +146,49 @@
       line-height: 1.25;
       margin-bottom: 16px;
     }
+
+    /* TTS Player */
+    .tts-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #1a2535;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+    }
+    .tts-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .tts-btn:hover { background: #00ff88; transform: scale(1.05); }
+    .tts-btn svg { width: 16px; height: 16px; fill: #000; }
+    .tts-label { font-size: 0.85rem; color: var(--text-secondary); }
+    .tts-label strong { color: var(--text-primary); display: block; font-size: 0.82rem; }
+    .tts-loading { font-size: 0.8rem; color: var(--text-muted); display: none; }
+
     .post-content {
       max-width: 720px;
-      margin: 32px auto 80px;
+      margin: 0 auto 80px;
       color: var(--text-secondary);
-      line-height: 1.8;
+      line-height: 1.85;
       font-size: 1.05rem;
     }
     .post-content h2 {
       font-size: 1.4rem;
       font-weight: 700;
       color: var(--text-primary);
-      margin: 32px 0 12px;
+      margin: 36px 0 14px;
     }
     .post-content h3 {
       font-size: 1.15rem;
@@ -161,9 +196,10 @@
       color: var(--text-primary);
       margin: 24px 0 8px;
     }
-    .post-content p { margin-bottom: 16px; }
+    .post-content p { margin-bottom: 18px; color: #c8d6e0; }
     .post-content ul { padding-left: 24px; margin-bottom: 16px; }
-    .post-content li { margin-bottom: 6px; }
+    .post-content li { margin-bottom: 8px; color: #c8d6e0; }
+    .post-content strong { color: var(--text-primary); }
     .post-video {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -172,14 +208,10 @@
       margin: 32px 0;
       text-align: center;
     }
-    .post-video a {
-      color: var(--accent);
-      font-weight: 600;
-      text-decoration: none;
-    }
+    .post-video a { color: var(--accent); font-weight: 600; text-decoration: none; }
     .post-video a:hover { text-decoration: underline; }
     .post-disclaimer {
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 16px 20px;
@@ -196,6 +228,62 @@
       font-size: 0.9rem;
       margin-bottom: 24px;
       transition: color 0.2s;
+    }
+
+    /* CTA Banner inside post */
+    .post-cta-banner {
+      background: linear-gradient(135deg, #0d2818 0%, #0a1f2e 100%);
+      border: 1px solid rgba(0,230,118,0.2);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin: 40px 0;
+      text-align: center;
+    }
+    .post-cta-banner .cta-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .post-cta-banner h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .post-cta-banner p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .post-cta-form {
+      display: flex;
+      gap: 8px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .post-cta-form input {
+      flex: 1;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(0,230,118,0.25);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text-primary);
+      font-size: 0.88rem;
+      outline: none;
+    }
+    .post-cta-form input::placeholder { color: var(--text-muted); }
+    .post-cta-form button {
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #000;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .post-cta-form button:hover { background: #00ff88; }
+    @media(max-width:480px){
+      .post-cta-form { flex-direction: column; }
     }
     .back-link:hover { color: var(--accent); }
     .loading-state {
@@ -353,9 +441,17 @@
           '<div class="post-meta">' + formatDate(p.created_at) + ' · RunRadar</div>' +
           runBadge +
           '<h1 class="post-title">' + p.title + '</h1>' +
-          '<div class="post-content">' +
+          '<div class="tts-bar">' +
+            '<button class="tts-btn" id="tts-btn" onclick="toggleTTS()" title="Listen to this article">' +
+              '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>' +
+            '</button>' +
+            '<div>' +
+              '<div class="tts-label"><strong>🔊 Listen to this article</strong>Uses your browser\'s built-in voice</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="post-content" id="post-text-content">' +
           videoSection +
-          p.content +
+          injectCTA(p.content) +
           '<div class="post-disclaimer">⚠️ Disclaimer: This article is for educational and informational purposes only. RunRadar does not provide financial advice. Always do your own research before making any financial decisions.</div>' +
           '</div>';
 
@@ -398,6 +494,71 @@
         fetchPosts();
       }
     })();
+    // ── CTA Banner injected mid-post ─────────────────────────
+    var ctaBanner = '<div class="post-cta-banner">' +
+      '<div class="cta-icon">📡</div>' +
+      '<h3>See RunRadar catch token runs live</h3>' +
+      '<p>Get free alerts when RunRadar detects on-chain momentum — before the hype phase. No signals. Just data.</p>' +
+      '<form class="post-cta-form" action="https://app.kit.com/forms/9132824/subscriptions" method="post" target="_blank">' +
+        '<input type="email" name="email_address" placeholder="Your email" required>' +
+        '<button type="submit">Get Free Access</button>' +
+      '</form>' +
+    '</div>';
+
+    function injectCTA(content) {
+      // Find midpoint by paragraph count
+      var parts = content.split('</p>');
+      if (parts.length < 3) return content + ctaBanner;
+      var mid = Math.floor(parts.length / 2);
+      return parts.slice(0, mid).join('</p>') + '</p>' + ctaBanner + parts.slice(mid).join('</p>');
+    }
+
+    // ── TTS (Text to Speech) ─────────────────────────────────
+    var ttsActive = false;
+    var ttsUtterance = null;
+
+    function toggleTTS() {
+      var btn = document.getElementById('tts-btn');
+      if (!btn) return;
+
+      if (ttsActive) {
+        window.speechSynthesis.cancel();
+        ttsActive = false;
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+        btn.title = 'Listen to this article';
+        return;
+      }
+
+      var contentEl = document.getElementById('post-text-content');
+      if (!contentEl) return;
+      var text = contentEl.innerText || contentEl.textContent;
+      text = text.replace(/⚠️.*$/s, '').trim();
+
+      ttsUtterance = new SpeechSynthesisUtterance(text);
+      ttsUtterance.rate = 0.92;
+      ttsUtterance.pitch = 1;
+      ttsUtterance.lang = 'en-US';
+
+      // Pick best available voice
+      var voices = window.speechSynthesis.getVoices();
+      var preferred = voices.find(function(v) {
+        return v.name.includes('Google') && v.lang.startsWith('en');
+      }) || voices.find(function(v) {
+        return v.lang.startsWith('en') && !v.name.includes('Microsoft');
+      });
+      if (preferred) ttsUtterance.voice = preferred;
+
+      ttsUtterance.onend = function() {
+        ttsActive = false;
+        if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+      };
+
+      window.speechSynthesis.speak(ttsUtterance);
+      ttsActive = true;
+      btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+      btn.title = 'Stop reading';
+    }
+
   </script>
 </body>
 </html>
