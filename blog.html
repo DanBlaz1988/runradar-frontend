@@ -29,7 +29,17 @@
       --text-muted: #7a9ab0;
       --accent: #00e676;
     }
-    html, body { background: #0c1018 !important; color: #f0f4f8 !important; }
+    /* Override styles.css dark theme */
+    :root {
+      --color-bg: #0f1923 !important;
+      --color-surface: #162030 !important;
+      --color-card: #1a2738 !important;
+      --color-text: #f0f4f8 !important;
+      --color-text-muted: #9ab0c4 !important;
+      --color-text-faint: #6a8aa0 !important;
+      --color-border: rgba(255,255,255,0.1) !important;
+    }
+    html, body { background: #0f1923 !important; color: #f0f4f8 !important; }
     .post-content p, .post-content li { color: #c8d6e0 !important; }
     .post-content h2, .post-content h3 { color: #f0f4f8 !important; }
     .post-title { color: #f0f4f8 !important; }
