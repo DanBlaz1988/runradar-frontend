@@ -63,6 +63,26 @@
     .stat-lbl { font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
     @media(max-width:600px){ .stats-bar { grid-template-columns: repeat(2,1fr); } }
 
+    /* HEATMAP */
+    .heatmap-section { max-width: 1100px; margin: 0 auto 40px; padding: 0 20px; }
+    .section-title { font-size: 0.72rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
+    .heatmap-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; overflow-x: auto; }
+    .heatmap-grid { display: flex; gap: 4px; min-width: 600px; }
+    .heatmap-col { display: flex; flex-direction: column; gap: 4px; }
+    .heatmap-cell { width: 14px; height: 14px; border-radius: 3px; background: var(--bg3); cursor: pointer; transition: transform 0.1s; position: relative; }
+    .heatmap-cell:hover { transform: scale(1.4); z-index: 10; }
+    .heatmap-cell.l1 { background: rgba(0,230,118,0.2); }
+    .heatmap-cell.l2 { background: rgba(0,230,118,0.4); }
+    .heatmap-cell.l3 { background: rgba(0,230,118,0.65); }
+    .heatmap-cell.l4 { background: rgba(0,230,118,0.9); }
+    .heatmap-months { display: flex; gap: 4px; margin-bottom: 6px; min-width: 600px; }
+    .heatmap-month-label { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); }
+    .heatmap-legend { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-family: var(--mono); font-size: 0.65rem; color: var(--text3); }
+    .heatmap-legend-cell { width: 12px; height: 12px; border-radius: 2px; }
+
+    /* TOOLTIP */
+    .tooltip { position: fixed; background: var(--bg4); border: 1px solid var(--border2); border-radius: 8px; padding: 8px 12px; font-family: var(--mono); font-size: 0.72rem; color: var(--text); pointer-events: none; z-index: 999; display: none; white-space: nowrap; }
+
     /* FILTERS */
     .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
     .filter-btn { font-family: var(--font); font-size: 0.8rem; font-weight: 700; padding: 7px 16px; border-radius: 7px; cursor: pointer; border: 1px solid var(--border2); background: none; color: var(--text2); transition: all 0.2s; }
@@ -124,6 +144,8 @@
 </head>
 <body>
 
+<div class="tooltip" id="tooltip"></div>
+
 <nav>
   <a href="/" class="nav-logo"><div class="nav-dot"></div>RunRadar</a>
   <div class="nav-links">
@@ -144,6 +166,24 @@
     <div class="stat-box"><div class="stat-val" id="s-best">—</div><div class="stat-lbl">Best Run</div></div>
     <div class="stat-box"><div class="stat-val" id="s-avg">—</div><div class="stat-lbl">Avg Peak</div></div>
     <div class="stat-box"><div class="stat-val" id="s-over100">—</div><div class="stat-lbl">Over 100%</div></div>
+  </div>
+</div>
+
+<!-- HEATMAP -->
+<div class="heatmap-section">
+  <div class="section-title">Activity — Last 90 Days</div>
+  <div class="heatmap-wrap">
+    <div id="heatmap-months" class="heatmap-months"></div>
+    <div id="heatmap-grid" class="heatmap-grid"></div>
+    <div class="heatmap-legend">
+      <span>Less</span>
+      <div class="heatmap-legend-cell" style="background:var(--bg3)"></div>
+      <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.2)"></div>
+      <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.4)"></div>
+      <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.65)"></div>
+      <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.9)"></div>
+      <span>More</span>
+    </div>
   </div>
 </div>
 
@@ -195,6 +235,7 @@ async function loadRuns() {
     var data = await r.json();
     allRuns = data || [];
     updateStats();
+    buildHeatmap();
     render();
   } catch(e) {
     document.getElementById('runs-body').innerHTML = '<div class="empty">Could not load data. Try refreshing.</div>';
@@ -214,6 +255,82 @@ function updateStats() {
   document.getElementById('s-best').textContent = best > 0 ? best.toFixed(0) + '%' : '—';
   document.getElementById('s-avg').textContent = total > 0 ? (sum/total).toFixed(0) + '%' : '—';
   document.getElementById('s-over100').textContent = over100;
+}
+
+function buildHeatmap() {
+  // Build day map for last 90 days
+  var dayMap = {};
+  allRuns.forEach(function(r) {
+    if (!r.close_time) return;
+    var d = new Date(r.close_time);
+    var key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    if (!dayMap[key]) dayMap[key] = { count: 0, best: 0 };
+    dayMap[key].count++;
+    var p = parseFloat(r.pnl_pct || 0);
+    if (p > dayMap[key].best) dayMap[key].best = p;
+  });
+
+  // Generate last 90 days grouped by week (columns)
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  var days = [];
+  for (var i = 89; i >= 0; i--) {
+    var d = new Date(today);
+    d.setDate(today.getDate() - i);
+    days.push(d);
+  }
+
+  // Pad so first day aligns to correct weekday (0=Sun)
+  var firstDay = days[0].getDay();
+  var padded = [];
+  for (var j = 0; j < firstDay; j++) padded.push(null);
+  padded = padded.concat(days);
+
+  // Group into weeks
+  var weeks = [];
+  for (var k = 0; k < padded.length; k += 7) {
+    weeks.push(padded.slice(k, k+7));
+  }
+
+  var maxCount = 0;
+  Object.values(dayMap).forEach(function(v) { if (v.count > maxCount) maxCount = v.count; });
+
+  var grid = document.getElementById('heatmap-grid');
+  var tooltip = document.getElementById('tooltip');
+  grid.innerHTML = '';
+
+  weeks.forEach(function(week) {
+    var col = document.createElement('div');
+    col.className = 'heatmap-col';
+    week.forEach(function(day) {
+      var cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      if (day) {
+        var key = day.getFullYear() + '-' + String(day.getMonth()+1).padStart(2,'0') + '-' + String(day.getDate()).padStart(2,'0');
+        var info = dayMap[key];
+        if (info) {
+          var ratio = maxCount > 0 ? info.count / maxCount : 0;
+          if (ratio > 0.75) cell.classList.add('l4');
+          else if (ratio > 0.5) cell.classList.add('l3');
+          else if (ratio > 0.25) cell.classList.add('l2');
+          else cell.classList.add('l1');
+
+          var label = day.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' — ' + info.count + ' run' + (info.count>1?'s':'') + ' | best: +' + info.best.toFixed(0) + '%';
+          cell.addEventListener('mousemove', function(e) {
+            tooltip.style.display = 'block';
+            tooltip.style.left = (e.clientX + 12) + 'px';
+            tooltip.style.top = (e.clientY - 30) + 'px';
+            tooltip.textContent = label;
+          });
+          cell.addEventListener('mouseleave', function() { tooltip.style.display = 'none'; });
+        }
+      } else {
+        cell.style.opacity = '0';
+      }
+      col.appendChild(cell);
+    });
+    grid.appendChild(col);
+  });
 }
 
 function setFilter(min, btn) {
@@ -245,14 +362,14 @@ function render() {
 
   var html = filtered.map(function(r, i) {
     var pct = parseFloat(r.pnl_pct || 0);
-    var dd = parseFloat(r.max_drawdown || 0);
+    // Fix: try both field names
+    var dd = parseFloat(r.max_drawdown_pct || r.max_drawdown || 0);
     var sym = (r.symbol || r.name || '???').toUpperCase();
     var date = r.close_time ? new Date(r.close_time).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
 
     var tier = pct >= 500 ? 'mega' : pct >= 100 ? 'high' : 'mid';
     var tierLabel = pct >= 500 ? '🔥 Mega' : pct >= 100 ? '✅ Strong' : '📊 Moderate';
 
-    // Duration
     var dur = '—';
     if (r.open_time && r.close_time) {
       var secs = Math.round((new Date(r.close_time) - new Date(r.open_time)) / 1000);
@@ -276,4 +393,3 @@ loadRuns();
 </script>
 </body>
 </html>
-
