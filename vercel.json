@@ -6,6 +6,7 @@
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/results", "destination": "/results.html" },
-    { "source": "/performance", "destination": "/performance.html" }
+    { "source": "/performance", "destination": "/performance.html" },
+    { "source": "/pricing", "destination": "/pricing.html" }
   ]
 }
