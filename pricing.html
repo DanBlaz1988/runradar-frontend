@@ -3,507 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RunRadar Pro — Real-Time Solana Alerts</title>
-  <meta name="description" content="Get real-time Solana meme coin alerts with RunRadar Pro. On-chain run detection, security checks, and live tracking — $29/month." />
-  <meta property="og:title" content="RunRadar Pro — Real-Time Solana Alerts" />
-  <meta property="og:description" content="Real-time Solana run alerts. On-chain data, security checks, live tracking. 14-day free trial." />
-  <meta property="og:image" content="https://i.imgur.com/6xRYodt.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>Pricing — RunRadar Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #080b10;
-      --bg2: #0d1117;
-      --bg3: #111820;
-      --border: rgba(255,255,255,0.07);
-      --border-bright: rgba(255,255,255,0.12);
-      --text: #e8eef6;
-      --text-secondary: #8a9ab5;
-      --text-muted: #4a5568;
-      --green: #00e676;
-      --green-dim: rgba(0,230,118,0.1);
-      --green-border: rgba(0,230,118,0.2);
-      --red: #ff4d4d;
-      --font: 'Space Grotesk', sans-serif;
-      --mono: 'JetBrains Mono', monospace;
+      --accent: #00ff88;
+      --text: #ffffff;
+      --text-dim: #8b949e;
+      --card-bg: #0d1117;
+      --border: #1e252e;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body {
-      font-family: var(--font);
-      background: var(--bg);
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--bg);
       color: var(--text);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: inherit; text-decoration: none; }
-
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-
-    /* ── NAV ──────────────────────────────────────────── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(8,11,16,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 0;
-    }
-    .nav-inner {
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .nav-logo {
-      font-weight: 700; font-size: 1.05rem; letter-spacing: -0.02em;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .nav-logo::before {
-      content: ''; width: 8px; height: 8px; border-radius: 50%;
-      background: var(--green); box-shadow: 0 0 6px var(--green);
-    }
-    .nav-links { display: flex; align-items: center; gap: 22px; }
-    .nav-link {
-      font-size: 0.88rem; color: var(--text-secondary);
-      transition: color 0.2s;
-    }
-    .nav-link:hover { color: var(--text); }
-    .btn-primary {
-      background: var(--green); color: #000; border: none;
-      padding: 8px 18px; border-radius: 6px;
-      font-weight: 600; font-size: 0.85rem;
-      cursor: pointer; transition: opacity 0.2s;
-    }
-    .btn-primary:hover { opacity: 0.85; }
-
-    /* ── HERO ─────────────────────────────────────────── */
-    .pricing-hero {
-      text-align: center;
-      padding: 80px 20px 40px;
-    }
-    .pricing-hero .label {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.82rem; font-weight: 600; color: var(--green);
-      background: var(--green-dim); border: 1px solid var(--green-border);
-      padding: 6px 14px; border-radius: 20px;
-      margin-bottom: 24px; letter-spacing: 0.04em;
-    }
-    .pricing-hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 700; letter-spacing: -0.03em;
-      line-height: 1.15; margin-bottom: 16px;
-    }
-    .pricing-hero h1 em {
-      font-style: normal; color: var(--green);
-    }
-    .pricing-hero p {
-      font-size: 1.05rem; color: var(--text-secondary);
-      max-width: 560px; margin: 0 auto; line-height: 1.65;
+      margin: 0;
+      line-height: 1.6;
     }
 
-    /* ── PRICING CARDS ────────────────────────────────── */
-    .pricing-section {
-      padding: 40px 20px 80px;
-    }
+    .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+    header { text-align: center; margin-bottom: 60px; }
+    h1 { font-size: 3rem; margin-bottom: 10px; }
+    p.subtitle { color: var(--text-dim); font-size: 1.2rem; }
+
+    /* Pricing Grid */
     .pricing-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      max-width: 820px;
-      margin: 0 auto;
-    }
-    @media (max-width: 640px) {
-      .pricing-grid { grid-template-columns: 1fr; }
+      gap: 30px;
+      margin-bottom: 80px;
     }
 
-    .card {
-      background: var(--bg2);
+    .price-card {
+      background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 36px 30px;
+      border-radius: 16px;
+      padding: 40px;
       position: relative;
-      transition: border-color 0.3s;
-    }
-    .card:hover { border-color: var(--border-bright); }
-    .card.pro {
-      border-color: var(--green-border);
-      background: linear-gradient(170deg, rgba(0,230,118,0.04) 0%, var(--bg2) 40%);
-    }
-    .card.pro:hover { border-color: var(--green); }
-
-    .card-badge {
-      position: absolute; top: -12px; right: 24px;
-      background: var(--green); color: #000;
-      font-size: 0.72rem; font-weight: 700;
-      padding: 4px 12px; border-radius: 4px;
-      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: transform 0.3s ease;
     }
 
-    .card-tier {
-      font-size: 0.82rem; font-weight: 600; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
-    .card-price {
-      font-size: 2.8rem; font-weight: 700;
-      font-family: var(--mono);
-      letter-spacing: -0.03em;
-      margin-bottom: 4px;
-    }
-    .card-price span {
-      font-size: 1rem; font-weight: 400; color: var(--text-secondary);
-    }
-    .card-trial {
-      font-size: 0.82rem; color: var(--green);
-      margin-bottom: 28px;
-    }
-    .card-desc {
-      font-size: 0.88rem; color: var(--text-secondary);
-      margin-bottom: 24px; line-height: 1.6;
+    .price-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
     }
 
-    .card-features {
-      list-style: none; padding: 0; margin: 0 0 32px 0;
-    }
-    .card-features li {
-      font-size: 0.88rem; color: var(--text-secondary);
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: flex-start; gap: 10px;
-    }
-    .card-features li:last-child { border-bottom: none; }
-    .card-features .check {
-      color: var(--green); font-weight: 700;
-      font-size: 0.9rem; flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .card-features .x {
-      color: var(--text-muted); font-weight: 700;
-      font-size: 0.9rem; flex-shrink: 0;
-      margin-top: 1px;
+    .price-card:hover { transform: translateY(-5px); }
+
+    .badge {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--accent); color: #000;
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 0.8rem; font-weight: bold;
     }
 
-    .card-btn {
-      display: block; width: 100%; text-align: center;
-      padding: 14px; border-radius: 8px;
-      font-weight: 600; font-size: 0.92rem;
-      transition: all 0.2s; cursor: pointer;
-      text-decoration: none;
-    }
-    .card-btn.free {
-      background: transparent;
-      border: 1px solid var(--border-bright);
-      color: var(--text);
-    }
-    .card-btn.free:hover { border-color: var(--text-secondary); }
-    .card-btn.primary {
-      background: var(--green); color: #000;
-      border: 1px solid var(--green);
-    }
-    .card-btn.primary:hover { opacity: 0.85; }
+    .tier-name { font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; }
+    .price { font-size: 3rem; font-weight: 700; margin-bottom: 20px; }
+    .price span { font-size: 1rem; color: var(--text-dim); }
 
-    /* ── COMPARISON ────────────────────────────────────── */
-    .compare-section {
-      padding: 40px 20px 80px;
-    }
-    .compare-title {
-      text-align: center;
-      font-size: 1.6rem; font-weight: 700;
-      margin-bottom: 40px;
-      letter-spacing: -0.02em;
-    }
-    .compare-table {
-      max-width: 820px; margin: 0 auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .compare-row {
-      display: grid;
-      grid-template-columns: 1fr 120px 120px;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.88rem;
-    }
-    .compare-row:last-child { border-bottom: none; }
-    .compare-row.header {
-      background: var(--bg3);
-      font-weight: 600; font-size: 0.8rem;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--text-muted);
-    }
-    .compare-cell {
-      padding: 14px 18px;
-      display: flex; align-items: center;
-    }
-    .compare-cell.center { justify-content: center; }
-    .compare-cell .check { color: var(--green); font-weight: 700; }
-    .compare-cell .x { color: var(--text-muted); }
-
-    /* ── FAQ ───────────────────────────────────────────── */
-    .faq-section {
-      padding: 40px 20px 80px;
-      max-width: 720px; margin: 0 auto;
-    }
-    .faq-title {
-      text-align: center;
-      font-size: 1.6rem; font-weight: 700;
-      margin-bottom: 32px;
-      letter-spacing: -0.02em;
-    }
-    .faq-item {
-      border-bottom: 1px solid var(--border);
-    }
-    .faq-q {
-      width: 100%; text-align: left;
-      padding: 18px 0; background: none; border: none;
-      color: var(--text); font-family: var(--font);
-      font-size: 0.95rem; font-weight: 600;
-      cursor: pointer; display: flex;
-      justify-content: space-between; align-items: center;
-    }
-    .faq-q::after {
-      content: '+'; font-size: 1.2rem; color: var(--text-muted);
-      transition: transform 0.2s;
-    }
-    .faq-item.open .faq-q::after { content: '−'; }
-    .faq-a {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.3s ease;
-      font-size: 0.88rem; color: var(--text-secondary);
-      line-height: 1.65;
-    }
-    .faq-item.open .faq-a {
-      max-height: 300px;
-      padding-bottom: 18px;
+    .features { list-style: none; padding: 0; margin: 30px 0; }
+    .features li { margin-bottom: 15px; display: flex; align-items: center; }
+    .features li::before {
+      content: "✓"; color: var(--accent); margin-right: 12px; font-weight: bold;
     }
 
-    /* ── CTA BOTTOM ────────────────────────────────────── */
-    .bottom-cta {
-      text-align: center;
-      padding: 60px 20px 80px;
-      border-top: 1px solid var(--border);
-    }
-    .bottom-cta h2 {
-      font-size: 1.8rem; font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.02em;
-    }
-    .bottom-cta p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-bottom: 28px;
-    }
-    .bottom-cta .card-btn {
-      display: inline-block; width: auto;
-      padding: 16px 40px;
+    .btn {
+      display: block; width: 100%; padding: 16px;
+      border-radius: 8px; text-align: center;
+      text-decoration: none; font-weight: bold;
+      transition: 0.3s;
     }
 
-    /* ── FOOTER ────────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 20px;
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--text-muted);
+    .btn-free { border: 1px solid var(--border); color: var(--text); }
+    .btn-pro { background: var(--accent); color: #000; }
+    .btn-pro:hover { filter: brightness(1.1); box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
+
+    /* FAQ Section */
+    .faq { max-width: 700px; margin: 0 auto; }
+    .faq h2 { text-align: center; margin-bottom: 40px; }
+    .faq-item { margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+    .faq-q { font-weight: 600; font-size: 1.1rem; margin-bottom: 10px; color: var(--accent); }
+    .faq-a { color: var(--text-dim); font-size: 0.95rem; }
+
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2.2rem; }
     }
-
-    .divider { height: 1px; background: var(--border); }
-
-    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .fade-in.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav>
-    <div class="container nav-inner">
-      <a href="/" class="nav-logo">RunRadar</a>
-      <div class="nav-links">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/blog" class="nav-link">Blog</a>
-        <a href="/results" class="nav-link">Results</a>
-        <a href="https://runradar.lemonsqueezy.com/checkout/buy/d1fcb32a-507c-4441-825f-fb18a20363ec" class="btn-primary">Get Pro</a>
+  <main class="container">
+    <header>
+      <h1>Upgrade to Pro</h1>
+      <p class="subtitle">Stop gambling. Start trading with on-chain data.</p>
+    </header>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="tier-name">Free Access</div>
+        <div class="price">$0<span>/forever</span></div>
+        <ul class="features">
+          <li>Basic Telegram Alerts</li>
+          <li>Delayed Data Feed</li>
+          <li>Community Access</li>
+          <li>Standard Security Checks</li>
+        </ul>
+        <a href="https://t.me/scannerpreview" class="btn btn-free">Join Telegram</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="badge">POPULAR</div>
+        <div class="tier-name">RunRadar Pro</div>
+        <div class="price">$29<span>/month</span></div>
+        <ul class="features">
+          <li>Real-time Solana Alerts</li>
+          <li>14-day Free Trial</li>
+          <li>Instant Run Detection</li>
+          <li>Advanced Social Velocity Data</li>
+          <li>Priority Security Audit</li>
+          <li>Private Alpha Channel</li>
+        </ul>
+        <a href="https://runradar.lemonsqueezy.com/checkout/buy/d1fcb32a-507c-4441-825f-fb18a20363ec" class="btn btn-pro">Start 14-Day Free Trial</a>
       </div>
     </div>
-  </nav>
 
-  <main>
+    <section class="faq">
+      <h2>Frequently Asked Questions</h2>
+      
+      <div class="faq-item">
+        <div class="faq-q">What is the 14-day free trial?</div>
+        <div class="faq-a">You can try all Pro features for 2 weeks. You won't be charged until the trial ends, and you can cancel anytime.</div>
+      </div>
 
-    <!-- Hero -->
-    <section class="pricing-hero">
-      <div class="label">14-Day Free Trial</div>
-      <h1>Real-Time Solana Alerts.<br><em>Before The Crowd.</em></h1>
-      <p>RunRadar detects meme coin runs using on-chain data and sends you alerts in real time. No signals. No advice. Just data that moves fast.</p>
-    </section>
+      <div class="faq-item">
+        <div class="faq-q">How does the detection work?</div>
+        <div class="faq-a">Our bot scans Solana in real-time for liquidity moves, social volume spikes, and wallet accumulation before the pump.</div>
+      </div>
 
-    <!-- Pricing Cards -->
-    <section class="pricing-section">
-      <div class="pricing-grid">
+      <div class="faq-item">
+        <div class="faq-q">Can I cancel my subscription?</div>
+        <div class="faq-a">Yes, you can manage and cancel your subscription anytime via your LemonSqueezy dashboard.</div>
+      </div>
 
-        <!-- Free -->
-        <div class="card fade-in">
-          <div class="card-tier">Free</div>
-          <div class="card-price">$0 <span>/month</span></div>
-          <div class="card-trial">&nbsp;</div>
-          <div class="card-desc">Public run results with delay. See what RunRadar tracks — after the fact.</div>
-          <ul class="card-features">
-            <li><span class="check">✓</span> Run ended results (delayed)</li>
-            <li><span class="check">✓</span> Public Telegram channel</li>
-            <li><span class="check">✓</span> Blog recaps &amp; SEO posts</li>
-            <li><span class="check">✓</span> Results dashboard</li>
-            <li><span class="x">✗</span> Real-time alerts</li>
-            <li><span class="x">✗</span> Live run updates</li>
-            <li><span class="x">✗</span> Security checks</li>
-          </ul>
-          <a href="https://t.me/SolanaRunRadar" class="card-btn free" target="_blank">Join Free Channel</a>
-        </div>
+      <div class="faq-item">
+        <div class="faq-q">Is this financial advice?</div>
+        <div class="faq-a">No. RunRadar provides data and alerts. Trading meme coins is highly risky. Never invest more than you can afford to lose.</div>
+      </div>
 
-        <!-- Pro -->
-        <div class="card pro fade-in">
-          <div class="card-badge">Most Popular</div>
-          <div class="card-tier">Pro</div>
-          <div class="card-price">$29 <span>/month</span></div>
-          <div class="card-trial">14-day free trial — cancel anytime</div>
-          <div class="card-desc">Everything RunRadar tracks, the moment it happens. Private Telegram group with real-time data.</div>
-          <ul class="card-features">
-            <li><span class="check">✓</span> Real-time run detection alerts</li>
-            <li><span class="check">✓</span> Live run updates (peak tracking)</li>
-            <li><span class="check">✓</span> On-chain security checks (BirdEye)</li>
-            <li><span class="check">✓</span> Pullback &amp; drawdown warnings</li>
-            <li><span class="check">✓</span> Private Pro Telegram group</li>
-            <li><span class="check">✓</span> Run ended reports with full data</li>
-            <li><span class="check">✓</span> Daily market recaps</li>
-          </ul>
-          <a href="https://runradar.lemonsqueezy.com/checkout/buy/d1fcb32a-507c-4441-825f-fb18a20363ec" class="card-btn primary">Start Free Trial →</a>
-        </div>
+      <div class="faq-item">
+        <div class="faq-q">Which wallets are supported?</div>
+        <div class="faq-a">The bot tracks all Solana tokens. We recommend using Phantom or Solflare for your own trading.</div>
+      </div>
 
+      <div class="faq-item">
+        <div class="faq-q">Do you check for rugpulls?</div>
+        <div class="faq-a">Yes, every alert includes a security check for mint risk, liquidity lock, and top holder concentration.</div>
       </div>
     </section>
-
-    <div class="divider"></div>
-
-    <!-- Comparison Table -->
-    <section class="compare-section fade-in">
-      <h2 class="compare-title">Free vs Pro</h2>
-      <div class="compare-table">
-        <div class="compare-row header">
-          <div class="compare-cell">Feature</div>
-          <div class="compare-cell center">Free</div>
-          <div class="compare-cell center">Pro</div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Run detection alerts</div>
-          <div class="compare-cell center"><span class="x">Delayed</span></div>
-          <div class="compare-cell center"><span class="check">Real-time</span></div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Live run updates</div>
-          <div class="compare-cell center"><span class="x">✗</span></div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Security checks (BirdEye)</div>
-          <div class="compare-cell center"><span class="x">✗</span></div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Pullback warnings</div>
-          <div class="compare-cell center"><span class="x">✗</span></div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Run ended reports</div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Results dashboard</div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Blog &amp; SEO content</div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Private Telegram group</div>
-          <div class="compare-cell center"><span class="x">✗</span></div>
-          <div class="compare-cell center"><span class="check">✓</span></div>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- FAQ -->
-    <section class="faq-section fade-in">
-      <h2 class="faq-title">Questions</h2>
-      <div id="faq-list">
-        <div class="faq-item">
-          <button class="faq-q">What exactly do I get with Pro?</button>
-          <div class="faq-a">Access to a private Telegram group where RunRadar sends real-time alerts: new token detections, live run updates with peak tracking, on-chain security checks, pullback warnings, and run ended reports with full data.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Is this a buy/sell signal service?</button>
-          <div class="faq-a">No. RunRadar is a data tool. We detect and track on-chain movements in real time. We never tell you to buy or sell anything. You get the data, you make the decisions.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">How does the 14-day free trial work?</button>
-          <div class="faq-a">You get full Pro access for 14 days at no cost. If you cancel before the trial ends, you won't be charged. After 14 days, it's $29/month — cancel anytime with one click.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">How fast are the alerts?</button>
-          <div class="faq-a">RunRadar scans every 15 seconds. When a token starts moving, you get an alert within seconds via Telegram. Live updates continue as the run progresses.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">What security checks are included?</button>
-          <div class="faq-a">Every detected token is automatically checked via BirdEye for: mint authority status, freeze authority, top 10 holder concentration, transfer fees, and mutable metadata. Flagged tokens are marked so you can make informed decisions.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Can I cancel anytime?</button>
-          <div class="faq-a">Yes. Cancel with one click from your LemonSqueezy account. No questions asked, no hidden fees.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Bottom CTA -->
-    <section class="bottom-cta fade-in">
-      <h2>Start Tracking Runs Today</h2>
-      <p>14-day free trial. No risk. Cancel anytime.</p>
-      <a href="https://runradar.lemonsqueezy.com/checkout/buy/d1fcb32a-507c-4441-825f-fb18a20363ec" class="card-btn primary">Start Free Trial →</a>
-    </section>
-
   </main>
-
-  <footer>
-    <div class="container">
-      RunRadar is not financial advice. All data is provided for informational purposes only. Trade at your own risk.<br>
-      &copy; 2025 RunRadar. All rights reserved.
-    </div>
-  </footer>
-
-  <script>
-    // FAQ toggle
-    document.getElementById('faq-list').addEventListener('click', function(e) {
-      var btn = e.target.closest('.faq-q');
-      if (!btn) return;
-      var item = btn.closest('.faq-item');
-      var isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
-      if (!isOpen) item.classList.add('open');
-    });
-
-    // Fade in on scroll
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
-  </script>
 
 </body>
 </html>
-
