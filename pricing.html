@@ -14,7 +14,6 @@
       --card-bg: #0d1117;
       --border: #1e252e;
     }
-
     body {
       font-family: 'Space Grotesk', sans-serif;
       background-color: var(--bg);
@@ -22,20 +21,18 @@
       margin: 0;
       line-height: 1.6;
     }
-
     .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
     header { text-align: center; margin-bottom: 60px; }
     h1 { font-size: 3rem; margin-bottom: 10px; }
     p.subtitle { color: var(--text-dim); font-size: 1.2rem; }
 
-    /* Pricing Grid */
+    /* Pricing Cards */
     .pricing-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 30px;
-      margin-bottom: 80px;
+      margin-bottom: 60px;
     }
-
     .price-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -43,49 +40,53 @@
       padding: 40px;
       position: relative;
       transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
-
     .price-card.featured {
       border-color: var(--accent);
-      box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
     }
-
-    .price-card:hover { transform: translateY(-5px); }
-
     .badge {
       position: absolute; top: 20px; right: 20px;
       background: var(--accent); color: #000;
       padding: 4px 12px; border-radius: 20px;
       font-size: 0.8rem; font-weight: bold;
     }
-
     .tier-name { font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; }
-    .price { font-size: 3rem; font-weight: 700; margin-bottom: 20px; }
-    .price span { font-size: 1rem; color: var(--text-dim); }
+    .price { font-size: 3.5rem; font-weight: 700; margin-bottom: 20px; color: var(--accent); }
+    .price span { font-size: 1.2rem; color: var(--text-dim); font-weight: 400; }
 
-    .features { list-style: none; padding: 0; margin: 30px 0; }
-    .features li { margin-bottom: 15px; display: flex; align-items: center; }
-    .features li::before {
-      content: "✓"; color: var(--accent); margin-right: 12px; font-weight: bold;
-    }
+    .features { list-style: none; padding: 0; margin: 30px 0; flex-grow: 1; }
+    .features li { margin-bottom: 15px; display: flex; align-items: center; font-size: 1.1rem; }
+    .features li::before { content: "✓"; color: var(--accent); margin-right: 12px; font-weight: bold; }
 
     .btn {
-      display: block; width: 100%; padding: 16px;
+      display: block; width: 100%; padding: 18px;
       border-radius: 8px; text-align: center;
       text-decoration: none; font-weight: bold;
-      transition: 0.3s;
+      font-size: 1.1rem; transition: 0.3s;
+      box-sizing: border-box;
     }
-
     .btn-free { border: 1px solid var(--border); color: var(--text); }
     .btn-pro { background: var(--accent); color: #000; }
-    .btn-pro:hover { filter: brightness(1.1); box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
+    .btn-pro:hover { box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); transform: scale(1.02); }
 
-    /* FAQ Section */
-    .faq { max-width: 700px; margin: 0 auto; }
+    /* Comparison Table */
+    .comparison-section { margin-top: 100px; }
+    .comparison-section h2 { text-align: center; margin-bottom: 40px; }
+    table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden; }
+    th, td { padding: 20px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: #161b22; color: var(--accent); }
+    .check { color: var(--accent); font-weight: bold; }
+    .cross { color: #ff4d4d; }
+
+    /* FAQ */
+    .faq { max-width: 800px; margin: 100px auto 40px; }
     .faq h2 { text-align: center; margin-bottom: 40px; }
-    .faq-item { margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
-    .faq-q { font-weight: 600; font-size: 1.1rem; margin-bottom: 10px; color: var(--accent); }
-    .faq-a { color: var(--text-dim); font-size: 0.95rem; }
+    .faq-item { margin-bottom: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+    .faq-q { font-weight: bold; color: var(--accent); margin-bottom: 8px; display: block; }
+    .faq-a { color: var(--text-dim); }
 
     @media (max-width: 768px) {
       .pricing-grid { grid-template-columns: 1fr; }
@@ -95,10 +96,10 @@
 </head>
 <body>
 
-  <main class="container">
+  <div class="container">
     <header>
-      <h1>Upgrade to Pro</h1>
-      <p class="subtitle">Stop gambling. Start trading with on-chain data.</p>
+      <h1>Choose Your Radar</h1>
+      <p class="subtitle">Join thousands of traders using real-time on-chain data.</p>
     </header>
 
     <div class="pricing-grid">
@@ -107,63 +108,77 @@
         <div class="price">$0<span>/forever</span></div>
         <ul class="features">
           <li>Basic Telegram Alerts</li>
-          <li>Delayed Data Feed</li>
+          <li>Standard Token Scoring</li>
+          <li>Public Results Channel</li>
           <li>Community Access</li>
-          <li>Standard Security Checks</li>
         </ul>
-        <a href="https://t.me/scannerpreview" class="btn btn-free">Join Telegram</a>
+        <a href="https://t.me/scannerpreview" class="btn btn-free">Get Free Access</a>
       </div>
 
       <div class="price-card featured">
-        <div class="badge">POPULAR</div>
+        <div class="badge">14-DAY FREE TRIAL</div>
         <div class="tier-name">RunRadar Pro</div>
         <div class="price">$29<span>/month</span></div>
         <ul class="features">
-          <li>Real-time Solana Alerts</li>
-          <li>14-day Free Trial</li>
-          <li>Instant Run Detection</li>
+          <li><b>Real-Time</b> Solana Alerts</li>
           <li>Advanced Social Velocity Data</li>
-          <li>Priority Security Audit</li>
-          <li>Private Alpha Channel</li>
+          <li>Instant Security Audits</li>
+          <li>Early Whale Accumulation</li>
+          <li>Exclusive Pro Alpha Channel</li>
+          <li>Full Case Study Access</li>
         </ul>
-        <a href="https://runradar.lemonsqueezy.com/checkout/buy/d1fcb32a-507c-4441-825f-fb18a20363ec" class="btn btn-pro">Start 14-Day Free Trial</a>
+        <a href="https://runradar.lemonsqueezy.com/checkout/buy/d1fcb32a-507c-4441-825f-fb18a20363ec" class="btn btn-pro">Start Pro Free Trial</a>
       </div>
     </div>
 
+    <div class="comparison-section">
+      <h2>Plan Comparison</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Free</th>
+            <th>Pro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Alert Speed</td><td>Delayed</td><td><span class="check">Instant</span></td></tr>
+          <tr><td>Social Velocity Check</td><td>Basic</td><td><span class="check">Advanced</span></td></tr>
+          <tr><td>Security Scan</td><td>Standard</td><td><span class="check">Deep Audit</span></td></tr>
+          <tr><td>Live Run Tracking</td><td><span class="cross">✕</span></td><td><span class="check">Yes</span></td></tr>
+          <tr><td>Case Study Archives</td><td><span class="cross">✕</span></td><td><span class="check">Yes</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <section class="faq">
-      <h2>Frequently Asked Questions</h2>
-      
+      <h2>Common Questions</h2>
       <div class="faq-item">
-        <div class="faq-q">What is the 14-day free trial?</div>
-        <div class="faq-a">You can try all Pro features for 2 weeks. You won't be charged until the trial ends, and you can cancel anytime.</div>
+        <span class="faq-q">How does the 14-day trial work?</span>
+        <span class="faq-a">You get full access to Pro features immediately. If you don't cancel before the 14th day, your subscription will start.</span>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q">How does the detection work?</div>
-        <div class="faq-a">Our bot scans Solana in real-time for liquidity moves, social volume spikes, and wallet accumulation before the pump.</div>
+        <span class="faq-q">Can I cancel anytime?</span>
+        <span class="faq-a">Yes, you can cancel your trial or subscription through the link in your email from LemonSqueezy.</span>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q">Can I cancel my subscription?</div>
-        <div class="faq-a">Yes, you can manage and cancel your subscription anytime via your LemonSqueezy dashboard.</div>
+        <span class="faq-q">Which chains are supported?</span>
+        <span class="faq-a">Currently, we are 100% focused on Solana for the highest volatility and opportunity.</span>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q">Is this financial advice?</div>
-        <div class="faq-a">No. RunRadar provides data and alerts. Trading meme coins is highly risky. Never invest more than you can afford to lose.</div>
+        <span class="faq-q">Do I need a special wallet?</span>
+        <span class="faq-a">No, you can trade with any Solana wallet (Phantom, Solflare, etc.). Our bot provides the data.</span>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q">Which wallets are supported?</div>
-        <div class="faq-a">The bot tracks all Solana tokens. We recommend using Phantom or Solflare for your own trading.</div>
+        <span class="faq-q">Where are the Pro alerts sent?</span>
+        <span class="faq-a">After subscribing, you will get access to a private, high-speed Telegram channel.</span>
       </div>
-
       <div class="faq-item">
-        <div class="faq-q">Do you check for rugpulls?</div>
-        <div class="faq-a">Yes, every alert includes a security check for mint risk, liquidity lock, and top holder concentration.</div>
+        <span class="faq-q">Is my payment secure?</span>
+        <span class="faq-a">All payments are handled by LemonSqueezy, a world-class merchant of record. We never see your card data.</span>
       </div>
     </section>
-  </main>
+  </div>
 
 </body>
 </html>
