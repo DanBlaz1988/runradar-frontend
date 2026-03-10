@@ -828,7 +828,7 @@
     // ── Load real data from API ──────────────────────────
     async function loadData() {
       try {
-        var resp = await fetch(API + '/api/closed-public?min_win=0&limit=10000');
+        var resp = await fetch(API + '/api/closed-public?min_win=0&limit=1000');
         if (!resp.ok) throw new Error();
         var runs = await resp.json();
         if (!runs || !runs.length) return;
