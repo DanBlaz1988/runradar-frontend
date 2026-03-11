@@ -549,21 +549,29 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    async function fetchData() {
+    // ── STATS: lightweight /api/summary (no heavy payload) ──
+    async function fetchStats() {
       try {
-        // Лимитот е 1000 за да ги опфати сите твои 350+ рунови
-        const resp = await fetch(`${API}/api/closed-public?min_win=0&limit=1000`);
-        const runs = await resp.json();
-        
-        if (runs && runs.length > 0) {
-          const pnlValues = runs.map(r => parseFloat(r.pnl_pct || 0));
-          
-          // Ажурирање на статистики
-          document.getElementById('stat-runs').textContent = runs.length + '+';
-          document.getElementById('stat-best').textContent = Math.max(...pnlValues).toFixed(0).toLocaleString() + '%';
-          document.getElementById('stat-avg').textContent = (pnlValues.reduce((a, b) => a + b, 0) / pnlValues.length).toFixed(0) + '%';
+        const resp = await fetch(`${API}/api/summary`);
+        const s = await resp.json();
+        if (s.total > 0) {
+          document.getElementById('stat-runs').textContent = s.total + '+';
+          document.getElementById('stat-best').textContent = Number(s.best).toLocaleString() + '%';
+          document.getElementById('stat-avg').textContent = s.avg + '%';
+        }
+      } catch (e) {
+        console.error("Stats fetch failed", e);
+      }
+    }
 
-          // Главна мрежа
+    // ── GRID + TICKER: only last 20 runs ──
+    async function fetchRuns() {
+      try {
+        const resp = await fetch(`${API}/api/closed-public?min_win=0&limit=20`);
+        const runs = await resp.json();
+
+        if (runs && runs.length > 0) {
+          // Grid — first 6
           document.getElementById('runs-grid').innerHTML = runs.slice(0, 6).map(r => `
             <div class="run-card">
               <div class="run-card-top">
@@ -576,8 +584,9 @@
             </div>
           `).join('');
 
-          // Тикер анимација
-          const tickerHTML = runs.slice(0, 20).map(r => `
+          // Ticker — up to 15 items, duplicated for seamless loop
+          const tickerData = runs.slice(0, 15);
+          const tickerHTML = tickerData.map(r => `
             <span class="ticker-item">
               <span class="ticker-dot"></span>
               <span class="t-sym">${r.symbol}</span>
@@ -587,12 +596,14 @@
           document.getElementById('ticker-track').innerHTML = tickerHTML + tickerHTML;
         }
       } catch (e) {
-        console.error("API Failure", e);
+        console.error("Runs fetch failed", e);
       }
     }
 
-    fetchData();
-    setInterval(fetchData, 60000);
+    // Fire both in parallel on load
+    Promise.all([fetchStats(), fetchRuns()]);
+    // Refresh every 60s
+    setInterval(() => { fetchStats(); fetchRuns(); }, 60000);
   </script>
 </body>
 </html>
