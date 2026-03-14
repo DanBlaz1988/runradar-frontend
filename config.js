@@ -22,7 +22,7 @@ window.RUNRADAR = {
 
   // Offer / Pricing
   priceAnchorText: "Regular price: $49/month",
-  trialText: "Free 14-day access for early beta members.",
+  trialText: "Free 7-day access for early beta members.",
   noteText: "Full access during beta. No payment required now.",
 
   // Checkout (кога ќе имаш)
