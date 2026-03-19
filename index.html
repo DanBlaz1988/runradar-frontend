@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#080b10">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,43 +11,66 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #080b10;
-      --bg2: #0d1117;
-      --bg3: #111820;
-      --border: rgba(255,255,255,0.07);
-      --border-bright: rgba(255,255,255,0.12);
-      --text: #e8eef6;
-      --text-secondary: #8a9ab5;
-      --text-muted: #4a5568;
+    /* ── THEME VARIABLES ─────────────────────────────── */
+    [data-theme="dark"] {
+      --bg: #111318;
+      --bg2: #181b22;
+      --bg3: #1e222b;
+      --bg-elevated: #22262f;
+      --border: rgba(255,255,255,0.08);
+      --border-bright: rgba(255,255,255,0.14);
+      --text: #edf0f7;
+      --text-secondary: #8e99af;
+      --text-muted: #505a6e;
       --green: #00e676;
-      --green-dim: rgba(0,230,118,0.1);
-      --green-border: rgba(0,230,118,0.2);
-      --cyan: #00b4d8;
-      --cyan-dim: rgba(0,180,216,0.08);
-      --red: #ff4d4d;
-      --accent: #00e676;
-      --font: 'Space Grotesk', sans-serif;
-      --mono: 'JetBrains Mono', monospace;
+      --green-soft: rgba(0,230,118,0.12);
+      --green-border: rgba(0,230,118,0.22);
+      --red: #ff5252;
+      --cyan: #4dd0e1;
+      --yellow: #ffd740;
+      --card-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      --nav-bg: rgba(17,19,24,0.88);
+      --toggle-icon: "☀️";
+    }
+    [data-theme="light"] {
+      --bg: #f5f6f8;
+      --bg2: #ffffff;
+      --bg3: #ebedf2;
+      --bg-elevated: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --border-bright: rgba(0,0,0,0.14);
+      --text: #1a1d24;
+      --text-secondary: #5c6578;
+      --text-muted: #9aa2b2;
+      --green: #00c853;
+      --green-soft: rgba(0,200,83,0.1);
+      --green-border: rgba(0,200,83,0.25);
+      --red: #e53935;
+      --cyan: #0097a7;
+      --yellow: #f9a825;
+      --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      --nav-bg: rgba(245,246,248,0.88);
+      --toggle-icon: "🌙";
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: var(--font);
+      font-family: 'DM Sans', -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
     }
     a { color: inherit; text-decoration: none; }
     button { cursor: pointer; border: none; background: none; font-family: inherit; }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
 
-    /* ── TICKER ─────────────────────────────────────────── */
+    /* ── TICKER ─────────────────────────────────────── */
     .ticker-bar {
       background: var(--bg2);
       border-bottom: 1px solid var(--border);
@@ -59,16 +82,16 @@
       content: '';
       position: absolute;
       top: 0; bottom: 0;
-      width: 80px;
+      width: 60px;
       z-index: 2;
+      pointer-events: none;
     }
     .ticker-bar::before { left: 0; background: linear-gradient(to right, var(--bg2), transparent); }
     .ticker-bar::after { right: 0; background: linear-gradient(to left, var(--bg2), transparent); }
     .ticker-track {
       display: flex;
-      gap: 0;
       white-space: nowrap;
-      animation: ticker 30s linear infinite;
+      animation: ticker 28s linear infinite;
     }
     .ticker-track:hover { animation-play-state: paused; }
     @keyframes ticker {
@@ -79,324 +102,349 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 0 28px;
-      font-family: var(--mono);
+      padding: 0 24px;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 0.72rem;
       color: var(--text-secondary);
       border-right: 1px solid var(--border);
     }
-    .ticker-item .t-sym { color: var(--text); font-weight: 700; }
-    .ticker-item .t-pct { color: var(--green); font-weight: 700; }
+    .ticker-item .t-sym { color: var(--text); font-weight: 600; }
+    .ticker-item .t-pct { color: var(--green); font-weight: 600; }
     .ticker-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); display: inline-block; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    /* ── NAVBAR ─────────────────────────────────────────── */
+    /* ── NAVBAR ─────────────────────────────────────── */
     .navbar {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(8,11,16,0.92);
-      backdrop-filter: blur(12px);
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 0;
+      padding: 0 0;
     }
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      height: 56px;
     }
     .brand {
       display: flex;
       align-items: center;
       gap: 8px;
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       letter-spacing: -0.02em;
     }
-    .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
+    .brand-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
     }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
     .nav-link {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
       font-weight: 500;
-      transition: color 0.2s;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
     }
-    .nav-link:hover { color: var(--text); }
-    .nav-link-pro { color: var(--green) !important; font-weight: 700; }
-    .btn-primary {
+    .nav-link:hover { color: var(--text); background: var(--green-soft); }
+    .nav-link.active { color: var(--green); }
+    .theme-toggle {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      margin-left: 4px;
+    }
+    .theme-toggle:hover { border-color: var(--green-border); }
+    .btn-nav {
       background: var(--green);
       color: #000;
       font-weight: 700;
-      font-size: 0.85rem;
-      padding: 9px 20px;
-      border-radius: 6px;
+      font-size: 0.82rem;
+      padding: 8px 18px;
+      border-radius: 8px;
       transition: all 0.2s;
-      letter-spacing: 0.01em;
+      margin-left: 8px;
     }
-    .btn-primary:hover { background: #00ff88; transform: translateY(-1px); }
+    .btn-nav:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
-    /* ── HERO ───────────────────────────────────────────── */
+    /* ── HERO ─────────────────────────────────────── */
     .hero {
-      padding: 100px 0 80px;
-      position: relative;
+      padding: 80px 0 64px;
       text-align: center;
+      position: relative;
     }
     .hero::before {
       content: '';
       position: absolute;
-      top: 0; left: 50%;
+      top: -40px; left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      height: 400px;
-      background: radial-gradient(ellipse at center, rgba(0,230,118,0.06) 0%, transparent 70%);
+      width: 600px; height: 350px;
+      background: radial-gradient(ellipse, var(--green-soft) 0%, transparent 70%);
       pointer-events: none;
     }
-    .hero-label {
+    .hero-tag {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--green-dim);
+      background: var(--green-soft);
       border: 1px solid var(--green-border);
       border-radius: 999px;
       padding: 5px 14px;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--green);
-      margin-bottom: 24px;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+      margin-bottom: 20px;
     }
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      max-width: 850px;
-      margin: 0 auto 24px;
+      font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      max-width: 720px;
+      margin: 0 auto 18px;
     }
     .hero h1 em {
       font-style: normal;
       color: var(--green);
-      position: relative;
     }
     .hero-sub {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       color: var(--text-secondary);
-      max-width: 620px;
-      line-height: 1.6;
-      margin: 0 auto 40px;
+      max-width: 540px;
+      line-height: 1.65;
+      margin: 0 auto 36px;
     }
     .hero-actions {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 64px;
+      margin-bottom: 56px;
     }
     .btn-hero {
       background: var(--green);
       color: #000;
       font-weight: 700;
-      font-size: 1rem;
-      padding: 16px 32px;
-      border-radius: 8px;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 10px;
       transition: all 0.2s;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
-    .btn-hero:hover { background: #00ff88; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,230,118,0.3); }
-    .btn-hero-outline {
-      border: 1px solid var(--green-border);
-      color: var(--green);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 16px 32px;
-      border-radius: 8px;
+    .btn-hero:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.25); }
+    .btn-outline {
+      border: 1px solid var(--border-bright);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 10px;
       transition: all 0.2s;
     }
-    .btn-hero-outline:hover { background: var(--green-dim); border-color: var(--green); }
+    .btn-outline:hover { border-color: var(--green-border); color: var(--green); background: var(--green-soft); }
 
-    /* ── STATS GRID ─────────────────────────────────────── */
+    /* ── STATS ROW ────────────────────────────────── */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1px;
       background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
-      max-width: 960px;
+      max-width: 680px;
       margin: 0 auto;
     }
-    @media (max-width: 640px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
     .stat-box {
       background: var(--bg2);
-      padding: 32px 20px;
+      padding: 20px 16px;
       text-align: center;
     }
     .stat-val {
-      font-family: var(--mono);
-      font-size: 1.8rem;
-      font-weight: 700;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 600;
       color: var(--green);
-      line-height: 1;
-      margin-bottom: 8px;
     }
-    .stat-val.loading { color: var(--text-muted); font-size: 1rem; animation: blink 1s infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
     .stat-lbl {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
     }
+    @media(max-width:520px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
 
-    /* ── LIVE RUNS FEED ─────────────────────────────────── */
-    .section { padding: 100px 0; }
-    .runs-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .runs-header {
+    /* ── RECENT RUNS ──────────────────────────────── */
+    .section { padding: 64px 0; }
+    .section-head {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 40px;
+      margin-bottom: 28px;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 12px;
     }
-    .runs-live-badge {
-      display: flex;
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .live-badge {
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: var(--green-dim);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      color: var(--green);
+      gap: 6px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
       font-weight: 600;
-      font-family: var(--mono);
+      color: var(--green);
+      background: var(--green-soft);
+      border: 1px solid var(--green-border);
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
     .runs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
     }
     .run-card {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      transition: all 0.2s;
-    }
-    .run-card:hover { border-color: var(--green-border); transform: translateY(-3px); }
-    .run-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .run-sym { font-weight: 700; font-size: 1.1rem; font-family: var(--mono); color: #fff; }
-    .run-pct { font-family: var(--mono); font-weight: 700; font-size: 1.2rem; color: var(--green); }
-    .run-meta { display: flex; gap: 16px; font-size: 0.8rem; color: var(--text-secondary); font-family: var(--mono); }
-
-    /* ── FEATURES ───────────────────────────────────────── */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-top: 60px;
-    }
-    @media (max-width: 850px) { .features-grid { grid-template-columns: 1fr; } }
-    .feature-card {
-      padding: 32px;
       background: var(--bg2);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      transition: border-color 0.2s;
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.2s;
     }
-    .feature-card:hover { border-color: var(--border-bright); }
-    .f-icon { font-size: 2rem; margin-bottom: 20px; display: block; }
-    .f-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
-    .f-text { color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; }
-
-    /* ── CTA SECTION ────────────────────────────────────── */
-    .cta-banner {
-      background: linear-gradient(135deg, #00e676 0%, #00b4d8 100%);
-      border-radius: 24px;
-      padding: 60px 40px;
-      text-align: center;
-      color: #000;
-      margin: 40px 0;
-    }
-    .cta-banner h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.03em; }
-    .cta-banner p { font-size: 1.1rem; font-weight: 500; margin-bottom: 32px; opacity: 0.9; }
-
-    /* ── FOOTER ─────────────────────────────────────────── */
-    .footer {
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-      padding: 60px 0 40px;
-    }
-    .footer-inner {
+    .run-card:hover { border-color: var(--green-border); transform: translateY(-2px); box-shadow: var(--card-shadow); }
+    .run-card-top {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 40px;
-      margin-bottom: 40px;
+      margin-bottom: 8px;
     }
-    .footer-col h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 20px; color: #fff; text-transform: uppercase; letter-spacing: 0.05em; }
-    .footer-links { list-style: none; }
-    .footer-links li { margin-bottom: 12px; font-size: 0.9rem; color: var(--text-secondary); }
-    .footer-links a:hover { color: var(--green); }
-    .footer-bottom {
-      border-top: 1px solid var(--border);
-      padding-top: 30px;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
+    .run-sym { font-weight: 700; font-size: 0.95rem; }
+    .run-pct {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--green);
     }
+    .run-meta { font-size: 0.75rem; color: var(--text-muted); }
 
-    /* ── MODAL ──────────────────────────────────────────── */
+    /* ── FEATURES ──────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      transition: all 0.2s;
+    }
+    .feature-card:hover { border-color: var(--green-border); }
+    .f-icon { font-size: 1.6rem; margin-bottom: 14px; display: block; }
+    .f-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; }
+    .f-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ── CTA BANNER ────────────────────────────────── */
+    .cta-banner {
+      background: var(--bg2);
+      border: 1px solid var(--green-border);
+      border-radius: 18px;
+      padding: 48px 32px;
+      text-align: center;
+      margin: 32px 0 64px;
+    }
+    .cta-banner h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+    .cta-banner p { color: var(--text-secondary); margin-bottom: 24px; }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+    }
+    .footer p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── MODAL ──────────────────────────────────────── */
     .modal {
-      display: none;
       position: fixed;
       inset: 0;
       z-index: 200;
+      display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.25s;
     }
-    .modal.open { display: flex; }
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); }
+    .modal.open { visibility: visible; opacity: 1; }
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+    }
     .modal-box {
       position: relative;
-      background: var(--bg2);
+      background: var(--bg-elevated);
       border: 1px solid var(--border-bright);
-      border-radius: 24px;
-      padding: 48px 40px;
+      border-radius: 18px;
+      padding: 36px 28px;
       width: 100%;
-      max-width: 480px;
-      z-index: 1;
+      max-width: 420px;
       text-align: center;
     }
-    .modal-close { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; color: var(--text-muted); transition: color 0.2s; }
-    .modal-close:hover { color: #fff; }
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      background: var(--bg3);
+    }
+    .modal-close:hover { color: var(--text); }
 
-    /* ── ANIMATIONS ─────────────────────────────────────── */
-    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    /* ── FADE IN ────────────────────────────────────── */
+    .fade-in { opacity: 0; transform: translateY(16px); transition: all 0.5s ease; }
     .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+    @media(max-width:640px) {
+      .nav-links { gap: 2px; }
+      .nav-link { font-size: 0.78rem; padding: 5px 8px; }
+      .btn-nav { padding: 7px 12px; font-size: 0.78rem; }
+      .hero { padding: 60px 0 48px; }
+    }
   </style>
 </head>
 <body>
 
   <div class="ticker-bar">
     <div class="ticker-track" id="ticker-track">
-      <span class="ticker-item"><span class="ticker-dot"></span> <span class="t-sym">Initializing RunRadar...</span></span>
+      <span class="ticker-item"><span class="ticker-dot"></span> <span class="t-sym">Loading...</span></span>
     </div>
   </div>
 
@@ -406,22 +454,23 @@
       <div class="nav-links">
         <a href="/blog" class="nav-link">Blog</a>
         <a href="/results" class="nav-link">Results</a>
-        <a href="/pricing" class="nav-link nav-link-pro">Pricing</a>
-        <button class="btn-primary" onclick="openModal()">Get Free Access</button>
+        <a href="/whales" class="nav-link">Whales</a>
+        <a href="/pricing" class="nav-link">Pricing</a>
+        <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">☀️</button>
+        <button class="btn-nav" onclick="openModal()">Get Access</button>
       </div>
     </div>
   </nav>
 
   <header class="hero">
     <div class="container">
-      <div class="hero-label">📡 Live Solana Run Tracking</div>
-      <h1>See Which Tokens Are Running<br><em>Right Now!</em></h1>
+      <div class="hero-tag"><span class="ticker-dot"></span> Live Solana Run Tracking</div>
+      <h1>See Which Tokens Are Running <em>Right Now</em></h1>
       <p class="hero-sub">No hype. No signals. We monitor on-chain data to show you exactly how tokens move. Verifiable performance logs 24/7.</p>
       <div class="hero-actions">
-        <button class="btn-hero" onclick="openModal()">Get Free Beta Access →</button>
-        <a href="/pricing" class="btn-hero-outline">View Pro Features</a>
+        <button class="btn-hero" onclick="openModal()">Get Free Access →</button>
+        <a href="/results" class="btn-outline">View Results</a>
       </div>
-
       <div class="stats-row">
         <div class="stat-box">
           <div class="stat-val" id="stat-runs">350+</div>
@@ -443,29 +492,29 @@
     </div>
   </header>
 
-  <section class="section runs-section">
+  <section class="section">
     <div class="container">
-      <div class="runs-header">
+      <div class="section-head">
         <div>
-          <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 8px;">Recent Activity</h2>
-          <p style="color: var(--text-secondary);">Last 6 tokens identified by RunRadar scanner.</p>
+          <h2 class="section-title">Recent Activity</h2>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Last 6 tokens identified by RunRadar.</p>
         </div>
-        <div class="runs-live-badge"><span class="ticker-dot"></span> LIVE FEED</div>
+        <div class="live-badge"><span class="ticker-dot"></span> LIVE FEED</div>
       </div>
       <div class="runs-grid" id="runs-grid">
-        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">Fetching on-chain data...</div>
+        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">Fetching data...</div>
       </div>
-      <div style="text-align: center; margin-top: 48px;">
-        <a href="/results" class="btn-hero-outline" style="font-size: 0.9rem;">View All Historic Results →</a>
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="/results" class="btn-outline" style="font-size: 0.88rem; padding: 11px 24px;">View All Results →</a>
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container fade-in">
-      <div style="text-align: center; margin-bottom: 60px;">
-        <h2 style="font-size: 2.5rem; font-weight: 800;">Built for Clarity</h2>
-        <p style="color: var(--text-secondary); max-width: 600px; margin: 16px auto 0;">We don't tell you what to buy. We show you what is happening on the blockchain.</p>
+      <div style="text-align: center; margin-bottom: 48px;">
+        <h2 class="section-title">Built for Clarity</h2>
+        <p style="color: var(--text-secondary); max-width: 520px; margin: 12px auto 0; font-size: 0.95rem;">We don't tell you what to buy. We show you what is happening on the blockchain.</p>
       </div>
       <div class="features-grid">
         <div class="feature-card">
@@ -476,52 +525,29 @@
         <div class="feature-card">
           <span class="f-icon">⚡</span>
           <h3 class="f-title">Sub-Second Speed</h3>
-          <p class="f-text">Our proprietary scanner identifies momentum the moment it hits the chain, not after the pump.</p>
+          <p class="f-text">Our scanner identifies momentum the moment it hits the chain, not after the pump.</p>
         </div>
         <div class="feature-card">
-          <span class="f-icon">📊</span>
-          <h3 class="f-title">Deep Analytics</h3>
-          <p class="f-text">We track peak gains, drawdown, and run duration to build a complete profile of token behavior.</p>
+          <span class="f-icon">🐋</span>
+          <h3 class="f-title">Whale Detection</h3>
+          <p class="f-text">Auto-discovers smart money wallets from mega runs and tracks their next moves in real-time.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="container">
+  <div class="container">
     <div class="cta-banner fade-in">
       <h2>Ready to see the data?</h2>
-      <p>Join 1,000+ traders watching the Solana scanner in real-time.</p>
-      <button class="btn-hero" style="background: #000; color: #fff;" onclick="openModal()">Get Access Now</button>
+      <p>Join traders watching the Solana scanner in real-time.</p>
+      <button class="btn-hero" onclick="openModal()">Get Access Now →</button>
     </div>
-  </section>
+  </div>
 
   <footer class="footer">
     <div class="container">
-      <div class="footer-inner">
-        <div class="footer-col" style="max-width: 300px;">
-          <div class="brand" style="margin-bottom: 20px;"><span class="brand-dot"></span>RunRadar</div>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">Advanced on-chain tracking for Solana tokens. Data-driven insights for the modern blockchain era.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Product</h4>
-          <ul class="footer-links">
-            <li><a href="/results">All Results</a></li>
-            <li><a href="/pricing">Pricing</a></li>
-            <li><a href="/blog">Case Studies</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <ul class="footer-links">
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Disclaimer</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 RunRadar. Not financial advice. Always do your own research.</p>
-      </div>
+      <p style="margin-bottom: 8px;"><span class="brand"><span class="brand-dot"></span>RunRadar</span></p>
+      <p>© 2026 RunRadar. Not financial advice. Always do your own research.</p>
     </div>
   </footer>
 
@@ -529,9 +555,9 @@
     <div class="modal-backdrop" onclick="closeModal()"></div>
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal()">×</button>
-      <div style="font-size: 3rem; margin-bottom: 20px;">🛰️</div>
-      <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 12px;">Beta Access</h2>
-      <p style="color: var(--text-secondary); margin-bottom: 32px;">Join our Telegram channel to receive live scanner alerts and beta updates.</p>
+      <div style="font-size: 2.5rem; margin-bottom: 16px;">🛰️</div>
+      <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 10px;">Beta Access</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 28px;">Join our Telegram channel to receive live scanner alerts and beta updates.</p>
       <a href="https://t.me/scannerpreview" class="btn-hero" style="width: 100%; justify-content: center;">Enter Telegram Channel →</a>
     </div>
   </div>
@@ -539,6 +565,22 @@
   <script>
     const API = 'https://app.runradar.app';
     const modal = document.getElementById('modal');
+
+    // ── Theme Toggle ──
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+      html.dataset.theme = next;
+      document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('rr-theme', next);
+    }
+    (function() {
+      const saved = localStorage.getItem('rr-theme');
+      if (saved) {
+        document.documentElement.dataset.theme = saved;
+        document.getElementById('theme-btn').textContent = saved === 'dark' ? '☀️' : '🌙';
+      }
+    })();
 
     function openModal() { modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
     function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
@@ -549,7 +591,6 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // ── STATS: lightweight /api/summary (no heavy payload) ──
     async function fetchStats() {
       try {
         const resp = await fetch(`${API}/api/summary`);
@@ -559,32 +600,24 @@
           document.getElementById('stat-best').textContent = Number(s.best).toLocaleString() + '%';
           document.getElementById('stat-avg').textContent = s.avg + '%';
         }
-      } catch (e) {
-        console.error("Stats fetch failed", e);
-      }
+      } catch (e) { console.error("Stats fetch failed", e); }
     }
 
-    // ── GRID + TICKER: only last 20 runs ──
     async function fetchRuns() {
       try {
         const resp = await fetch(`${API}/api/closed-public?min_win=0&limit=20`);
         const runs = await resp.json();
-
         if (runs && runs.length > 0) {
-          // Grid — first 6
           document.getElementById('runs-grid').innerHTML = runs.slice(0, 6).map(r => `
             <div class="run-card">
               <div class="run-card-top">
                 <span class="run-sym">${r.symbol || 'TKN'}</span>
                 <span class="run-pct">+${parseFloat(r.pnl_pct).toFixed(1)}%</span>
               </div>
-              <div class="run-meta">
-                <span>Peak Reached</span>
-              </div>
+              <div class="run-meta">Peak Reached</div>
             </div>
           `).join('');
 
-          // Ticker — up to 15 items, duplicated for seamless loop
           const tickerData = runs.slice(0, 15);
           const tickerHTML = tickerData.map(r => `
             <span class="ticker-item">
@@ -595,14 +628,10 @@
           `).join('');
           document.getElementById('ticker-track').innerHTML = tickerHTML + tickerHTML;
         }
-      } catch (e) {
-        console.error("Runs fetch failed", e);
-      }
+      } catch (e) { console.error("Runs fetch failed", e); }
     }
 
-    // Fire both in parallel on load
     Promise.all([fetchStats(), fetchRuns()]);
-    // Refresh every 60s
     setInterval(() => { fetchStats(); fetchRuns(); }, 60000);
   </script>
 </body>
