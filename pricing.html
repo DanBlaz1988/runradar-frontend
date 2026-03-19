@@ -1,184 +1,220 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#080b10">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pricing — RunRadar Pro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #080b10;
-      --accent: #00ff88;
-      --text: #ffffff;
-      --text-dim: #8b949e;
-      --card-bg: #0d1117;
-      --border: #1e252e;
+    [data-theme="dark"] {
+      --bg: #111318; --bg2: #181b22; --bg3: #1e222b; --bg4: #22262f;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+      --text: #edf0f7; --text2: #8e99af; --text3: #505a6e;
+      --green: #00e676; --gdim: rgba(0,230,118,0.12); --gborder: rgba(0,230,118,0.22);
+      --red: #ff5252; --nav-bg: rgba(17,19,24,0.88);
     }
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      margin: 0;
-      line-height: 1.6;
+    [data-theme="light"] {
+      --bg: #f5f6f8; --bg2: #ffffff; --bg3: #ebedf2; --bg4: #e2e5ea;
+      --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.14);
+      --text: #1a1d24; --text2: #5c6578; --text3: #9aa2b2;
+      --green: #00c853; --gdim: rgba(0,200,83,0.1); --gborder: rgba(0,200,83,0.25);
+      --red: #e53935; --nav-bg: rgba(245,246,248,0.88);
     }
-    .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
-    header { text-align: center; margin-bottom: 60px; }
-    h1 { font-size: 3rem; margin-bottom: 10px; }
-    p.subtitle { color: var(--text-dim); font-size: 1.2rem; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; line-height: 1.6; }
 
-    /* Pricing Cards */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      margin-bottom: 60px;
-    }
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 0 20px; height: 56px; display: flex; align-items: center; gap: 12px; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--text); letter-spacing: -0.02em; }
+    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .nav-links { display: flex; gap: 4px; margin-left: auto; }
+    .nav-link { font-size: 0.85rem; font-weight: 500; padding: 6px 12px; border-radius: 6px; text-decoration: none; color: var(--text2); transition: all 0.2s; }
+    .nav-link:hover { color: var(--text); background: var(--gdim); }
+    .nav-link.active { color: var(--green); }
+    .theme-toggle { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; background: var(--bg3); border: 1px solid var(--border); cursor: pointer; margin-left: 4px; }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 56px 20px 60px; }
+
+    /* HEADER */
+    header { text-align: center; margin-bottom: 48px; }
+    header h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 10px; }
+    header p { color: var(--text2); font-size: 1.05rem; }
+
+    /* PRICING GRID */
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 56px; }
     .price-card {
-      background: var(--card-bg);
+      background: var(--bg2);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 40px;
+      padding: 36px;
       position: relative;
-      transition: transform 0.3s ease;
       display: flex;
       flex-direction: column;
+      transition: all 0.2s;
     }
-    .price-card.featured {
-      border-color: var(--accent);
-      box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
-    }
+    .price-card:hover { border-color: var(--border2); }
+    .price-card.featured { border-color: var(--gborder); }
+    .price-card.featured:hover { border-color: var(--green); }
     .badge {
-      position: absolute; top: 20px; right: 20px;
-      background: var(--accent); color: #000;
-      padding: 4px 12px; border-radius: 20px;
-      font-size: 0.8rem; font-weight: bold;
+      position: absolute; top: 18px; right: 18px;
+      background: var(--green); color: #000;
+      padding: 4px 12px; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em;
     }
-    .tier-name { font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; }
-    .price { font-size: 3.5rem; font-weight: 700; margin-bottom: 20px; color: var(--accent); }
-    .price span { font-size: 1.2rem; color: var(--text-dim); font-weight: 400; }
+    .tier-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .price { font-family: 'IBM Plex Mono', monospace; font-size: 3rem; font-weight: 700; color: var(--green); margin-bottom: 20px; }
+    .price span { font-size: 1rem; color: var(--text3); font-weight: 400; }
+    .features { list-style: none; padding: 0; margin: 0 0 28px; flex-grow: 1; }
+    .features li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 0.95rem; color: var(--text2); }
+    .features li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .btn { display: block; width: 100%; padding: 15px; border-radius: 10px; text-align: center; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: all 0.2s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+    .btn-free { border: 1px solid var(--border2); color: var(--text); background: none; }
+    .btn-free:hover { border-color: var(--green); color: var(--green); background: var(--gdim); }
+    .btn-pro { background: var(--green); color: #000; }
+    .btn-pro:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,230,118,0.25); }
 
-    .features { list-style: none; padding: 0; margin: 30px 0; flex-grow: 1; }
-    .features li { margin-bottom: 15px; display: flex; align-items: center; font-size: 1.1rem; }
-    .features li::before { content: "✓"; color: var(--accent); margin-right: 12px; font-weight: bold; }
-
-    .btn {
-      display: block; width: 100%; padding: 18px;
-      border-radius: 8px; text-align: center;
-      text-decoration: none; font-weight: bold;
-      font-size: 1.1rem; transition: 0.3s;
-      box-sizing: border-box;
-    }
-    .btn-free { border: 1px solid var(--border); color: var(--text); }
-    .btn-pro { background: var(--accent); color: #000; }
-    .btn-pro:hover { box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); transform: scale(1.02); }
-
-    /* Comparison Table */
-    .comparison-section { margin-top: 100px; }
-    .comparison-section h2 { text-align: center; margin-bottom: 40px; }
-    table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 12px; overflow: hidden; }
-    th, td { padding: 20px; text-align: left; border-bottom: 1px solid var(--border); }
-    th { background: #161b22; color: var(--accent); }
-    .check { color: var(--accent); font-weight: bold; }
-    .cross { color: #ff4d4d; }
+    /* TABLE */
+    .comparison { margin-bottom: 56px; }
+    .comparison h2 { text-align: center; font-size: 1.4rem; font-weight: 800; margin-bottom: 24px; letter-spacing: -0.02em; }
+    table { width: 100%; border-collapse: collapse; background: var(--bg2); border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    th { background: var(--bg3); color: var(--green); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    td { color: var(--text2); }
+    .check { color: var(--green); font-weight: 700; }
+    .cross { color: var(--red); }
 
     /* FAQ */
-    .faq { max-width: 800px; margin: 100px auto 40px; }
-    .faq h2 { text-align: center; margin-bottom: 40px; }
-    .faq-item { margin-bottom: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-    .faq-q { font-weight: bold; color: var(--accent); margin-bottom: 8px; display: block; }
-    .faq-a { color: var(--text-dim); }
+    .faq { max-width: 720px; margin: 0 auto 40px; }
+    .faq h2 { text-align: center; font-size: 1.4rem; font-weight: 800; margin-bottom: 24px; letter-spacing: -0.02em; }
+    .faq-item { margin-bottom: 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; transition: border-color 0.2s; }
+    .faq-item:hover { border-color: var(--border2); }
+    .faq-q { font-weight: 700; color: var(--green); margin-bottom: 6px; display: block; font-size: 0.95rem; }
+    .faq-a { color: var(--text2); font-size: 0.9rem; }
 
-    @media (max-width: 768px) {
+    footer { border-top: 1px solid var(--border); padding: 28px 20px; text-align: center; }
+    footer p { font-size: 0.78rem; color: var(--text3); }
+
+    @media (max-width: 640px) {
       .pricing-grid { grid-template-columns: 1fr; }
-      h1 { font-size: 2.2rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <h1>Choose Your Radar</h1>
-      <p class="subtitle">Join thousands of traders using real-time on-chain data.</p>
-    </header>
+<nav>
+  <a href="/" class="nav-logo"><div class="nav-dot"></div>RunRadar</a>
+  <div class="nav-links">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/blog" class="nav-link">Blog</a>
+    <a href="/results" class="nav-link">Results</a>
+    <a href="/whales" class="nav-link">Whales</a>
+    <a href="/pricing" class="nav-link active">Pricing</a>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️</button>
+</nav>
 
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="tier-name">Free Access</div>
-        <div class="price">$0<span>/forever</span></div>
-        <ul class="features">
-          <li>Basic Telegram Alerts</li>
-          <li>Standard Token Scoring</li>
-          <li>Public Results Channel</li>
-          <li>Community Access</li>
-        </ul>
-        <a href="https://t.me/scannerpreview" class="btn btn-free">Get Free Access</a>
-      </div>
+<div class="container">
+  <header>
+    <h1>Choose Your Radar</h1>
+    <p>Join traders using real-time on-chain data.</p>
+  </header>
 
-      <div class="price-card featured">
-        <div class="badge">7-DAY FREE TRIAL</div>
-        <div class="tier-name">RunRadar Pro</div>
-        <div class="price">$19<span>/month</span></div>
-        <ul class="features">
-          <li><b>Real-Time</b> Solana Alerts</li>
-          <li>Advanced Social Velocity Data</li>
-          <li>Instant Security Audits</li>
-          <li>Early Whale Accumulation</li>
-          <li>Exclusive Pro Alpha Channel</li>
-          <li>Full Case Study Access</li>
-        </ul>
-        <a href="https://runradar.gumroad.com/l/access" class="btn btn-pro">Start Pro Free Trial</a>
-      </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="tier-name">Free Access</div>
+      <div class="price">$0<span>/forever</span></div>
+      <ul class="features">
+        <li>Basic Telegram Alerts</li>
+        <li>Standard Token Scoring</li>
+        <li>Public Results Channel</li>
+        <li>Community Access</li>
+      </ul>
+      <a href="https://t.me/scannerpreview" class="btn btn-free">Get Free Access</a>
     </div>
 
-    <div class="comparison-section">
-      <h2>Plan Comparison</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Free</th>
-            <th>Pro</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Alert Speed</td><td>Delayed</td><td><span class="check">Instant</span></td></tr>
-          <tr><td>Social Velocity Check</td><td>Basic</td><td><span class="check">Advanced</span></td></tr>
-          <tr><td>Security Scan</td><td>Standard</td><td><span class="check">Deep Audit</span></td></tr>
-          <tr><td>Live Run Tracking</td><td><span class="cross">✕</span></td><td><span class="check">Yes</span></td></tr>
-          <tr><td>Case Study Archives</td><td><span class="cross">✕</span></td><td><span class="check">Yes</span></td></tr>
-        </tbody>
-      </table>
+    <div class="price-card featured">
+      <div class="badge">7-DAY FREE TRIAL</div>
+      <div class="tier-name">RunRadar Pro</div>
+      <div class="price">$19<span>/month</span></div>
+      <ul class="features">
+        <li><b>Real-Time</b> Solana Alerts</li>
+        <li>Advanced Social Velocity Data</li>
+        <li>Instant Security Audits</li>
+        <li>Early Whale Accumulation</li>
+        <li>Exclusive Pro Alpha Channel</li>
+        <li>Full Case Study Access</li>
+      </ul>
+      <a href="https://runradar.gumroad.com/l/access" class="btn btn-pro">Start Pro Free Trial</a>
     </div>
-
-    <section class="faq">
-      <h2>Common Questions</h2>
-      <div class="faq-item">
-        <span class="faq-q">How does the 7-day trial work?</span>
-        <span class="faq-a">You get full access to Pro features immediately. If you don't cancel before the 14th day, your subscription will start.</span>
-      </div>
-      <div class="faq-item">
-        <span class="faq-q">Can I cancel anytime?</span>
-        <span class="faq-a">Yes, you can cancel your trial or subscription anytime through your Gumroad account.</span>
-      </div>
-      <div class="faq-item">
-        <span class="faq-q">Which chains are supported?</span>
-        <span class="faq-a">Currently, we are 100% focused on Solana for the highest volatility and opportunity.</span>
-      </div>
-      <div class="faq-item">
-        <span class="faq-q">Do I need a special wallet?</span>
-        <span class="faq-a">No, you can trade with any Solana wallet (Phantom, Solflare, etc.). Our bot provides the data.</span>
-      </div>
-      <div class="faq-item">
-        <span class="faq-q">Where are the Pro alerts sent?</span>
-        <span class="faq-a">After subscribing, you will get access to a private, high-speed Telegram channel.</span>
-      </div>
-      <div class="faq-item">
-        <span class="faq-q">Is my payment secure?</span>
-        <span class="faq-a">All payments are handled by Gumroad, a trusted payment platform. We never see your card data.</span>
-      </div>
-    </section>
   </div>
 
+  <div class="comparison">
+    <h2>Plan Comparison</h2>
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>Free</th><th>Pro</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Alert Speed</td><td>Delayed</td><td><span class="check">Instant</span></td></tr>
+        <tr><td>Social Velocity Check</td><td>Basic</td><td><span class="check">Advanced</span></td></tr>
+        <tr><td>Security Scan</td><td>Standard</td><td><span class="check">Deep Audit</span></td></tr>
+        <tr><td>Whale Tracking</td><td><span class="cross">✕</span></td><td><span class="check">Yes</span></td></tr>
+        <tr><td>Live Run Tracking</td><td><span class="cross">✕</span></td><td><span class="check">Yes</span></td></tr>
+        <tr><td>Case Study Archives</td><td><span class="cross">✕</span></td><td><span class="check">Yes</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="faq">
+    <h2>Common Questions</h2>
+    <div class="faq-item">
+      <span class="faq-q">How does the 7-day trial work?</span>
+      <span class="faq-a">Full access to Pro features immediately. Cancel anytime before the 7th day.</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">Can I cancel anytime?</span>
+      <span class="faq-a">Yes, cancel your trial or subscription anytime through Gumroad.</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">Which chains are supported?</span>
+      <span class="faq-a">100% focused on Solana for maximum opportunity.</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">Do I need a special wallet?</span>
+      <span class="faq-a">No, use any Solana wallet (Phantom, Solflare, etc.).</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">Where are Pro alerts sent?</span>
+      <span class="faq-a">Private high-speed Telegram channel after subscribing.</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">Is my payment secure?</span>
+      <span class="faq-a">All payments handled by Gumroad. We never see your card data.</span>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>© 2026 RunRadar. Not financial advice. Always DYOR.</p>
+</footer>
+
+<script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('rr-theme', next);
+}
+(function() {
+  var saved = localStorage.getItem('rr-theme');
+  if (saved) {
+    document.documentElement.dataset.theme = saved;
+    document.getElementById('theme-btn').textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
+})();
+</script>
 </body>
 </html>
