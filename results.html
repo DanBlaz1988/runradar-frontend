@@ -1,71 +1,74 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#060a0f">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RunRadar Results — All Tracked Solana Runs</title>
-  <meta name="description" content="Every Solana token run tracked by RunRadar. Real data, timestamped, publicly verifiable. No signals — just on-chain facts." />
+  <meta name="description" content="Every Solana token run tracked by RunRadar. Real data, timestamped, publicly verifiable." />
   <meta property="og:title" content="RunRadar Results — Verified Solana Run Data" />
   <meta property="og:description" content="Every run tracked. Every result logged. Transparent on-chain data." />
   <meta property="og:image" content="https://i.imgur.com/6xRYodt.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://runradar.app/results" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #060a0f;
-      --bg2: #0a1018;
-      --bg3: #0e1520;
-      --bg4: #121c28;
-      --border: rgba(255,255,255,0.06);
-      --border2: rgba(255,255,255,0.1);
-      --text: #e2eaf4;
-      --text2: #7a90aa;
-      --text3: #3d5068;
-      --green: #00e676;
-      --green2: #00ff88;
-      --gdim: rgba(0,230,118,0.08);
-      --gborder: rgba(0,230,118,0.18);
-      --red: #ff5252;
-      --rdim: rgba(255,82,82,0.08);
-      --yellow: #ffd740;
-      --cyan: #00b4d8;
-      --font: 'Syne', sans-serif;
-      --mono: 'JetBrains Mono', monospace;
+    [data-theme="dark"] {
+      --bg: #111318; --bg2: #181b22; --bg3: #1e222b; --bg4: #22262f;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+      --text: #edf0f7; --text2: #8e99af; --text3: #505a6e;
+      --green: #00e676; --green2: #00ff88; --gdim: rgba(0,230,118,0.12); --gborder: rgba(0,230,118,0.22);
+      --red: #ff5252; --rdim: rgba(255,82,82,0.08);
+      --yellow: #ffd740; --cyan: #4dd0e1;
+      --nav-bg: rgba(17,19,24,0.88); --card-shadow: 0 2px 12px rgba(0,0,0,0.3);
     }
+    [data-theme="light"] {
+      --bg: #f5f6f8; --bg2: #ffffff; --bg3: #ebedf2; --bg4: #e2e5ea;
+      --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.14);
+      --text: #1a1d24; --text2: #5c6578; --text3: #9aa2b2;
+      --green: #00c853; --green2: #00e676; --gdim: rgba(0,200,83,0.1); --gborder: rgba(0,200,83,0.25);
+      --red: #e53935; --rdim: rgba(229,57,53,0.08);
+      --yellow: #f9a825; --cyan: #0097a7;
+      --nav-bg: rgba(245,246,248,0.88); --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; }
+    .mono { font-family: 'IBM Plex Mono', monospace; }
 
     /* NAV */
-    nav { position: sticky; top: 0; z-index: 100; background: rgba(6,10,15,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 20px; height: 56px; display: flex; align-items: center; gap: 16px; }
-    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1rem; text-decoration: none; color: var(--text); }
-    .nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 0 20px; height: 56px; display: flex; align-items: center; gap: 12px; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--text); letter-spacing: -0.02em; }
+    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
     .nav-links { display: flex; gap: 4px; margin-left: auto; }
-    .nav-link { font-size: 0.82rem; font-weight: 600; padding: 6px 14px; border-radius: 6px; text-decoration: none; color: var(--text2); transition: all 0.2s; }
-    .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-link { font-size: 0.85rem; font-weight: 500; padding: 6px 12px; border-radius: 6px; text-decoration: none; color: var(--text2); transition: all 0.2s; }
+    .nav-link:hover { color: var(--text); background: var(--gdim); }
     .nav-link.active { color: var(--green); }
-    .nav-cta { font-size: 0.82rem; font-weight: 700; padding: 7px 16px; border-radius: 6px; background: var(--green); color: #000; text-decoration: none; transition: all 0.2s; }
-    .nav-cta:hover { background: var(--green2); }
+    .nav-cta { font-size: 0.82rem; font-weight: 700; padding: 8px 18px; border-radius: 8px; background: var(--green); color: #000; text-decoration: none; transition: all 0.2s; }
+    .nav-cta:hover { filter: brightness(1.1); }
+    .theme-toggle { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; background: var(--bg3); border: 1px solid var(--border); cursor: pointer; margin-left: 4px; transition: all 0.2s; }
+    .theme-toggle:hover { border-color: var(--gborder); }
 
     /* HERO */
-    .hero { padding: 64px 20px 48px; max-width: 1100px; margin: 0 auto; }
-    .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--gdim); border: 1px solid var(--gborder); border-radius: 999px; padding: 4px 14px; font-size: 0.75rem; font-weight: 700; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
+    .hero { padding: 48px 20px 36px; max-width: 1060px; margin: 0 auto; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--gdim); border: 1px solid var(--gborder); border-radius: 999px; padding: 4px 14px; font-size: 0.72rem; font-weight: 600; color: var(--green); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
     .hero-tag-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
-    .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 14px; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.1; margin-bottom: 10px; letter-spacing: -0.03em; }
     .hero h1 span { color: var(--green); }
-    .hero-sub { font-size: 1rem; color: var(--text2); max-width: 520px; line-height: 1.6; margin-bottom: 32px; }
+    .hero-sub { font-size: 0.95rem; color: var(--text2); max-width: 480px; line-height: 1.6; }
 
     /* STATS BAR */
-    .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
-    .stat-box { background: var(--bg2); padding: 18px 20px; }
-    .stat-val { font-family: var(--mono); font-size: 1.6rem; font-weight: 600; color: var(--green); }
-    .stat-lbl { font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
-    @media(max-width:600px){ .stats-bar { grid-template-columns: repeat(2,1fr); } }
+    .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-radius: 12px; overflow: hidden; margin: 28px 0 32px; }
+    .stat-box { background: var(--bg2); padding: 18px 16px; text-align: center; }
+    .stat-val { font-family: 'IBM Plex Mono', monospace; font-size: 1.4rem; font-weight: 600; color: var(--green); }
+    .stat-lbl { font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+    @media(max-width:520px) { .stats-bar { grid-template-columns: repeat(2,1fr); } }
 
     /* HEATMAP */
-    .heatmap-section { max-width: 1100px; margin: 0 auto 40px; padding: 0 20px; }
-    .section-title { font-size: 0.72rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
+    .heatmap-section { max-width: 1060px; margin: 0 auto 32px; padding: 0 20px; }
+    .sec-label { font-size: 0.7rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
     .heatmap-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; overflow-x: auto; }
     .heatmap-grid { display: flex; gap: 4px; min-width: 600px; }
     .heatmap-col { display: flex; flex-direction: column; gap: 4px; }
@@ -75,51 +78,46 @@
     .heatmap-cell.l2 { background: rgba(0,230,118,0.4); }
     .heatmap-cell.l3 { background: rgba(0,230,118,0.65); }
     .heatmap-cell.l4 { background: rgba(0,230,118,0.9); }
-    .heatmap-months { display: flex; gap: 4px; margin-bottom: 6px; min-width: 600px; }
-    .heatmap-month-label { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); }
-    .heatmap-legend { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-family: var(--mono); font-size: 0.65rem; color: var(--text3); }
+    .heatmap-legend { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--text3); }
     .heatmap-legend-cell { width: 12px; height: 12px; border-radius: 2px; }
 
     /* TOOLTIP */
-    .tooltip { position: fixed; background: var(--bg4); border: 1px solid var(--border2); border-radius: 8px; padding: 8px 12px; font-family: var(--mono); font-size: 0.72rem; color: var(--text); pointer-events: none; z-index: 999; display: none; white-space: nowrap; }
+    .tooltip { position: fixed; background: var(--bg4); border: 1px solid var(--border2); border-radius: 8px; padding: 8px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--text); pointer-events: none; z-index: 999; display: none; white-space: nowrap; }
 
     /* FILTERS */
-    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-    .filter-btn { font-family: var(--font); font-size: 0.8rem; font-weight: 700; padding: 7px 16px; border-radius: 7px; cursor: pointer; border: 1px solid var(--border2); background: none; color: var(--text2); transition: all 0.2s; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .filter-btn { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; padding: 7px 16px; border-radius: 8px; cursor: pointer; border: 1px solid var(--border2); background: none; color: var(--text2); transition: all 0.2s; }
     .filter-btn:hover { border-color: var(--green); color: var(--green); }
     .filter-btn.active { background: var(--gdim); border-color: var(--gborder); color: var(--green); }
 
-    /* SORT */
-    .controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-    .results-count { font-size: 0.8rem; color: var(--text3); font-family: var(--mono); }
-    .sort-select { font-family: var(--font); font-size: 0.8rem; font-weight: 600; padding: 7px 12px; border-radius: 7px; border: 1px solid var(--border2); background: var(--bg2); color: var(--text2); cursor: pointer; outline: none; }
+    /* CONTROLS */
+    .controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .results-count { font-size: 0.78rem; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
+    .sort-select { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border2); background: var(--bg2); color: var(--text2); cursor: pointer; outline: none; }
 
     /* TABLE */
     .table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
     .table-header { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1fr 1.2fr; padding: 12px 20px; border-bottom: 1px solid var(--border); }
-    .th { font-size: 0.7rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; }
-    .run-row { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1fr 1.2fr; padding: 14px 20px; border-bottom: 1px solid var(--border); transition: background 0.15s; align-items: center; opacity: 0; transform: translateY(6px); animation: fadeup 0.3s forwards; }
+    .th { font-size: 0.68rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; }
+    .run-row { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1fr 1.2fr; padding: 14px 20px; border-bottom: 1px solid var(--border); transition: background 0.15s; align-items: center; opacity: 0; transform: translateY(4px); animation: fadeup 0.3s forwards; }
     .run-row:last-child { border-bottom: none; }
     .run-row:hover { background: var(--bg3); }
     @keyframes fadeup { to { opacity:1; transform:translateY(0); } }
 
     .token-name { font-weight: 700; font-size: 0.92rem; }
-    .token-date { font-size: 0.72rem; color: var(--text3); font-family: var(--mono); margin-top: 2px; }
-
-    .pct { font-family: var(--mono); font-weight: 600; font-size: 0.95rem; }
+    .token-date { font-size: 0.72rem; color: var(--text3); font-family: 'IBM Plex Mono', monospace; margin-top: 2px; }
+    .pct { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.95rem; }
     .pct.mega { color: var(--yellow); }
     .pct.high { color: var(--green); }
     .pct.mid { color: var(--cyan); }
-
-    .dd { font-family: var(--mono); font-size: 0.88rem; color: var(--text2); }
-    .dur { font-family: var(--mono); font-size: 0.82rem; color: var(--text2); }
-
-    .badge-rank { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 10px; border-radius: 999px; }
+    .dd { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--text2); }
+    .dur { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--text2); }
+    .badge-rank { display: inline-block; font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 10px; border-radius: 999px; }
     .badge-rank.mega { background: rgba(255,215,64,0.1); color: var(--yellow); border: 1px solid rgba(255,215,64,0.2); }
     .badge-rank.high { background: var(--gdim); color: var(--green); border: 1px solid var(--gborder); }
-    .badge-rank.mid { background: rgba(0,180,216,0.1); color: var(--cyan); border: 1px solid rgba(0,180,216,0.2); }
+    .badge-rank.mid { background: rgba(0,180,216,0.08); color: var(--cyan); border: 1px solid rgba(0,180,216,0.18); }
 
-    @media(max-width:640px){
+    @media(max-width:640px) {
       .table-header { grid-template-columns: 2fr 1fr 1fr; }
       .run-row { grid-template-columns: 2fr 1fr 1fr; }
       .th:nth-child(3), .th:nth-child(5), .run-row>*:nth-child(3), .run-row>*:nth-child(5) { display: none; }
@@ -130,16 +128,12 @@
     .loading-dot:nth-child(2) { animation-delay: 0.2s; }
     .loading-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes bounce { 0%,80%,100%{transform:scale(0.7);opacity:0.4} 40%{transform:scale(1);opacity:1} }
-
     .empty { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 0.9rem; }
 
-    /* FOOTER */
-    footer { margin-top: 80px; border-top: 1px solid var(--border); padding: 32px 20px; text-align: center; }
-    .footer-inner { max-width: 1100px; margin: 0 auto; }
-    .footer-logo { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 0.95rem; margin-bottom: 10px; }
-    .footer-text { font-size: 0.78rem; color: var(--text3); line-height: 1.6; }
+    footer { margin-top: 64px; border-top: 1px solid var(--border); padding: 28px 20px; text-align: center; }
+    footer p { font-size: 0.78rem; color: var(--text3); }
 
-    .main-wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
+    .main-wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px 40px; }
   </style>
 </head>
 <body>
@@ -152,55 +146,53 @@
     <a href="/" class="nav-link">Home</a>
     <a href="/blog" class="nav-link">Blog</a>
     <a href="/results" class="nav-link active">Results</a>
+    <a href="/whales" class="nav-link">Whales</a>
   </div>
-  <a href="/#access" class="nav-cta">Get Access</a>
+  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️</button>
+  <a href="/pricing" class="nav-cta">Get Access</a>
 </nav>
 
 <div class="hero">
-  <div class="hero-tag"><div class="hero-tag-dot"></div>Live Data</div>
-  <h1>Every Run.<br><span>Every Result.</span></h1>
-  <p class="hero-sub">All tracked Solana token runs — timestamped, logged, publicly verifiable. No cherry-picking. No edits. Just the raw data.</p>
-
-  <div class="stats-bar">
-    <div class="stat-box"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">Runs Tracked</div></div>
-    <div class="stat-box"><div class="stat-val" id="s-best">—</div><div class="stat-lbl">Best Run</div></div>
-    <div class="stat-box"><div class="stat-val" id="s-avg">—</div><div class="stat-lbl">Avg Peak</div></div>
-    <div class="stat-box"><div class="stat-val" id="s-over100">—</div><div class="stat-lbl">Over 100%</div></div>
-  </div>
-</div>
-
-<!-- HEATMAP -->
-<div class="heatmap-section">
-  <div class="section-title">Activity — Last 90 Days</div>
-  <div class="heatmap-wrap">
-    <div id="heatmap-months" class="heatmap-months"></div>
-    <div id="heatmap-grid" class="heatmap-grid"></div>
-    <div class="heatmap-legend">
-      <span>Less</span>
-      <div class="heatmap-legend-cell" style="background:var(--bg3)"></div>
-      <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.2)"></div>
-      <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.4)"></div>
-      <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.65)"></div>
-      <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.9)"></div>
-      <span>More</span>
-    </div>
-  </div>
+  <div class="hero-tag"><span class="hero-tag-dot"></span> Verified Data</div>
+  <h1>All Tracked <span>Runs</span></h1>
+  <p class="hero-sub">Every token move logged and timestamped. Transparent on-chain data — no edits, no filters.</p>
 </div>
 
 <div class="main-wrap">
+  <div class="stats-bar">
+    <div class="stat-box"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">Total Runs</div></div>
+    <div class="stat-box"><div class="stat-val" id="s-best">—</div><div class="stat-lbl">Best Run</div></div>
+    <div class="stat-box"><div class="stat-val" id="s-avg">—</div><div class="stat-lbl">Avg Peak</div></div>
+    <div class="stat-box"><div class="stat-val" id="s-over100">—</div><div class="stat-lbl">Over +100%</div></div>
+  </div>
+
+  <div class="heatmap-section" style="padding:0; margin-bottom: 32px;">
+    <div class="sec-label">Activity — Last 90 Days</div>
+    <div class="heatmap-wrap">
+      <div class="heatmap-grid" id="heatmap-grid"></div>
+      <div class="heatmap-legend">
+        Less <div class="heatmap-legend-cell" style="background:var(--bg3)"></div>
+        <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.2)"></div>
+        <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.4)"></div>
+        <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.65)"></div>
+        <div class="heatmap-legend-cell" style="background:rgba(0,230,118,0.9)"></div> More
+      </div>
+    </div>
+  </div>
+
   <div class="filters">
-    <button class="filter-btn active" onclick="setFilter(0,this)">All Runs</button>
-    <button class="filter-btn" onclick="setFilter(50,this)">+50%</button>
-    <button class="filter-btn" onclick="setFilter(100,this)">+100%</button>
-    <button class="filter-btn" onclick="setFilter(200,this)">+200%</button>
-    <button class="filter-btn" onclick="setFilter(500,this)">+500%</button>
+    <button class="filter-btn active" onclick="setFilter(0, this)">All Runs</button>
+    <button class="filter-btn" onclick="setFilter(50, this)">+50%</button>
+    <button class="filter-btn" onclick="setFilter(100, this)">+100%</button>
+    <button class="filter-btn" onclick="setFilter(200, this)">+200%</button>
+    <button class="filter-btn" onclick="setFilter(500, this)">+500%</button>
   </div>
 
   <div class="controls">
-    <div class="results-count" id="results-count">Loading...</div>
+    <span class="results-count" id="results-count"></span>
     <select class="sort-select" onchange="setSort(this.value)">
       <option value="date">Latest First</option>
-      <option value="pct">Highest % First</option>
+      <option value="pct">Best First</option>
     </select>
   </div>
 
@@ -212,15 +204,16 @@
       <div class="th">Duration</div>
       <div class="th">Performance</div>
     </div>
-    <div id="runs-body"><div class="loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div></div>
+    <div id="runs-body">
+      <div class="loading">
+        <span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>
+      </div>
+    </div>
   </div>
 </div>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-logo"><div class="nav-dot"></div>RunRadar</div>
-    <div class="footer-text">RunRadar provides data and tracking tools only. Nothing here is financial advice.<br>© 2026 RunRadar. All rights reserved.</div>
-  </div>
+  <p>© 2026 RunRadar. Not financial advice. Always DYOR.</p>
 </footer>
 
 <script>
@@ -229,22 +222,35 @@ var allRuns = [];
 var currentFilter = 0;
 var currentSort = 'date';
 
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('rr-theme', next);
+}
+(function() {
+  var saved = localStorage.getItem('rr-theme');
+  if (saved) {
+    document.documentElement.dataset.theme = saved;
+    document.getElementById('theme-btn').textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
+})();
+
 async function loadRuns() {
   try {
-    var r = await fetch(API + '/api/closed-public?limit=500');
-    var data = await r.json();
-    allRuns = data || [];
+    var resp = await fetch(API + '/api/closed-public?min_win=0&limit=500');
+    allRuns = await resp.json();
     updateStats();
     buildHeatmap();
     render();
   } catch(e) {
-    document.getElementById('runs-body').innerHTML = '<div class="empty">Could not load data. Try refreshing.</div>';
+    document.getElementById('runs-body').innerHTML = '<div class="empty">Failed to load data.</div>';
   }
 }
 
 function updateStats() {
-  var total = allRuns.length;
-  var best = 0, sum = 0, over100 = 0;
+  var total = allRuns.length, best = 0, sum = 0, over100 = 0;
   allRuns.forEach(function(r) {
     var p = parseFloat(r.pnl_pct || 0);
     if (p > best) best = p;
@@ -258,7 +264,6 @@ function updateStats() {
 }
 
 function buildHeatmap() {
-  // Build day map for last 90 days
   var dayMap = {};
   allRuns.forEach(function(r) {
     if (!r.close_time) return;
@@ -269,36 +274,20 @@ function buildHeatmap() {
     var p = parseFloat(r.pnl_pct || 0);
     if (p > dayMap[key].best) dayMap[key].best = p;
   });
-
-  // Generate last 90 days grouped by week (columns)
-  var today = new Date();
-  today.setHours(0,0,0,0);
+  var today = new Date(); today.setHours(0,0,0,0);
   var days = [];
-  for (var i = 89; i >= 0; i--) {
-    var d = new Date(today);
-    d.setDate(today.getDate() - i);
-    days.push(d);
-  }
-
-  // Pad so first day aligns to correct weekday (0=Sun)
+  for (var i = 89; i >= 0; i--) { var d = new Date(today); d.setDate(today.getDate() - i); days.push(d); }
   var firstDay = days[0].getDay();
   var padded = [];
   for (var j = 0; j < firstDay; j++) padded.push(null);
   padded = padded.concat(days);
-
-  // Group into weeks
   var weeks = [];
-  for (var k = 0; k < padded.length; k += 7) {
-    weeks.push(padded.slice(k, k+7));
-  }
-
+  for (var k = 0; k < padded.length; k += 7) weeks.push(padded.slice(k, k+7));
   var maxCount = 0;
   Object.values(dayMap).forEach(function(v) { if (v.count > maxCount) maxCount = v.count; });
-
   var grid = document.getElementById('heatmap-grid');
   var tooltip = document.getElementById('tooltip');
   grid.innerHTML = '';
-
   weeks.forEach(function(week) {
     var col = document.createElement('div');
     col.className = 'heatmap-col';
@@ -314,19 +303,11 @@ function buildHeatmap() {
           else if (ratio > 0.5) cell.classList.add('l3');
           else if (ratio > 0.25) cell.classList.add('l2');
           else cell.classList.add('l1');
-
           var label = day.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' — ' + info.count + ' run' + (info.count>1?'s':'') + ' | best: +' + info.best.toFixed(0) + '%';
-          cell.addEventListener('mousemove', function(e) {
-            tooltip.style.display = 'block';
-            tooltip.style.left = (e.clientX + 12) + 'px';
-            tooltip.style.top = (e.clientY - 30) + 'px';
-            tooltip.textContent = label;
-          });
-          cell.addEventListener('mouseleave', function() { tooltip.style.display = 'none'; });
+          cell.addEventListener('mousemove', function(e) { tooltip.style.display='block'; tooltip.style.left=(e.clientX+12)+'px'; tooltip.style.top=(e.clientY-30)+'px'; tooltip.textContent=label; });
+          cell.addEventListener('mouseleave', function() { tooltip.style.display='none'; });
         }
-      } else {
-        cell.style.opacity = '0';
-      }
+      } else { cell.style.opacity = '0'; }
       col.appendChild(cell);
     });
     grid.appendChild(col);
@@ -339,54 +320,25 @@ function setFilter(min, btn) {
   btn.classList.add('active');
   render();
 }
-
-function setSort(val) {
-  currentSort = val;
-  render();
-}
+function setSort(val) { currentSort = val; render(); }
 
 function render() {
   var filtered = allRuns.filter(function(r){ return parseFloat(r.pnl_pct||0) >= currentFilter; });
-  if (currentSort === 'pct') {
-    filtered.sort(function(a,b){ return parseFloat(b.pnl_pct||0) - parseFloat(a.pnl_pct||0); });
-  } else {
-    filtered.sort(function(a,b){ return new Date(b.close_time||0) - new Date(a.close_time||0); });
-  }
-
+  if (currentSort === 'pct') filtered.sort(function(a,b){ return parseFloat(b.pnl_pct||0) - parseFloat(a.pnl_pct||0); });
+  else filtered.sort(function(a,b){ return new Date(b.close_time||0) - new Date(a.close_time||0); });
   document.getElementById('results-count').textContent = filtered.length + ' runs shown';
-
-  if (!filtered.length) {
-    document.getElementById('runs-body').innerHTML = '<div class="empty">No runs match this filter.</div>';
-    return;
-  }
-
-  var html = filtered.map(function(r, i) {
+  if (!filtered.length) { document.getElementById('runs-body').innerHTML = '<div class="empty">No runs match this filter.</div>'; return; }
+  document.getElementById('runs-body').innerHTML = filtered.map(function(r, i) {
     var pct = parseFloat(r.pnl_pct || 0);
-    // Fix: try both field names
     var dd = parseFloat(r.max_drawdown_pct || r.max_drawdown || 0);
     var sym = (r.symbol || r.name || '???').toUpperCase();
     var date = r.close_time ? new Date(r.close_time).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
-
     var tier = pct >= 500 ? 'mega' : pct >= 100 ? 'high' : 'mid';
     var tierLabel = pct >= 500 ? '🔥 Mega' : pct >= 100 ? '✅ Strong' : '📊 Moderate';
-
     var dur = '—';
-    if (r.open_time && r.close_time) {
-      var secs = Math.round((new Date(r.close_time) - new Date(r.open_time)) / 1000);
-      if (secs < 60) dur = secs + 's';
-      else { var m = Math.floor(secs/60), s = secs%60; dur = m + 'm' + (s?s+'s':''); }
-    }
-
-    return '<div class="run-row" style="animation-delay:' + (i*0.03) + 's">' +
-      '<div><div class="token-name">' + sym + '</div><div class="token-date">' + date + '</div></div>' +
-      '<div class="pct ' + tier + '">+' + pct.toFixed(0) + '%</div>' +
-      '<div class="dd">' + (dd > 0 ? dd.toFixed(0)+'%' : '—') + '</div>' +
-      '<div class="dur">' + dur + '</div>' +
-      '<div><span class="badge-rank ' + tier + '">' + tierLabel + '</span></div>' +
-      '</div>';
+    if (r.open_time && r.close_time) { var secs = Math.round((new Date(r.close_time) - new Date(r.open_time)) / 1000); if (secs < 60) dur = secs+'s'; else { var m = Math.floor(secs/60), s = secs%60; dur = m+'m'+(s?s+'s':''); } }
+    return '<div class="run-row" style="animation-delay:'+(i*0.02)+'s"><div><div class="token-name">'+sym+'</div><div class="token-date">'+date+'</div></div><div class="pct '+tier+'">+'+pct.toFixed(0)+'%</div><div class="dd">'+(dd>0?dd.toFixed(0)+'%':'—')+'</div><div class="dur">'+dur+'</div><div><span class="badge-rank '+tier+'">'+tierLabel+'</span></div></div>';
   }).join('');
-
-  document.getElementById('runs-body').innerHTML = html;
 }
 
 loadRuns();
