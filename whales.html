@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RunRadar Whales — Smart Money Tracker</title>
+  <meta name="description" content="RunRadar auto-discovers profitable whale wallets from mega runs and tracks their moves in real-time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    [data-theme="dark"] {
+      --bg: #111318; --bg2: #181b22; --bg3: #1e222b; --bg4: #22262f;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+      --text: #edf0f7; --text2: #8e99af; --text3: #505a6e;
+      --green: #00e676; --gdim: rgba(0,230,118,0.12); --gborder: rgba(0,230,118,0.22);
+      --yellow: #ffd740; --cyan: #4dd0e1; --blue: #42a5f5;
+      --nav-bg: rgba(17,19,24,0.88);
+    }
+    [data-theme="light"] {
+      --bg: #f5f6f8; --bg2: #ffffff; --bg3: #ebedf2; --bg4: #e2e5ea;
+      --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.14);
+      --text: #1a1d24; --text2: #5c6578; --text3: #9aa2b2;
+      --green: #00c853; --gdim: rgba(0,200,83,0.1); --gborder: rgba(0,200,83,0.25);
+      --yellow: #f9a825; --cyan: #0097a7; --blue: #1e88e5;
+      --nav-bg: rgba(245,246,248,0.88);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; }
+    .mono { font-family: 'IBM Plex Mono', monospace; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 0 20px; height: 56px; display: flex; align-items: center; gap: 12px; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--text); letter-spacing: -0.02em; }
+    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .nav-links { display: flex; gap: 4px; margin-left: auto; }
+    .nav-link { font-size: 0.85rem; font-weight: 500; padding: 6px 12px; border-radius: 6px; text-decoration: none; color: var(--text2); transition: all 0.2s; }
+    .nav-link:hover { color: var(--text); background: var(--gdim); }
+    .nav-link.active { color: var(--green); }
+    .nav-cta { font-size: 0.82rem; font-weight: 700; padding: 8px 18px; border-radius: 8px; background: var(--green); color: #000; text-decoration: none; }
+    .theme-toggle { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; background: var(--bg3); border: 1px solid var(--border); cursor: pointer; margin-left: 4px; }
+
+    .main { max-width: 1060px; margin: 0 auto; padding: 48px 20px 60px; }
+
+    .page-head { margin-bottom: 36px; }
+    .page-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--gdim); border: 1px solid var(--gborder); border-radius: 999px; padding: 4px 14px; font-size: 0.72rem; font-weight: 600; color: var(--green); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+    .page-head h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 800; line-height: 1.1; margin-bottom: 10px; letter-spacing: -0.03em; }
+    .page-head h1 span { color: var(--green); }
+    .page-head p { font-size: 0.95rem; color: var(--text2); max-width: 520px; line-height: 1.6; }
+
+    /* STATS */
+    .whale-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 36px; }
+    .ws-box { background: var(--bg2); padding: 22px 20px; text-align: center; }
+    .ws-val { font-family: 'IBM Plex Mono', monospace; font-size: 1.8rem; font-weight: 600; }
+    .ws-val.green { color: var(--green); }
+    .ws-val.cyan { color: var(--cyan); }
+    .ws-val.yellow { color: var(--yellow); }
+    .ws-lbl { font-size: 0.7rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+    @media(max-width:480px) { .whale-stats { grid-template-columns: 1fr; } }
+
+    /* INFO CARD */
+    .info-card {
+      background: var(--bg2);
+      border: 1px solid var(--gborder);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 36px;
+    }
+    .info-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .info-card p { font-size: 0.88rem; color: var(--text2); line-height: 1.65; }
+    .info-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+    .info-step { background: var(--bg3); border-radius: 10px; padding: 16px; }
+    .info-step-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; font-weight: 600; color: var(--green); margin-bottom: 6px; }
+    .info-step-text { font-size: 0.85rem; color: var(--text2); line-height: 1.5; }
+
+    /* TABLE */
+    .sec-label { font-size: 0.7rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+    .table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .table-header { display: grid; grid-template-columns: 0.5fr 3fr 1fr 2fr; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+    .th { font-size: 0.68rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; }
+    .whale-row { display: grid; grid-template-columns: 0.5fr 3fr 1fr 2fr; padding: 14px 20px; border-bottom: 1px solid var(--border); align-items: center; transition: background 0.15s; opacity: 0; animation: fadeup 0.3s forwards; }
+    .whale-row:last-child { border-bottom: none; }
+    .whale-row:hover { background: var(--bg3); }
+    @keyframes fadeup { to { opacity:1; } }
+
+    .whale-rank { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; font-weight: 600; color: var(--text3); }
+    .whale-addr { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--text); word-break: break-all; }
+    .whale-addr a { color: var(--cyan); text-decoration: none; }
+    .whale-addr a:hover { text-decoration: underline; }
+    .whale-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; font-weight: 600; color: var(--green); }
+    .whale-badge { display: inline-block; font-size: 0.67rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--gdim); color: var(--green); border: 1px solid var(--gborder); }
+    .whale-badge.tracking { background: rgba(66,165,245,0.1); color: var(--blue); border-color: rgba(66,165,245,0.25); }
+
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
+    .empty-state .emoji { font-size: 2.5rem; margin-bottom: 12px; }
+    .empty-state p { font-size: 0.9rem; line-height: 1.6; }
+
+    @media(max-width:640px) {
+      .table-header { grid-template-columns: 3fr 1fr; }
+      .whale-row { grid-template-columns: 3fr 1fr; }
+      .th:nth-child(1), .th:nth-child(4), .whale-row>*:nth-child(1), .whale-row>*:nth-child(4) { display: none; }
+    }
+
+    footer { margin-top: 64px; border-top: 1px solid var(--border); padding: 28px 20px; text-align: center; }
+    footer p { font-size: 0.78rem; color: var(--text3); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><div class="nav-dot"></div>RunRadar</a>
+  <div class="nav-links">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/blog" class="nav-link">Blog</a>
+    <a href="/results" class="nav-link">Results</a>
+    <a href="/whales" class="nav-link active">Whales</a>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️</button>
+  <a href="/pricing" class="nav-cta">Get Access</a>
+</nav>
+
+<div class="main">
+  <div class="page-head">
+    <div class="page-tag">🐋 Smart Money</div>
+    <h1>Whale <span>Discovery</span></h1>
+    <p>RunRadar auto-discovers profitable wallets from mega runs and tracks their next moves.</p>
+  </div>
+
+  <div class="whale-stats">
+    <div class="ws-box">
+      <div class="ws-val green" id="ws-active">—</div>
+      <div class="ws-lbl">Active Whales</div>
+    </div>
+    <div class="ws-box">
+      <div class="ws-val cyan" id="ws-tracked">—</div>
+      <div class="ws-lbl">Wallets Tracked</div>
+    </div>
+    <div class="ws-box">
+      <div class="ws-val yellow" id="ws-mints">—</div>
+      <div class="ws-lbl">Mega Runs Analyzed</div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <h3>How it works</h3>
+    <p>RunRadar learns from its own results. Every mega run (+200%+) is analyzed to find which wallets were early.</p>
+    <div class="info-steps">
+      <div class="info-step">
+        <div class="info-step-num">01</div>
+        <div class="info-step-text">Scanner detects a mega run (+200%+)</div>
+      </div>
+      <div class="info-step">
+        <div class="info-step-num">02</div>
+        <div class="info-step-text">Top 20 traders are fetched from on-chain data</div>
+      </div>
+      <div class="info-step">
+        <div class="info-step-num">03</div>
+        <div class="info-step-text">Wallets appearing in 3+ mega runs become "active whales"</div>
+      </div>
+      <div class="info-step">
+        <div class="info-step-num">04</div>
+        <div class="info-step-text">Active whales are tracked for new buys → instant alerts</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-label">Discovered Wallets</div>
+  <div class="table-wrap">
+    <div class="table-header">
+      <div class="th">#</div>
+      <div class="th">Wallet</div>
+      <div class="th">Appearances</div>
+      <div class="th">Status</div>
+    </div>
+    <div id="wallets-body">
+      <div class="empty-state">
+        <div class="emoji">🐋</div>
+        <p>Loading whale data...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 RunRadar. Not financial advice. Always DYOR.</p>
+</footer>
+
+<script>
+var API = 'https://app.runradar.app';
+
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('rr-theme', next);
+}
+(function() {
+  var saved = localStorage.getItem('rr-theme');
+  if (saved) {
+    document.documentElement.dataset.theme = saved;
+    document.getElementById('theme-btn').textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
+})();
+
+async function loadWhales() {
+  try {
+    var resp = await fetch(API + '/whales');
+    var data = await resp.json();
+
+    var disc = data.discovery || {};
+    document.getElementById('ws-active').textContent = disc.active_whales || 0;
+    document.getElementById('ws-tracked').textContent = disc.tracked_wallets || 0;
+    document.getElementById('ws-mints').textContent = disc.processed_mints || 0;
+
+    var stats = data.wallet_stats || [];
+    if (!stats.length) {
+      document.getElementById('wallets-body').innerHTML =
+        '<div class="empty-state"><div class="emoji">🔍</div>' +
+        '<p>No whale wallets discovered yet.<br>The system learns automatically from mega runs (+200%+).<br>Check back after a few strong runs!</p></div>';
+      return;
+    }
+
+    document.getElementById('wallets-body').innerHTML = stats.map(function(w, i) {
+      var addr = w.wallet || '';
+      var short = addr.substring(0, 6) + '…' + addr.substring(addr.length - 4);
+      var badge = w.is_active
+        ? '<span class="whale-badge tracking">🐋 Active</span>'
+        : '<span class="whale-badge">' + w.appearances + '/' + (disc.min_appearances || 3) + '</span>';
+      return '<div class="whale-row" style="animation-delay:' + (i * 0.03) + 's">' +
+        '<div class="whale-rank">' + (i + 1) + '</div>' +
+        '<div class="whale-addr"><a href="https://solscan.io/account/' + addr + '" target="_blank" rel="noopener">' + short + '</a></div>' +
+        '<div class="whale-count">' + w.appearances + '</div>' +
+        '<div>' + badge + '</div>' +
+        '</div>';
+    }).join('');
+
+  } catch(e) {
+    document.getElementById('wallets-body').innerHTML =
+      '<div class="empty-state"><div class="emoji">⚠️</div><p>Could not load whale data. Scanner may be restarting.</p></div>';
+  }
+}
+
+loadWhales();
+setInterval(loadWhales, 60000);
+</script>
+</body>
+</html>
+
