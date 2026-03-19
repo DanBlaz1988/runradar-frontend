@@ -7,6 +7,7 @@
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/results", "destination": "/results.html" },
+    { "source": "/whales", "destination": "/whales.html" },
     { "source": "/performance", "destination": "/performance.html" }
   ]
 }
