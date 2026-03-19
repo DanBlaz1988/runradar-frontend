@@ -1,573 +1,290 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#080b10">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RunRadar Blog — Solana On-Chain Data & Crypto Insights</title>
-  <meta name="description" content="Educational articles about Solana on-chain data, token momentum tracking, and crypto market analysis. No financial advice — just data." />
+  <meta name="description" content="Educational articles about Solana on-chain data, token momentum tracking, and crypto market analysis." />
   <meta property="og:title" content="RunRadar Blog — Solana On-Chain Insights" />
   <meta property="og:description" content="Educational articles about Solana on-chain data and token momentum tracking." />
   <meta property="og:image" content="https://i.imgur.com/6xRYodt.jpg" />
   <meta property="og:url" content="https://runradar.app/blog" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://i.imgur.com/6xRYodt.jpg" />
-  <meta name="twitter:title" content="RunRadar Blog — Solana On-Chain Insights" />
-  <meta name="twitter:description" content="Educational articles about Solana on-chain data and token momentum tracking." />
   <link rel="canonical" href="https://runradar.app/blog" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0c1018;
-      --bg2: #131920;
-      --card-bg: #131920;
-      --border: rgba(255,255,255,0.1);
-      --text-primary: #f0f4f8;
-      --text-secondary: #c8d6e0;
-      --text-muted: #7a9ab0;
-      --accent: #00e676;
+    [data-theme="dark"] {
+      --bg: #111318; --bg2: #181b22; --bg3: #1e222b; --bg4: #22262f;
+      --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+      --text: #edf0f7; --text2: #8e99af; --text3: #505a6e;
+      --green: #00e676; --gdim: rgba(0,230,118,0.12); --gborder: rgba(0,230,118,0.22);
+      --nav-bg: rgba(17,19,24,0.88);
     }
-    /* Override styles.css dark theme */
-    :root {
-      --color-bg: #0f1923 !important;
-      --color-surface: #162030 !important;
-      --color-card: #1a2738 !important;
-      --color-text: #f0f4f8 !important;
-      --color-text-muted: #9ab0c4 !important;
-      --color-text-faint: #6a8aa0 !important;
-      --color-border: rgba(255,255,255,0.1) !important;
+    [data-theme="light"] {
+      --bg: #f5f6f8; --bg2: #ffffff; --bg3: #ebedf2; --bg4: #e2e5ea;
+      --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.14);
+      --text: #1a1d24; --text2: #5c6578; --text3: #9aa2b2;
+      --green: #00c853; --gdim: rgba(0,200,83,0.1); --gborder: rgba(0,200,83,0.25);
+      --nav-bg: rgba(245,246,248,0.88);
     }
-    html, body { background: #0f1923 !important; color: #f0f4f8 !important; }
-    .post-content p, .post-content li { color: #c8d6e0 !important; }
-    .post-content h2, .post-content h3 { color: #f0f4f8 !important; }
-    .post-title { color: #f0f4f8 !important; }
-    .post-meta { color: #7a9ab0 !important; }
-    .blog-hero {
-      padding: 100px 0 48px;
-      text-align: center;
-      background: var(--bg);
-    }
-    .blog-hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-    }
-    .blog-hero p {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-      max-width: 540px;
-      margin: 0 auto;
-    }
-    .blog-tabs {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin: 32px 0 0;
-      flex-wrap: wrap;
-    }
-    .blog-tab {
-      padding: 8px 20px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-    }
-    .blog-tab.active, .blog-tab:hover {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 28px;
-      padding: 48px 0 80px;
-    }
-    .blog-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
-      text-decoration: none;
-      display: block;
-    }
-    .blog-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
-    }
-    .blog-card-img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background: #1a2535;
-    }
-    .blog-card-body { padding: 20px; }
-    .blog-card-type {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 0 20px; height: 56px; display: flex; align-items: center; gap: 12px; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.05rem; text-decoration: none; color: var(--text); letter-spacing: -0.02em; }
+    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .nav-links { display: flex; gap: 4px; margin-left: auto; }
+    .nav-link { font-size: 0.85rem; font-weight: 500; padding: 6px 12px; border-radius: 6px; text-decoration: none; color: var(--text2); transition: all 0.2s; }
+    .nav-link:hover { color: var(--text); background: var(--gdim); }
+    .nav-link.active { color: var(--green); }
+    .nav-cta { font-size: 0.82rem; font-weight: 700; padding: 8px 18px; border-radius: 8px; background: var(--green); color: #000; text-decoration: none; }
+    .theme-toggle { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; background: var(--bg3); border: 1px solid var(--border); cursor: pointer; margin-left: 4px; }
+
+    /* BLOG HERO */
+    .blog-hero { padding: 64px 20px 36px; text-align: center; max-width: 1060px; margin: 0 auto; }
+    .blog-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.03em; }
+    .blog-hero p { color: var(--text2); font-size: 1rem; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+    .blog-tabs { display: flex; gap: 10px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
+    .blog-tab { padding: 7px 18px; border-radius: 999px; border: 1px solid var(--border2); background: none; color: var(--text2); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; transition: all 0.2s; }
+    .blog-tab.active, .blog-tab:hover { background: var(--green); color: #000; border-color: var(--green); }
+
+    /* GRID */
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 40px 0 60px; max-width: 1060px; margin: 0 auto; padding-left: 20px; padding-right: 20px; }
+    .blog-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; text-decoration: none; display: block; }
+    .blog-card:hover { transform: translateY(-3px); border-color: var(--gborder); }
+    .blog-card-img { width: 100%; height: 170px; object-fit: cover; background: var(--bg3); }
+    .blog-card-body { padding: 18px; }
+    .blog-card-type { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green); margin-bottom: 6px; }
     .blog-card-type.run { color: #22c55e; }
-    .blog-card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1.4;
-      margin-bottom: 8px;
-    }
-    .blog-card-meta { font-size: 0.8rem; color: var(--text-muted); }
-    .blog-card-run-badge {
-      display: inline-block;
-      background: rgba(34,197,94,0.1);
-      color: #22c55e;
-      border: 1px solid rgba(34,197,94,0.3);
-      border-radius: 999px;
-      padding: 2px 10px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
+    .blog-card-title { font-size: 0.95rem; font-weight: 700; color: var(--text); line-height: 1.4; margin-bottom: 6px; }
+    .blog-card-meta { font-size: 0.78rem; color: var(--text3); }
+    .blog-card-run-badge { display: inline-block; background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); border-radius: 999px; padding: 2px 10px; font-size: 0.75rem; font-weight: 700; margin-bottom: 6px; }
 
-    /* Single post page */
-    .post-hero { padding: 100px 0 0; }
-    .post-hero-img {
-      width: 100%;
-      height: 380px;
-      object-fit: cover;
-      border-radius: 16px;
-      margin-bottom: 32px;
-    }
-    .post-meta {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-    .post-title {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 800;
-      color: var(--text-primary);
-      line-height: 1.25;
-      margin-bottom: 16px;
-    }
+    /* SINGLE POST */
+    .post-hero-img { width: 100%; height: 340px; object-fit: cover; border-radius: 14px; margin-bottom: 28px; }
+    .post-meta { font-size: 0.82rem; color: var(--text3); margin-bottom: 10px; }
+    .post-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.02em; }
+    .tts-bar { display: flex; align-items: center; gap: 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; }
+    .tts-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--green); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+    .tts-btn:hover { filter: brightness(1.1); transform: scale(1.05); }
+    .tts-btn svg { width: 15px; height: 15px; fill: #000; }
+    .tts-label { font-size: 0.82rem; color: var(--text2); }
+    .tts-label strong { color: var(--text); display: block; font-size: 0.8rem; }
 
-    /* TTS Player */
-    .tts-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #1a2535;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 18px;
-      margin-bottom: 28px;
-    }
-    .tts-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.2s;
-    }
-    .tts-btn:hover { background: #00ff88; transform: scale(1.05); }
-    .tts-btn svg { width: 16px; height: 16px; fill: #000; }
-    .tts-label { font-size: 0.85rem; color: var(--text-secondary); }
-    .tts-label strong { color: var(--text-primary); display: block; font-size: 0.82rem; }
-    .tts-loading { font-size: 0.8rem; color: var(--text-muted); display: none; }
+    .post-content { max-width: 700px; margin: 0 auto 60px; color: var(--text2); line-height: 1.8; font-size: 1.02rem; }
+    .post-content h2 { font-size: 1.3rem; font-weight: 700; color: var(--text); margin: 32px 0 12px; }
+    .post-content h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin: 22px 0 8px; }
+    .post-content p { margin-bottom: 16px; color: var(--text2); }
+    .post-content ul { padding-left: 22px; margin-bottom: 14px; }
+    .post-content li { margin-bottom: 6px; color: var(--text2); }
+    .post-content a { color: var(--green); text-decoration: underline; }
+    .post-disclaimer { margin-top: 32px; padding: 16px; background: var(--bg3); border-radius: 10px; font-size: 0.85rem; color: var(--text3); line-height: 1.6; }
+    .post-video { margin-bottom: 20px; padding: 14px; background: var(--gdim); border: 1px solid var(--gborder); border-radius: 10px; }
+    .post-video a { color: var(--green); font-weight: 600; }
 
-    .post-content {
-      max-width: 720px;
-      margin: 0 auto 80px;
-      color: var(--text-secondary);
-      line-height: 1.85;
-      font-size: 1.05rem;
-    }
-    .post-content h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 36px 0 14px;
-    }
-    .post-content h3 {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin: 24px 0 8px;
-    }
-    .post-content p { margin-bottom: 18px; color: #c8d6e0; }
-    .post-content ul { padding-left: 24px; margin-bottom: 16px; }
-    .post-content li { margin-bottom: 8px; color: #c8d6e0; }
-    .post-content strong { color: var(--text-primary); }
-    .post-video {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin: 32px 0;
-      text-align: center;
-    }
-    .post-video a { color: var(--accent); font-weight: 600; text-decoration: none; }
-    .post-video a:hover { text-decoration: underline; }
-    .post-disclaimer {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 20px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 40px;
-    }
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 0.9rem;
-      margin-bottom: 24px;
-      transition: color 0.2s;
-    }
+    .post-cta-banner { background: var(--bg3); border: 1px solid var(--gborder); border-radius: 14px; padding: 28px; margin: 32px 0; text-align: center; }
+    .post-cta-banner h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .post-cta-banner p { font-size: 0.9rem; color: var(--text2); margin-bottom: 16px; }
+    .post-cta-form { display: flex; gap: 8px; max-width: 400px; margin: 0 auto; }
+    .post-cta-form input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border2); background: var(--bg2); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; }
+    .post-cta-form input:focus { border-color: var(--green); }
+    .post-cta-form button { padding: 10px 20px; border-radius: 8px; background: var(--green); color: #000; font-weight: 700; font-size: 0.88rem; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 
-    /* CTA Banner inside post */
-    .post-cta-banner {
-      background: linear-gradient(135deg, #0d2818 0%, #0a1f2e 100%);
-      border: 1px solid rgba(0,230,118,0.2);
-      border-radius: 16px;
-      padding: 28px 24px;
-      margin: 40px 0;
-      text-align: center;
-    }
-    .post-cta-banner .cta-icon { font-size: 1.8rem; margin-bottom: 10px; }
-    .post-cta-banner h3 {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-    .post-cta-banner p {
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      margin-bottom: 18px;
-      line-height: 1.5;
-    }
-    .post-cta-form {
-      display: flex;
-      gap: 8px;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    .post-cta-form input {
-      flex: 1;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(0,230,118,0.25);
-      border-radius: 8px;
-      padding: 10px 14px;
-      color: var(--text-primary);
-      font-size: 0.88rem;
-      outline: none;
-    }
-    .post-cta-form input::placeholder { color: var(--text-muted); }
-    .post-cta-form button {
-      background: var(--accent);
-      border: none;
-      border-radius: 8px;
-      padding: 10px 18px;
-      font-weight: 700;
-      font-size: 0.88rem;
-      color: #000;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.2s;
-    }
-    .post-cta-form button:hover { background: #00ff88; }
-    @media(max-width:480px){
-      .post-cta-form { flex-direction: column; }
-    }
-    .back-link:hover { color: var(--accent); }
-    .loading-state {
-      text-align: center;
-      padding: 80px 0;
-      color: var(--text-muted);
-      font-size: 1rem;
-    }
-    .empty-state {
-      text-align: center;
-      padding: 80px 0;
-      color: var(--text-muted);
-    }
-    .empty-state h3 { color: var(--text-primary); margin-bottom: 8px; }
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
+    .empty-state h3 { margin-bottom: 8px; color: var(--text); }
+    .loading-state { text-align: center; padding: 60px 20px; color: var(--text3); }
+    .back-link { display: inline-block; margin-bottom: 24px; color: var(--green); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+
+    footer { border-top: 1px solid var(--border); padding: 28px 20px; text-align: center; }
+    footer p { font-size: 0.78rem; color: var(--text3); line-height: 1.6; }
+
+    .main-wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
   </style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <nav class="navbar" role="navigation" aria-label="Main navigation">
-    <div class="container nav-container">
-      <a href="/" class="brand" aria-label="RunRadar home">
-        <span class="brand-icon" aria-hidden="true">📡</span>
-        <span class="brand-name">RunRadar</span>
-      </a>
-      <a href="/" class="btn btn-secondary" style="font-size:0.9rem;padding:8px 18px;">← Home</a>
+<nav>
+  <a href="/" class="nav-logo"><div class="nav-dot"></div>RunRadar</a>
+  <div class="nav-links">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/blog" class="nav-link active">Blog</a>
+    <a href="/results" class="nav-link">Results</a>
+    <a href="/whales" class="nav-link">Whales</a>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️</button>
+  <a href="/pricing" class="nav-cta">Get Access</a>
+</nav>
+
+<!-- LIST VIEW -->
+<div id="blog-list-view">
+  <div class="blog-hero">
+    <h1>RunRadar Blog</h1>
+    <p>Educational articles on Solana on-chain data, token momentum tracking, and crypto market analysis.</p>
+    <div class="blog-tabs">
+      <button class="blog-tab active" onclick="filterPosts('all')">All Posts</button>
+      <button class="blog-tab" onclick="filterPosts('run')">📊 Run Reports</button>
+      <button class="blog-tab" onclick="filterPosts('seo')">🎓 Education</button>
     </div>
-  </nav>
+  </div>
+  <div class="blog-grid" id="blog-grid">
+    <div class="empty-state"><p>Loading posts...</p></div>
+  </div>
+</div>
 
-  <main id="main-content">
-    <div id="blog-list-view">
-      <div class="blog-hero">
-        <div class="container">
-          <h1>RunRadar Blog</h1>
-          <p>Educational articles on Solana on-chain data, token momentum tracking, and crypto market analysis.</p>
-          <div class="blog-tabs">
-            <button class="blog-tab active" onclick="filterPosts('all')">All Posts</button>
-            <button class="blog-tab" onclick="filterPosts('run')">🏁 Run Reports</button>
-            <button class="blog-tab" onclick="filterPosts('seo')">📚 Education</button>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="blog-grid" id="blog-grid">
-          <div class="loading-state">Loading posts...</div>
-        </div>
-      </div>
-    </div>
+<!-- POST VIEW -->
+<div id="blog-post-view" style="display:none">
+  <div class="main-wrap" style="padding-top: 32px;">
+    <a href="/blog" class="back-link" onclick="showList(); return false;">← Back to Blog</a>
+    <div id="post-content-area"></div>
+  </div>
+</div>
 
-    <div id="blog-post-view" style="display:none;">
-      <div class="container">
-        <div style="padding-top:100px;">
-          <a href="/blog" class="back-link" onclick="showList(); return false;">← Back to Blog</a>
-          <div id="post-content-area"></div>
-        </div>
-      </div>
-    </div>
-  </main>
+<footer>
+  <p>© <span id="footer-year"></span> RunRadar. Not financial advice. Always DYOR.</p>
+</footer>
 
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-brand">
-        <span aria-hidden="true">📡</span>
-        <span>RunRadar</span>
-      </div>
-      <p class="footer-disclaimer">Disclaimer: RunRadar provides data and tracking tools only. Nothing here is financial advice. You are responsible for your own decisions.</p>
-      <p class="footer-copy">&copy; <span id="footer-year"></span> RunRadar. All rights reserved.</p>
-    </div>
-  </footer>
+<script src="config.js"></script>
+<script>
+document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-  <script src="config.js"></script>
-  <script>
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('rr-theme', next);
+}
+(function() {
+  var saved = localStorage.getItem('rr-theme');
+  if (saved) {
+    document.documentElement.dataset.theme = saved;
+    document.getElementById('theme-btn').textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
+})();
 
-    // ── Config ──────────────────────────────────────────────
-    var API_BASE = (window.RUNRADAR && window.RUNRADAR.apiBase) || 'https://app.runradar.app';
+var API_BASE = (window.RUNRADAR && window.RUNRADAR.apiBase) || 'https://app.runradar.app';
+var allPosts = [];
+var currentFilter = 'all';
 
-    var allPosts = [];
-    var currentFilter = 'all';
+async function fetchPosts() {
+  try {
+    var resp = await fetch(API_BASE + '/api/blog?limit=50');
+    if (!resp.ok) throw new Error('API error');
+    allPosts = await resp.json();
+    renderGrid(allPosts);
+  } catch(e) {
+    document.getElementById('blog-grid').innerHTML = '<div class="empty-state"><h3>No posts yet</h3><p>Check back soon.</p></div>';
+  }
+}
 
-    // ── Fetch posts ─────────────────────────────────────────
-    async function fetchPosts() {
-      try {
-        var resp = await fetch(API_BASE + '/api/blog?limit=50');
-        if (!resp.ok) throw new Error('API error');
-        allPosts = await resp.json();
-        renderGrid(allPosts);
-      } catch(e) {
-        document.getElementById('blog-grid').innerHTML =
-          '<div class="empty-state"><h3>No posts yet</h3><p>Check back soon — new content is added daily.</p></div>';
-      }
-    }
+function filterPosts(type) {
+  currentFilter = type;
+  document.querySelectorAll('.blog-tab').forEach(function(t) { t.classList.remove('active'); });
+  event.target.classList.add('active');
+  var filtered = type === 'all' ? allPosts : allPosts.filter(function(p) { return p.post_type === type; });
+  renderGrid(filtered);
+}
 
-    function filterPosts(type) {
-      currentFilter = type;
-      document.querySelectorAll('.blog-tab').forEach(function(t) { t.classList.remove('active'); });
-      event.target.classList.add('active');
-      var filtered = type === 'all' ? allPosts : allPosts.filter(function(p) { return p.post_type === type; });
-      renderGrid(filtered);
-    }
+function formatDate(iso) {
+  try { return new Date(iso).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
+  catch(e) { return ''; }
+}
 
-    function formatDate(iso) {
-      try {
-        return new Date(iso).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
-      } catch(e) { return ''; }
-    }
+function renderGrid(posts) {
+  var grid = document.getElementById('blog-grid');
+  if (!posts || posts.length === 0) { grid.innerHTML = '<div class="empty-state"><h3>No posts yet</h3><p>Check back soon.</p></div>'; return; }
+  grid.innerHTML = posts.map(function(p) {
+    var badge = p.post_type === 'run' ? '<div class="blog-card-run-badge">+' + (p.max_run_pct ? p.max_run_pct.toFixed(0) + '%' : '') + ' Run</div>' : '';
+    var typeLabel = p.post_type === 'run' ? 'Run Report' : 'Education';
+    var imgSrc = p.image_url || 'https://source.unsplash.com/640x360/?cryptocurrency,blockchain';
+    return '<a class="blog-card" href="/blog/' + p.slug + '" onclick="loadPost(\'' + p.slug + '\'); return false;">' +
+      '<img class="blog-card-img" src="' + imgSrc + '" alt="' + p.title + '" loading="lazy">' +
+      '<div class="blog-card-body">' +
+      '<div class="blog-card-type ' + p.post_type + '">' + typeLabel + '</div>' +
+      badge +
+      '<div class="blog-card-title">' + p.title + '</div>' +
+      '<div class="blog-card-meta">' + formatDate(p.created_at) + '</div>' +
+      '</div></a>';
+  }).join('');
+}
 
-    function renderGrid(posts) {
-      var grid = document.getElementById('blog-grid');
-      if (!posts || posts.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><h3>No posts yet</h3><p>Check back soon — new content is added daily.</p></div>';
-        return;
-      }
-      grid.innerHTML = posts.map(function(p) {
-        var badge = p.post_type === 'run'
-          ? '<div class="blog-card-run-badge">+' + (p.max_run_pct ? p.max_run_pct.toFixed(0) + '%' : '') + ' Run</div>'
-          : '';
-        var typeLabel = p.post_type === 'run' ? 'Run Report' : 'Education';
-        var imgSrc = p.image_url || 'https://source.unsplash.com/640x360/?cryptocurrency,blockchain';
-        return '<a class="blog-card" href="/blog/' + p.slug + '" onclick="loadPost(\'' + p.slug + '\'); return false;">' +
-          '<img class="blog-card-img" src="' + imgSrc + '" alt="' + p.title + '" loading="lazy">' +
-          '<div class="blog-card-body">' +
-          '<div class="blog-card-type ' + p.post_type + '">' + typeLabel + '</div>' +
-          badge +
-          '<div class="blog-card-title">' + p.title + '</div>' +
-          '<div class="blog-card-meta">' + formatDate(p.created_at) + '</div>' +
-          '</div></a>';
-      }).join('');
-    }
+async function loadPost(slug) {
+  window.history.pushState({slug: slug}, '', '/blog/' + slug);
+  document.getElementById('blog-list-view').style.display = 'none';
+  document.getElementById('blog-post-view').style.display = 'block';
+  document.getElementById('post-content-area').innerHTML = '<div class="loading-state">Loading...</div>';
+  window.scrollTo(0, 0);
+  try {
+    var resp = await fetch(API_BASE + '/api/blog/' + slug);
+    if (!resp.ok) throw new Error('Not found');
+    var p = await resp.json();
+    var videoSection = p.video_url ? '<div class="post-video">🎬 <strong>Watch the run video:</strong> <a href="' + p.video_url + '" target="_blank" rel="noopener">View on HeyGen</a></div>' : '';
+    var runBadge = p.post_type === 'run' && p.max_run_pct ? '<span class="blog-card-run-badge">+' + p.max_run_pct.toFixed(0) + '% Move Recorded</span><br><br>' : '';
+    document.getElementById('post-content-area').innerHTML =
+      '<img class="post-hero-img" src="' + (p.image_url || '') + '" alt="' + p.title + '">' +
+      '<div class="post-meta">' + formatDate(p.created_at) + ' · RunRadar</div>' +
+      runBadge +
+      '<h1 class="post-title">' + p.title + '</h1>' +
+      '<div class="tts-bar"><button class="tts-btn" id="tts-btn" onclick="toggleTTS()" title="Listen"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button><div><div class="tts-label"><strong>🔊 Listen to this article</strong>Browser built-in voice</div></div></div>' +
+      '<div class="post-content" id="post-text-content">' + videoSection + injectCTA(p.content) +
+      '<div class="post-disclaimer">⚠️ Disclaimer: For educational purposes only. RunRadar does not provide financial advice. Always DYOR.</div></div>';
+    document.title = p.title + ' — RunRadar Blog';
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', p.meta_description || '');
+  } catch(e) {
+    document.getElementById('post-content-area').innerHTML = '<div class="empty-state"><h3>Post not found</h3><p><a href="/blog" onclick="showList(); return false;" style="color:var(--green)">← Back to Blog</a></p></div>';
+  }
+}
 
-    // ── Load single post ────────────────────────────────────
-    async function loadPost(slug) {
-      window.history.pushState({slug: slug}, '', '/blog/' + slug);
-      document.getElementById('blog-list-view').style.display = 'none';
-      document.getElementById('blog-post-view').style.display = 'block';
-      document.getElementById('post-content-area').innerHTML = '<div class="loading-state">Loading...</div>';
-      window.scrollTo(0, 0);
+function showList() {
+  window.history.pushState({}, '', '/blog');
+  document.getElementById('blog-list-view').style.display = 'block';
+  document.getElementById('blog-post-view').style.display = 'none';
+  window.scrollTo(0, 0);
+}
 
-      try {
-        var resp = await fetch(API_BASE + '/api/blog/' + slug);
-        if (!resp.ok) throw new Error('Not found');
-        var p = await resp.json();
+window.addEventListener('popstate', function(e) {
+  var path = window.location.pathname;
+  if (path === '/blog' || path === '/blog/') showList();
+  else if (path.startsWith('/blog/')) { var slug = path.replace('/blog/', ''); if (slug) loadPost(slug); }
+});
 
-        var videoSection = '';
-        if (p.video_url) {
-          videoSection = '<div class="post-video">🎬 <strong>Watch the run video:</strong> <a href="' + p.video_url + '" target="_blank" rel="noopener">View on HeyGen</a></div>';
-        }
+(function init() {
+  var path = window.location.pathname;
+  if (path.startsWith('/blog/') && path.length > 6) loadPost(path.replace('/blog/', ''));
+  else fetchPosts();
+})();
 
-        var runBadge = p.post_type === 'run' && p.max_run_pct
-          ? '<span class="blog-card-run-badge">+' + p.max_run_pct.toFixed(0) + '% Move Recorded</span><br><br>'
-          : '';
+var ctaBanner = '<div class="post-cta-banner"><h3>See RunRadar catch token runs live</h3><p>Get free alerts when RunRadar detects on-chain momentum.</p><form class="post-cta-form" action="https://app.kit.com/forms/9132824/subscriptions" method="post" target="_blank"><input type="email" name="email_address" placeholder="Your email" required><button type="submit">Get Free Access</button></form></div>';
+function injectCTA(content) {
+  var parts = content.split('</p>');
+  if (parts.length < 3) return content + ctaBanner;
+  var mid = Math.floor(parts.length / 2);
+  return parts.slice(0, mid).join('</p>') + '</p>' + ctaBanner + parts.slice(mid).join('</p>');
+}
 
-        document.getElementById('post-content-area').innerHTML =
-          '<img class="post-hero-img" src="' + (p.image_url || '') + '" alt="' + p.title + '">' +
-          '<div class="post-meta">' + formatDate(p.created_at) + ' · RunRadar</div>' +
-          runBadge +
-          '<h1 class="post-title">' + p.title + '</h1>' +
-          '<div class="tts-bar">' +
-            '<button class="tts-btn" id="tts-btn" onclick="toggleTTS()" title="Listen to this article">' +
-              '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>' +
-            '</button>' +
-            '<div>' +
-              '<div class="tts-label"><strong>🔊 Listen to this article</strong>Uses your browser\'s built-in voice</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="post-content" id="post-text-content">' +
-          videoSection +
-          injectCTA(p.content) +
-          '<div class="post-disclaimer">⚠️ Disclaimer: This article is for educational and informational purposes only. RunRadar does not provide financial advice. Always do your own research before making any financial decisions.</div>' +
-          '</div>';
-
-        // Update page title for SEO
-        document.title = p.title + ' — RunRadar Blog';
-        var metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', p.meta_description || '');
-
-      } catch(e) {
-        document.getElementById('post-content-area').innerHTML =
-          '<div class="empty-state"><h3>Post not found</h3><p><a href="/blog" onclick="showList(); return false;" style="color:var(--accent)">← Back to Blog</a></p></div>';
-      }
-    }
-
-    function showList() {
-      window.history.pushState({}, '', '/blog');
-      document.getElementById('blog-list-view').style.display = 'block';
-      document.getElementById('blog-post-view').style.display = 'none';
-      window.scrollTo(0, 0);
-    }
-
-    // ── Handle browser back/forward ─────────────────────────
-    window.addEventListener('popstate', function(e) {
-      var path = window.location.pathname;
-      if (path === '/blog' || path === '/blog/') {
-        showList();
-      } else if (path.startsWith('/blog/')) {
-        var slug = path.replace('/blog/', '');
-        if (slug) loadPost(slug);
-      }
-    });
-
-    // ── Init ────────────────────────────────────────────────
-    (function init() {
-      var path = window.location.pathname;
-      if (path.startsWith('/blog/') && path.length > 6) {
-        var slug = path.replace('/blog/', '');
-        loadPost(slug);
-      } else {
-        fetchPosts();
-      }
-    })();
-    // ── CTA Banner injected mid-post ─────────────────────────
-    var ctaBanner = '<div class="post-cta-banner">' +
-      '<div class="cta-icon">📡</div>' +
-      '<h3>See RunRadar catch token runs live</h3>' +
-      '<p>Get free alerts when RunRadar detects on-chain momentum — before the hype phase. No signals. Just data.</p>' +
-      '<form class="post-cta-form" action="https://app.kit.com/forms/9132824/subscriptions" method="post" target="_blank">' +
-        '<input type="email" name="email_address" placeholder="Your email" required>' +
-        '<button type="submit">Get Free Access</button>' +
-      '</form>' +
-    '</div>';
-
-    function injectCTA(content) {
-      // Find midpoint by paragraph count
-      var parts = content.split('</p>');
-      if (parts.length < 3) return content + ctaBanner;
-      var mid = Math.floor(parts.length / 2);
-      return parts.slice(0, mid).join('</p>') + '</p>' + ctaBanner + parts.slice(mid).join('</p>');
-    }
-
-    // ── TTS (Text to Speech) ─────────────────────────────────
-    var ttsActive = false;
-
-    function toggleTTS() {
-      var btn = document.getElementById('tts-btn');
-      if (!btn) return;
-
-      if (ttsActive) {
-        window.speechSynthesis.cancel();
-        ttsActive = false;
-        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        return;
-      }
-
-      var contentEl = document.getElementById('post-text-content');
-      if (!contentEl) return;
-      var text = contentEl.innerText || contentEl.textContent || '';
-      text = text.replace(/⚠️[\s\S]*$/, '').replace(/📡[\s\S]*?Get Free Access/g, '').trim();
-      if (!text) return;
-
-      window.speechSynthesis.cancel();
-
-      // Mobile Chrome fix — split into chunks
-      var chunks = text.match(/.{1,200}[.!?]\s*/g) || [text];
-      var i = 0;
-
-      function speakNext() {
-        if (i >= chunks.length || !ttsActive) return;
-        var u = new SpeechSynthesisUtterance(chunks[i++]);
-        u.rate = 0.92;
-        u.lang = 'en-US';
-        u.onend = speakNext;
-        u.onerror = function() { ttsActive = false; if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'; };
-        window.speechSynthesis.speak(u);
-      }
-
-      ttsActive = true;
-      btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-      btn.title = 'Stop';
-      speakNext();
-    }
-
-  </script>
+var ttsActive = false;
+function toggleTTS() {
+  var btn = document.getElementById('tts-btn');
+  if (!btn) return;
+  if (ttsActive) { window.speechSynthesis.cancel(); ttsActive = false; btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'; return; }
+  var contentEl = document.getElementById('post-text-content');
+  if (!contentEl) return;
+  var text = (contentEl.innerText || '').replace(/⚠️[\s\S]*$/, '').replace(/📡[\s\S]*?Get Free Access/g, '').trim();
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  var chunks = text.match(/.{1,200}[.!?]\s*/g) || [text];
+  var i = 0;
+  function speakNext() { if (i >= chunks.length || !ttsActive) return; var u = new SpeechSynthesisUtterance(chunks[i++]); u.rate = 0.92; u.lang = 'en-US'; u.onend = speakNext; u.onerror = function() { ttsActive = false; }; window.speechSynthesis.speak(u); }
+  ttsActive = true;
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+  speakNext();
+}
+</script>
 </body>
 </html>
